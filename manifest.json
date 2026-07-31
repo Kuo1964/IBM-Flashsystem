@@ -1,0 +1,373 @@
+{
+  "url_https://www.ibm.com/flashsystem": {
+    "type": "url",
+    "url": "https://www.ibm.com/flashsystem",
+    "hash": "3044f2d2ed6c49bd6aa59fe6a834fe4b",
+    "chunks_count": 19
+  },
+  "url_https://www.ibm.com/products/flashsystem-9500": {
+    "type": "url",
+    "url": "https://www.ibm.com/products/flashsystem-9500",
+    "hash": "35731d7b8e55ab47c75e50facccac9bf",
+    "chunks_count": 7
+  },
+  "sg248543": {
+    "type": "pdf",
+    "filename": "sg248543.pdf",
+    "hash": "a4177252fb159d0e657a2b326b5b6270f969db4ae0734010c24dcb537026cd88",
+    "chunks_count": 3808,
+    "images_count": 403
+  },
+  "ibm flash system best pracitical": {
+    "type": "pdf",
+    "filename": "ibm flash system best pracitical.pdf",
+    "hash": "e0d3da5c2a4dfdb574e6203a65f187f332ffa349a2c6ab58cfbad4cf784d64f8",
+    "chunks_count": 2564,
+    "images_count": 270
+  },
+  "sg248542": {
+    "type": "pdf",
+    "filename": "sg248542.pdf",
+    "hash": "6789952782353ccafef564d75dd0bee2edc9b1fab29cc63df04999c76c633963",
+    "chunks_count": 5500,
+    "images_count": 1130
+  },
+  "redp5586": {
+    "type": "pdf",
+    "filename": "redp5586.pdf",
+    "hash": "b32e27766be1247c06f851f61140d4e694404fef88fde562e31671e0c538b4d7",
+    "chunks_count": 218,
+    "images_count": 19
+  },
+  "redp5587": {
+    "type": "pdf",
+    "filename": "redp5587.pdf",
+    "hash": "660d0a5b263707b47e6f33d0f73e1170dd7b3e70db1e7b1a81de96ea3b8bf8d1",
+    "chunks_count": 226,
+    "images_count": 18
+  },
+  "sg248569": {
+    "type": "pdf",
+    "filename": "sg248569.pdf",
+    "hash": "280f79b0b16e301cbf4eac49444c5dee557424405978bc10a150ef5c25be1634",
+    "chunks_count": 614,
+    "images_count": 177
+  },
+  "redp5742": {
+    "type": "pdf",
+    "filename": "redp5742.pdf",
+    "hash": "b1c048c77b7996a4bb9865e51a1844c7750a5e0808b319a862166d200d81a9a3",
+    "chunks_count": 200,
+    "images_count": 24
+  },
+  "redp5597": {
+    "type": "pdf",
+    "filename": "redp5597.pdf",
+    "hash": "4c0cf5b34a9dea019ea2f3047a5ea8ada3947d886f39caba4540271a059d9cc5",
+    "chunks_count": 48,
+    "images_count": 6
+  },
+  "sg248586": {
+    "type": "pdf",
+    "filename": "sg248586.pdf",
+    "hash": "69f94297ecf41a478b1c556a4b0b23148628f1c19c97eabd57c7daa03c86d781",
+    "chunks_count": 690,
+    "images_count": 166
+  },
+  "sg248425": {
+    "type": "pdf",
+    "filename": "sg248425.pdf",
+    "hash": "4fb306f3a7726aed2a51c27956a22e0f29b1628486281e4c67997003aa8b4f40",
+    "chunks_count": 1368,
+    "images_count": 365
+  },
+  "sg248430": {
+    "type": "pdf",
+    "filename": "sg248430.pdf",
+    "hash": "e9b86c20ddd0e633dff8dd085eb6f197108a05c489a249a40e7aae7aac157300",
+    "chunks_count": 432,
+    "images_count": 91
+  },
+  "redp5741": {
+    "type": "pdf",
+    "filename": "redp5741.pdf",
+    "hash": "a28dcd2ce97a137e299cab618a08d875080126e509d281d4b031c3e9fcca1853",
+    "chunks_count": 186,
+    "images_count": 20
+  },
+  "sg248585": {
+    "type": "pdf",
+    "filename": "sg248585.pdf",
+    "hash": "5d00b4510113b7f6acd48a9445a92f7ed541ab6deed1b6f69f16673a37ef7cd3",
+    "chunks_count": 819,
+    "images_count": 82
+  },
+  "sg248520": {
+    "type": "pdf",
+    "filename": "sg248520.pdf",
+    "hash": "76742df2d0de31ad46904d2ed5cdccdc376a558ff80726bb507d6eacebc82378",
+    "chunks_count": 4778,
+    "images_count": 1038
+  },
+  "sg248508": {
+    "type": "pdf",
+    "filename": "sg248508.pdf",
+    "hash": "8867e13c7efd07a8e7c5a28d87dfc12397d7d246c75c1af2279da68e1ae917c3",
+    "chunks_count": 2757,
+    "images_count": 300
+  },
+  "sg248521": {
+    "type": "pdf",
+    "filename": "sg248521.pdf",
+    "hash": "1cb46106c2656643fd15044e7e05654706249d2063708d63aa7705351a3f3a71",
+    "chunks_count": 3305,
+    "images_count": 357
+  },
+  "redp5524": {
+    "type": "pdf",
+    "filename": "redp5524.pdf",
+    "hash": "be0f90af2e233657e960da2141dbe8877d4ad6f317f8bbdba30c1457ab6b2585",
+    "chunks_count": 268,
+    "images_count": 31
+  },
+  "redp5725": {
+    "type": "pdf",
+    "filename": "redp5725.pdf",
+    "hash": "90a4f05a6e2145ecb7a3b97b7c27c68576288b0a01db4aac31d7f8c525dedf53",
+    "chunks_count": 146,
+    "images_count": 31
+  },
+  "sg248448-2021": {
+    "type": "pdf",
+    "filename": "sg248448-2021.pdf",
+    "hash": "b2856845f30b597930d1aaf06f402862f32b7535f3eebb78b2b210b912ea8e16",
+    "chunks_count": 1839,
+    "images_count": 195
+  },
+  "sg248491": {
+    "type": "pdf",
+    "filename": "sg248491.pdf",
+    "hash": "df3b238bab710b7b5a028bf5d763d350e4c78719ee12135939aa5a730f260e59",
+    "chunks_count": 3737,
+    "images_count": 855
+  },
+  "redp5669": {
+    "type": "pdf",
+    "filename": "redp5669.pdf",
+    "hash": "12c26194affc6fce69233a82f30d7543db2569b3f5634a1feeda2ef57df80bd4",
+    "chunks_count": 278,
+    "images_count": 26
+  },
+  "redp5654": {
+    "type": "pdf",
+    "filename": "redp5654.pdf",
+    "hash": "30eb09f80b32fa6f359670d1bbc118945354e7bf3b4fd74b9fc1d8cd8641b395",
+    "chunks_count": 230,
+    "images_count": 42
+  },
+  "redp5668": {
+    "type": "pdf",
+    "filename": "redp5668.pdf",
+    "hash": "b93818bc0a0cd64198ddb93c11cd50845500c57546c6217f07b9b261317a836f",
+    "chunks_count": 258,
+    "images_count": 20
+  },
+  "redp5734": {
+    "type": "pdf",
+    "filename": "redp5734.pdf",
+    "hash": "e21440540bb55d3a957a90406aaf9a2a324b49f636cbca5d71db1c20945dd731",
+    "chunks_count": 196,
+    "images_count": 50
+  },
+  "sg248492": {
+    "type": "pdf",
+    "filename": "sg248492.pdf",
+    "hash": "088c7d8a46686a5c335106075dac5fc2e328f3e3daf1b1019143e1b645a42fb8",
+    "chunks_count": 3845,
+    "images_count": 898
+  },
+  "redp5737": {
+    "type": "pdf",
+    "filename": "redp5737.pdf",
+    "hash": "db499b589ce4f8f5795f017e10f0fbd4f3145ecdac94079dfaaab33dba2dd33f",
+    "chunks_count": 358,
+    "images_count": 63
+  },
+  "sg248448": {
+    "type": "pdf",
+    "filename": "sg248448.pdf",
+    "hash": "b68d09389799a17d6eebfe8bba59da6332a38729f57eca1f393ea08bc6c19f2f",
+    "chunks_count": 1839,
+    "images_count": 195
+  },
+  "sg247933_V8.2": {
+    "type": "pdf",
+    "filename": "sg247933_V8.2.pdf",
+    "hash": "1a8bf62e6469e3068a54319c880706291dbfca129f662aa87871f1680bffac88",
+    "chunks_count": 3326,
+    "images_count": 822
+  },
+  "sg248474": {
+    "type": "pdf",
+    "filename": "sg248474.pdf",
+    "hash": "4d3c104b0809e52d3a911a6819b64cd057d8ffa1ce82d536b7ef47cccdf6da96",
+    "chunks_count": 398,
+    "images_count": 58
+  },
+  "sg247521_2020": {
+    "type": "pdf",
+    "filename": "sg247521_2020.pdf",
+    "hash": "7b522bfdd1ee91168c6aa8c85efb952559657b0d0051b30ab8af3f21f2edd0d7",
+    "chunks_count": 2282,
+    "images_count": 251
+  },
+  "sg248502": {
+    "type": "pdf",
+    "filename": "sg248502.pdf",
+    "hash": "d42ee514b769276c16f5bc679e2fe195b8a43c01415e60180525901ed6593f54",
+    "chunks_count": 2506,
+    "images_count": 282
+  },
+  "redp5670": {
+    "type": "pdf",
+    "filename": "redp5670.pdf",
+    "hash": "2d76fdf6cb9c0ea3f4507715c728f9253b558f65edc1cc0c4d7920be0f23f630",
+    "chunks_count": 195,
+    "images_count": 16
+  },
+  "FlashSystem900_OOPS_BestPractices_1.12": {
+    "type": "pdf",
+    "filename": "FlashSystem900_OOPS_BestPractices_1.12.pdf",
+    "hash": "08a399bda06ba4ac39490597059fe3f6785cf9df52634c214e35cde1d6ba29cb",
+    "chunks_count": 47,
+    "images_count": 4
+  },
+  "redp5466": {
+    "type": "pdf",
+    "filename": "redp5466.pdf",
+    "hash": "a902714c7a65fc52290246a52e27277cf980d2cd05f85a27a044493c24062948",
+    "chunks_count": 706,
+    "images_count": 165
+  },
+  "sg248503": {
+    "type": "pdf",
+    "filename": "sg248503.pdf",
+    "hash": "c66d6949201028c83e6b94ec77baef570d3adffe7fd06a299bb17dbdeeb6ba70",
+    "chunks_count": 2565,
+    "images_count": 270
+  },
+  "redp5704": {
+    "type": "pdf",
+    "filename": "redp5704.pdf",
+    "hash": "a3224e903311929ca46525f32300ef9de4d48e51a71a7e28c610f6ed1222b944",
+    "chunks_count": 291,
+    "images_count": 45
+  },
+  "UGM16_Hot_Spare_Node_by_Chris_Bulmer": {
+    "type": "pdf",
+    "filename": "UGM16_Hot_Spare_Node_by_Chris_Bulmer.pdf",
+    "hash": "ef00b6ce55cdf699a0aec52411f1e56d3432dacf661dd9fa2e806483e6c13cf9",
+    "chunks_count": 22,
+    "images_count": 5
+  },
+  "sg248467": {
+    "type": "pdf",
+    "filename": "sg248467.pdf",
+    "hash": "6088eb0eb045392fbb2d41abd9ab5042917f16ae5e0cd0ab80627d2705ca6034",
+    "chunks_count": 3595,
+    "images_count": 861
+  },
+  "redp5477": {
+    "type": "pdf",
+    "filename": "redp5477.pdf",
+    "hash": "15f8a1a9d9472e21942f66543b6cb79a15bed0686d5e9fc14d7c46f91e02d927",
+    "chunks_count": 139,
+    "images_count": 19
+  },
+  "sg248466": {
+    "type": "pdf",
+    "filename": "sg248466.pdf",
+    "hash": "140c39ae2815481168a89a39fb9cfe9d7fb79c307657ff8e99f26ccea9013414",
+    "chunks_count": 3745,
+    "images_count": 886
+  },
+  "sg248504": {
+    "type": "pdf",
+    "filename": "sg248504.pdf",
+    "hash": "073033a3c211a3f6da786b898cbf1ca9c702e058ae72463007853e7d518ec8fc",
+    "chunks_count": 839,
+    "images_count": 118
+  },
+  "sg248505": {
+    "type": "pdf",
+    "filename": "sg248505.pdf",
+    "hash": "4a34ef90321877e232a3633350fe286a44885cb1066023bb65ffef5581446ed1",
+    "chunks_count": 779,
+    "images_count": 176
+  },
+  "redp5716": {
+    "type": "pdf",
+    "filename": "redp5716.pdf",
+    "hash": "ed5477a891abbe1ce09463e6118dc97f9452a9a71919ccdd72016a352b51eff3",
+    "chunks_count": 170,
+    "images_count": 3
+  },
+  "sg248561": {
+    "type": "pdf",
+    "filename": "sg248561.pdf",
+    "hash": "6b13c2636ff8bc0a40fd673e4d3665e527eb133382503c8a9c100b4f9a982b22",
+    "chunks_count": 576,
+    "images_count": 124
+  },
+  "redp5617": {
+    "type": "pdf",
+    "filename": "redp5617.pdf",
+    "hash": "1278a22d8a14cda66605934885296faabc7252738403caecabd5c6d32b3552d1",
+    "chunks_count": 279,
+    "images_count": 31
+  },
+  "tips1079": {
+    "type": "pdf",
+    "filename": "tips1079.pdf",
+    "hash": "9a49b7aacfe2bb564098bb3b18344aef9aa6f7439028380d8ce74ff9f185f418",
+    "chunks_count": 84,
+    "images_count": 7
+  },
+  "redp4859": {
+    "type": "pdf",
+    "filename": "redp4859.pdf",
+    "hash": "ddb88c6369b61113caf81d76740989188ee23e915fbe06c4a5a410abe67bfa27",
+    "chunks_count": 505,
+    "images_count": 63
+  },
+  "url_https://www.ibm.com/docs/en/flashsystem-5x00": {
+    "type": "url",
+    "url": "https://www.ibm.com/docs/en/flashsystem-5x00",
+    "hash": "a3686b8ac24c643ebbd77fec40dc63b8",
+    "chunks_count": 1
+  },
+  "url_https://www.ibm.com/docs/en/flashsystem-7x00": {
+    "type": "url",
+    "url": "https://www.ibm.com/docs/en/flashsystem-7x00",
+    "hash": "0405ab0193981ecaa52dd3ea856de259",
+    "chunks_count": 1
+  },
+  "url_https://www.ibm.com/docs/en/flashsystem-9x00": {
+    "type": "url",
+    "url": "https://www.ibm.com/docs/en/flashsystem-9x00",
+    "hash": "c48f56c393515f6a1f7fbd0fc74615e3",
+    "chunks_count": 1
+  },
+  "url_https://www.ibm.com/docs/en/flashsystem-c200": {
+    "type": "url",
+    "url": "https://www.ibm.com/docs/en/flashsystem-c200",
+    "hash": "c58654e4a874374459f53be1e8295725",
+    "chunks_count": 1
+  },
+  "url_https://www.ibm.com/docs/en/sanvolumecontroller": {
+    "type": "url",
+    "url": "https://www.ibm.com/docs/en/sanvolumecontroller",
+    "hash": "ef1fce0c8d62d22fecad6600ed180ff9",
+    "chunks_count": 1
+  }
+}
