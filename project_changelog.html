@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBM FlashSystem 專家系統與 RAG 知識庫 - 專案開發歷程與架構報告</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {{
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 31, 49, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary-accent: #00f2fe;
+            --secondary-accent: #4facfe;
+            --success-color: #00e676;
+            --warning-color: #ffab00;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --timeline-line: rgba(79, 172, 254, 0.25);
+        }}
+
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+
+        body {{
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(79, 172, 254, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.08) 0px, transparent 50%);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2.5rem 1.5rem;
+            min-height: 100vh;
+        }}
+
+        .container {{ max-width: 1000px; margin: 0 auto; }}
+
+        header {{
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--card-border);
+        }}
+
+        .logo-title {{
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }}
+
+        .subtitle {{ color: var(--text-muted); font-size: 1.1rem; font-weight: 400; }}
+
+        .action-buttons {{
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }}
+
+        .btn-link {{
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }}
+
+        .btn-plan {{
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(79, 172, 254, 0.2));
+            color: var(--primary-accent);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+        }}
+
+        .btn-plan:hover {{
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.35), rgba(79, 172, 254, 0.35));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.25);
+        }}
+
+        .btn-walkthrough {{
+            background: linear-gradient(135deg, rgba(0, 230, 118, 0.2), rgba(0, 230, 118, 0.1));
+            color: var(--success-color);
+            border: 1px solid rgba(0, 230, 118, 0.4);
+        }}
+
+        .btn-walkthrough:hover {{
+            background: linear-gradient(135deg, rgba(0, 230, 118, 0.35), rgba(0, 230, 118, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.25);
+        }}
+
+        .section-heading {{
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }}
+
+        .section-heading::after {{
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--timeline-line);
+        }}
+
+        .timeline {{ position: relative; padding-left: 2rem; margin-bottom: 3.5rem; }}
+        .timeline::before {{
+            content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--timeline-line);
+        }}
+
+        .timeline-item {{ position: relative; margin-bottom: 2.5rem; }}
+        .timeline-dot {{
+            position: absolute; left: -2rem; top: 4px; width: 16px; height: 16px; border-radius: 50%;
+            background: var(--primary-accent); box-shadow: 0 0 12px var(--primary-accent); border: 3px solid var(--bg-color);
+        }}
+        .timeline-dot.success {{ background: var(--success-color); box-shadow: 0 0 12px var(--success-color); }}
+        .timeline-dot.warning {{ background: var(--warning-color); box-shadow: 0 0 12px var(--warning-color); }}
+
+        .timeline-content {{
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 1.5rem;
+        }}
+
+        .timeline-header {{
+            display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;
+        }}
+        .timeline-title {{ font-size: 1.15rem; font-weight: 600; color: #ffffff; }}
+
+        .badge {{
+            display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+        }}
+        .badge-feat {{ background: rgba(0, 242, 254, 0.15); color: var(--primary-accent); border: 1px solid rgba(0, 242, 254, 0.3); }}
+        .badge-fix {{ background: rgba(255, 171, 0, 0.15); color: var(--warning-color); border: 1px solid rgba(255, 171, 0, 0.3); }}
+        .badge-verify {{ background: rgba(0, 230, 118, 0.15); color: var(--success-color); border: 1px solid rgba(0, 230, 118, 0.3); }}
+
+        .timeline-desc {{ color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.75rem; }}
+        .timeline-list {{ list-style: none; padding-left: 0; }}
+        .timeline-list li {{ position: relative; padding-left: 1.25rem; margin-bottom: 0.4rem; color: #cbd5e1; font-size: 0.9rem; }}
+        .timeline-list li::before {{ content: "▸"; position: absolute; left: 0; color: var(--secondary-accent); }}
+
+        footer {{
+            text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border);
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo-title">IBM FlashSystem 專家系統與 RAG 知識庫 開發歷程與架構報告</h1>
+            <p class="subtitle">基於 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server 的完全本地化 RAG 專家系統</p>
+            
+            <div class="action-buttons">
+                <a href="docs/implementation_plan.html" target="_blank" class="btn-link btn-plan">📖 查看完整 Implementation Plan</a>
+                <a href="docs/walkthrough.html" target="_blank" class="btn-link btn-walkthrough">🧪 查看完整 Walkthrough</a>
+            </div>
+        </header>
+
+        <h2 class="section-heading">🕒 開發變動歷程 (Change Logs)</h2>
+        <div class="timeline" id="changelog-timeline">
+            <!-- 變動 4 -->
+            <div class="timeline-item">
+                <div class="timeline-dot success"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">4. 版本控管與 GitHub 遠端倉庫同步</span>
+                        <span class="badge badge-verify">VERIFY</span>
+                    </div>
+                    <p class="timeline-desc">完成全專案程式碼與紅皮書之 Git 提交並推送到 GitHub 遠端倉庫</p>
+                    <ul class="timeline-list">
+                        <li>建立 .gitignore 並進行初次 Git 提交 2d4843c</li><li>自動調和遠端衝突並成功推送到 https://github.com/Kuo1964/IBM-Flashsystem</li>
+                    </ul>
+                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260804_v4.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-04)</a><a href="docs/walkthroughs/walkthrough_20260804_v4.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-04)</a></div>
+                </div>
+            </div>
+
+            <!-- 變動 3 -->
+            <div class="timeline-item">
+                <div class="timeline-dot "></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">3. 升級動態網頁爬蟲與 Playwright 無頭瀏覽器渲染</span>
+                        <span class="badge badge-feat">FEAT</span>
+                    </div>
+                    <p class="timeline-desc">支援 IBM Docs 單頁應用程式 (SPA) 頁面與同網域章節目錄遞迴爬取</p>
+                    <ul class="timeline-list">
+                        <li>整合 Playwright 無頭 Chromium 瀏覽器，動態執行 JavaScript 並載入完整 DOM</li><li>實現同網域與同產品路徑自動爬取，成功寫入 70,000+ 筆向量 Chunk</li>
+                    </ul>
+                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260804_v3.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-04)</a><a href="docs/walkthroughs/walkthrough_20260804_v3.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-04)</a></div>
+                </div>
+            </div>
+
+            <!-- 變動 2 -->
+            <div class="timeline-item">
+                <div class="timeline-dot warning"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">2. 修復 Google Drive 檔案鎖定與 HNSW compaction 寫入機制</span>
+                        <span class="badge badge-fix">FIX</span>
+                    </div>
+                    <p class="timeline-desc">解決 Google Drive 雲端同步導致的 SQLite 檔案鎖定，維護向量資料庫讀寫穩定度</p>
+                    <ul class="timeline-list">
+                        <li>將 ChromaDB 持久化目錄隔離至本機家目錄 (~/.ibm_flashsystem_kb/vector_db)</li><li>將寫入批次縮小為 50 筆，並導入 3 次自動重試與延遲機制</li>
+                    </ul>
+                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260804_v2.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-04)</a><a href="docs/walkthroughs/walkthrough_20260804_v2.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-04)</a></div>
+                </div>
+            </div>
+
+            <!-- 變動 1 -->
+            <div class="timeline-item">
+                <div class="timeline-dot "></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">1. 全自動建置 IBM FlashSystem 本地專家系統核心</span>
+                        <span class="badge badge-feat">FEAT</span>
+                    </div>
+                    <p class="timeline-desc">整合 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server，實現跨 AI Agent 可調用之本地專家知識庫</p>
+                    <ul class="timeline-list">
+                        <li>建構 config.py, parser.py, vision_processor.py, vector_store.py, ingest.py, mcp_server.py, cli.py</li><li>下載安裝 Ollama llama3.2-vision 多模態技術圖表解析模型 (7.8 GB)</li><li>建立增量更新機制 (SHA-256 Hash 追蹤 manifest.json)</li>
+                    </ul>
+                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260804_v1.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-04)</a><a href="docs/walkthroughs/walkthrough_20260804_v1.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-04)</a></div>
+                </div>
+            </div>
+
+            <!-- 開發變動條目將由 update_changelog.py 自動填入 -->
+        </div>
+
+        <footer>
+            <p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time">2026-08-04 16:12:30</span></p>
+        </footer>
+    </div>
+    <script>
+        document.getElementById('update-time').innerText = new Date().toLocaleString('zh-TW', {{ timeZone: 'Asia/Taipei' }});
+    </script>
+</body>
+</html>

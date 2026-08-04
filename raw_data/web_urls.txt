@@ -4,3 +4,6 @@ https://www.ibm.com/docs/en/flashsystem-7x00
 https://www.ibm.com/docs/en/flashsystem-9x00
 https://www.ibm.com/docs/en/flashsystem-c200
 https://www.ibm.com/docs/en/sanvolumecontroller
+https://www.ibm.com/docs/en/flashsystem-5x00/9.1.2?topic=download-pdf
+https://www.ibm.com/docs/en/flashsystem-5x00/9.1.2
+https://www.ibm.com/docs/en/flashsystem-5x00/9.1.2?topic=software-feature-guide
