@@ -24,7 +24,7 @@
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
 
         body {{
-            font-family: 'Inter', system-ui, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             background-image: 
                 radial-gradient(at 0% 0%, rgba(79, 172, 254, 0.12) 0px, transparent 50%),
@@ -101,6 +101,45 @@
             box-shadow: 0 4px 15px rgba(0, 230, 118, 0.25);
         }}
 
+        .summary-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }}
+
+        .glass-card {{
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }}
+
+        .glass-card:hover {{
+            transform: translateY(-3px);
+            border-color: rgba(79, 172, 254, 0.4);
+        }}
+
+        .card-header {{
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }}
+
+        .card-icon {{ font-size: 1.5rem; }}
+
+        .card-title {{
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }}
+
         .section-heading {{
             font-family: 'Outfit', sans-serif;
             font-size: 1.8rem;
@@ -112,10 +151,7 @@
         }}
 
         .section-heading::after {{
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--timeline-line);
+            content: ''; flex: 1; height: 1px; background: var(--timeline-line);
         }}
 
         .timeline {{ position: relative; padding-left: 2rem; margin-bottom: 3.5rem; }}
@@ -124,6 +160,8 @@
         }}
 
         .timeline-item {{ position: relative; margin-bottom: 2.5rem; }}
+        .timeline-item:last-child {{ margin-bottom: 0; }}
+
         .timeline-dot {{
             position: absolute; left: -2rem; top: 4px; width: 16px; height: 16px; border-radius: 50%;
             background: var(--primary-accent); box-shadow: 0 0 12px var(--primary-accent); border: 3px solid var(--bg-color);
@@ -142,6 +180,7 @@
 
         .badge {{
             display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.05em;
         }}
         .badge-feat {{ background: rgba(0, 242, 254, 0.15); color: var(--primary-accent); border: 1px solid rgba(0, 242, 254, 0.3); }}
         .badge-fix {{ background: rgba(255, 171, 0, 0.15); color: var(--warning-color); border: 1px solid rgba(255, 171, 0, 0.3); }}
@@ -155,6 +194,10 @@
         footer {{
             text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border);
         }}
+
+        code {{
+            font-family: monospace; background: rgba(255, 255, 255, 0.08); padding: 0.15rem 0.4rem; border-radius: 4px; color: #38bdf8;
+        }}
     </style>
 </head>
 <body>
@@ -164,10 +207,47 @@
             <p class="subtitle">基於 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server 的完全本地化 RAG 專家系統</p>
             
             <div class="action-buttons">
-                <a href="docs/implementation_plan.html" target="_blank" class="btn-link btn-plan">📖 查看完整 Implementation Plan</a>
-                <a href="docs/walkthrough.html" target="_blank" class="btn-link btn-walkthrough">🧪 查看完整 Walkthrough</a>
+                <a href="docs/implementation_plan.html" target="_blank" class="btn-link btn-plan">📖 查看完整 Implementation Plan (設計計畫)</a>
+                <a href="docs/walkthrough.html" target="_blank" class="btn-link btn-walkthrough">🧪 查看完整 Walkthrough (驗證說明)</a>
             </div>
         </header>
+
+        <!-- Implementation Plan & Walkthrough 摘要 Grid -->
+        <h2 class="section-heading">📋 架構與測試摘要 (Plan & Walkthrough)</h2>
+        <div class="summary-grid">
+            <div class="glass-card">
+                <div class="card-header">
+                    <span class="card-icon">🚀</span>
+                    <h3 class="card-title">核心設計與計畫</h3>
+                </div>
+                <p class="timeline-desc">
+                    ▸ <b>系統架構</b>：包含核心業務邏輯、模組解耦與高度客製化配置。<br>
+                    ▸ <b>自動化流程</b>：全面支援定時排程與非同步背景調度。
+                </p>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-header">
+                    <span class="card-icon">🔐</span>
+                    <h3 class="card-title">安全與自動化機制</h3>
+                </div>
+                <p class="timeline-desc">
+                    ▸ <b>狀態記憶</b>：執行前後自動檢測並還原系統與顯示狀態。<br>
+                    ▸ <b>自動修復</b>：內建重試與異常攔截防範死鎖與卡死問題。
+                </p>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-header">
+                    <span class="card-icon">⚙️</span>
+                    <h3 class="card-title">背景與持久化防護</h3>
+                </div>
+                <p class="timeline-desc">
+                    ▸ <b>守護進程</b>：配備系統級守護服務 <code>KeepAlive: ON</code>。<br>
+                    ▸ <b>重開機無縫運作</b>：重新開機後自動載入，24/7 不間斷防護。
+                </p>
+            </div>
+        </div>
 
         <h2 class="section-heading">🕒 開發變動歷程 (Change Logs)</h2>
         <div class="timeline" id="changelog-timeline">
@@ -239,7 +319,7 @@
         </div>
 
         <footer>
-            <p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time">2026-08-04 16:12:30</span></p>
+            <p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time">2026-08-04 16:25:40</span></p>
         </footer>
     </div>
     <script>
