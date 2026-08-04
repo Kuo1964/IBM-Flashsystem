@@ -3,256 +3,429 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IBM FlashSystem 專家系統與 RAG 知識庫 - 專案開發歷程與架構報告</title>
+    <title>IBM FlashSystem 專家系統與 RAG 知識庫 - 專案開發歷程總覽 (Project Changelog)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {{
+        :root {
             --bg-color: #0b0f19;
-            --card-bg: rgba(22, 31, 49, 0.7);
+            --card-bg: rgba(22, 31, 49, 0.75);
+            --card-hover-bg: rgba(30, 42, 66, 0.85);
             --card-border: rgba(255, 255, 255, 0.08);
+            --card-border-glow: rgba(79, 172, 254, 0.4);
             --primary-accent: #00f2fe;
             --secondary-accent: #4facfe;
             --success-color: #00e676;
             --warning-color: #ffab00;
+            --purple-accent: #a855f7;
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --timeline-line: rgba(79, 172, 254, 0.25);
-        }}
+            --modal-overlay: rgba(5, 8, 15, 0.85);
+        }
 
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {{
+        body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(79, 172, 254, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.08) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(79, 172, 254, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.05) 0px, transparent 50%);
+            background-attachment: fixed;
             color: var(--text-main);
             line-height: 1.6;
-            padding: 2.5rem 1.5rem;
+            padding: 3rem 1.5rem;
             min-height: 100vh;
-        }}
+        }
 
-        .container {{ max-width: 1000px; margin: 0 auto; }}
+        .container { max-width: 1040px; margin: 0 auto; }
 
-        header {{
+        /* Header Layout */
+        header {
             text-align: center;
             margin-bottom: 3.5rem;
-            padding-bottom: 2rem;
+            padding-bottom: 2.5rem;
             border-bottom: 1px solid var(--card-border);
-        }}
+            position: relative;
+        }
 
-        .logo-title {{
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.75rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.5rem;
-        }}
-
-        .subtitle {{ color: var(--text-muted); font-size: 1.1rem; font-weight: 400; }}
-
-        .action-buttons {{
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }}
-
-        .btn-link {{
+        .logo-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.6rem 1.25rem;
+            padding: 0.35rem 1rem;
+            border-radius: 30px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: var(--primary-accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.03em;
+        }
+
+        .logo-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 20%, var(--primary-accent) 60%, var(--secondary-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            font-weight: 400;
+            max-width: 750px;
+            margin: 0 auto 1.75rem auto;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.35rem;
             border-radius: 30px;
             font-size: 0.9rem;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.25s ease;
-        }}
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-        .btn-plan {{
-            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(79, 172, 254, 0.2));
+        .btn-plan {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.18), rgba(79, 172, 254, 0.18));
             color: var(--primary-accent);
             border: 1px solid rgba(0, 242, 254, 0.4);
-        }}
+        }
 
-        .btn-plan:hover {{
+        .btn-plan:hover {
             background: linear-gradient(135deg, rgba(0, 242, 254, 0.35), rgba(79, 172, 254, 0.35));
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.25);
-        }}
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.25);
+        }
 
-        .btn-walkthrough {{
-            background: linear-gradient(135deg, rgba(0, 230, 118, 0.2), rgba(0, 230, 118, 0.1));
+        .btn-walkthrough {
+            background: linear-gradient(135deg, rgba(0, 230, 118, 0.18), rgba(0, 230, 118, 0.08));
             color: var(--success-color);
             border: 1px solid rgba(0, 230, 118, 0.4);
-        }}
+        }
 
-        .btn-walkthrough:hover {{
+        .btn-walkthrough:hover {
             background: linear-gradient(135deg, rgba(0, 230, 118, 0.35), rgba(0, 230, 118, 0.2));
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.25);
-        }}
+            box-shadow: 0 6px 20px rgba(0, 230, 118, 0.25);
+        }
 
-        .summary-grid {{
+        .btn-github {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-github:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+        }
+
+        /* Summary Grid Layout */
+        .summary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-bottom: 3.5rem;
-        }}
+        }
 
-        .glass-card {{
+        .glass-card {
             background: var(--card-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 1.75rem;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: transform 0.25s ease, border-color 0.25s ease;
-        }}
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
 
-        .glass-card:hover {{
+        .glass-card:hover {
             transform: translateY(-3px);
-            border-color: rgba(79, 172, 254, 0.4);
-        }}
+            background: var(--card-hover-bg);
+            border-color: var(--card-border-glow);
+        }
 
-        .card-header {{
+        .card-header {
             display: flex;
             align-items: center;
             gap: 0.75rem;
             margin-bottom: 1rem;
-        }}
+        }
 
-        .card-icon {{ font-size: 1.5rem; }}
+        .card-icon {
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+        }
 
-        .card-title {{
+        .card-title {
             font-family: 'Outfit', sans-serif;
             font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }}
+            font-weight: 700;
+            color: #ffffff;
+        }
 
-        .section-heading {{
+        .metric-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-accent);
+            margin-bottom: 0.4rem;
+        }
+
+        /* Section Headings */
+        .section-heading {
             font-family: 'Outfit', sans-serif;
             font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 2rem;
+            margin-bottom: 1.75rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-        }}
+        }
 
-        .section-heading::after {{
+        .section-heading::after {
             content: ''; flex: 1; height: 1px; background: var(--timeline-line);
-        }}
+        }
 
-        .timeline {{ position: relative; padding-left: 2rem; margin-bottom: 3.5rem; }}
-        .timeline::before {{
-            content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--timeline-line);
-        }}
+        /* Search & Filter Controls */
+        .controls-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-bg);
+            padding: 1rem 1.25rem;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+        }
 
-        .timeline-item {{ position: relative; margin-bottom: 2.5rem; }}
-        .timeline-item:last-child {{ margin-bottom: 0; }}
+        .search-input {
+            flex: 1;
+            min-width: 240px;
+            background: rgba(11, 15, 25, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 0.6rem 1.2rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
 
-        .timeline-dot {{
-            position: absolute; left: -2rem; top: 4px; width: 16px; height: 16px; border-radius: 50%;
-            background: var(--primary-accent); box-shadow: 0 0 12px var(--primary-accent); border: 3px solid var(--bg-color);
-        }}
-        .timeline-dot.success {{ background: var(--success-color); box-shadow: 0 0 12px var(--success-color); }}
-        .timeline-dot.warning {{ background: var(--warning-color); box-shadow: 0 0 12px var(--warning-color); }}
+        .search-input:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+        }
 
-        .timeline-content {{
-            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 1.5rem;
-        }}
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
 
-        .timeline-header {{
-            display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;
-        }}
-        .timeline-title {{ font-size: 1.15rem; font-weight: 600; color: #ffffff; }}
+        .filter-chip {
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-        .badge {{
-            display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+        .filter-chip.active, .filter-chip:hover {
+            background: rgba(0, 242, 254, 0.15);
+            color: var(--primary-accent);
+            border-color: rgba(0, 242, 254, 0.4);
+        }
+
+        /* Timeline Layout */
+        .timeline { position: relative; padding-left: 2.25rem; margin-bottom: 3.5rem; }
+        .timeline::before {
+            content: ''; position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: var(--timeline-line);
+        }
+
+        .timeline-item { position: relative; margin-bottom: 2.5rem; }
+        .timeline-item:last-child { margin-bottom: 0; }
+
+        .timeline-dot {
+            position: absolute; left: -2.25rem; top: 6px; width: 20px; height: 20px; border-radius: 50%;
+            background: var(--primary-accent); box-shadow: 0 0 12px var(--primary-accent); border: 4px solid var(--bg-color);
+        }
+        .timeline-dot.success { background: var(--success-color); box-shadow: 0 0 12px var(--success-color); }
+        .timeline-dot.warning { background: var(--warning-color); box-shadow: 0 0 12px var(--warning-color); }
+
+        .timeline-content {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 1.75rem;
+            backdrop-filter: blur(16px); transition: all 0.25s ease;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--card-border-glow);
+            transform: translateX(4px);
+        }
+
+        .timeline-header {
+            display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.85rem;
+        }
+        .timeline-title { font-size: 1.2rem; font-weight: 700; color: #ffffff; font-family: 'Outfit', sans-serif; }
+
+        .badge {
+            display: inline-block; padding: 0.25rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
             letter-spacing: 0.05em;
-        }}
-        .badge-feat {{ background: rgba(0, 242, 254, 0.15); color: var(--primary-accent); border: 1px solid rgba(0, 242, 254, 0.3); }}
-        .badge-fix {{ background: rgba(255, 171, 0, 0.15); color: var(--warning-color); border: 1px solid rgba(255, 171, 0, 0.3); }}
-        .badge-verify {{ background: rgba(0, 230, 118, 0.15); color: var(--success-color); border: 1px solid rgba(0, 230, 118, 0.3); }}
+        }
+        .badge-feat { background: rgba(0, 242, 254, 0.15); color: var(--primary-accent); border: 1px solid rgba(0, 242, 254, 0.3); }
+        .badge-fix { background: rgba(255, 171, 0, 0.15); color: var(--warning-color); border: 1px solid rgba(255, 171, 0, 0.3); }
+        .badge-verify { background: rgba(0, 230, 118, 0.15); color: var(--success-color); border: 1px solid rgba(0, 230, 118, 0.3); }
 
-        .timeline-desc {{ color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.75rem; }}
-        .timeline-list {{ list-style: none; padding-left: 0; }}
-        .timeline-list li {{ position: relative; padding-left: 1.25rem; margin-bottom: 0.4rem; color: #cbd5e1; font-size: 0.9rem; }}
-        .timeline-list li::before {{ content: "▸"; position: absolute; left: 0; color: var(--secondary-accent); }}
+        .timeline-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
+        .timeline-list { list-style: none; padding-left: 0; margin-bottom: 1rem; }
+        .timeline-list li { position: relative; padding-left: 1.35rem; margin-bottom: 0.45rem; color: #cbd5e1; font-size: 0.92rem; }
+        .timeline-list li::before { content: "▸"; position: absolute; left: 0; color: var(--secondary-accent); font-weight: bold; }
 
-        footer {{
+        .item-actions {
+            display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-sub {
+            padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s ease;
+        }
+        .btn-sub-plan { background: rgba(0, 242, 254, 0.1); color: var(--primary-accent); border: 1px solid rgba(0, 242, 254, 0.25); }
+        .btn-sub-plan:hover { background: rgba(0, 242, 254, 0.25); transform: translateY(-1px); }
+        .btn-sub-wt { background: rgba(0, 230, 118, 0.1); color: var(--success-color); border: 1px solid rgba(0, 230, 118, 0.25); }
+        .btn-sub-wt:hover { background: rgba(0, 230, 118, 0.25); transform: translateY(-1px); }
+
+        /* Modal Preview */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-overlay); backdrop-filter: blur(12px); z-index: 1000; justify-content: center; align-items: center; padding: 2rem;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #0f172a; border: 1px solid var(--card-border-glow); border-radius: 20px; width: 100%; max-width: 900px;
+            max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+        .modal-header {
+            padding: 1.25rem 1.75rem; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-title { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; color: #ffffff; }
+        .modal-close {
+            background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: color 0.2s ease;
+        }
+        .modal-close:hover { color: #ffffff; }
+        .modal-body { padding: 1.75rem; overflow-y: auto; flex: 1; color: var(--text-main); font-size: 0.95rem; }
+
+        footer {
             text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border);
-        }}
+        }
 
-        code {{
-            font-family: monospace; background: rgba(255, 255, 255, 0.08); padding: 0.15rem 0.4rem; border-radius: 4px; color: #38bdf8;
-        }}
+        code { font-family: monospace; background: rgba(255, 255, 255, 0.08); padding: 0.15rem 0.4rem; border-radius: 4px; color: #38bdf8; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1 class="logo-title">IBM FlashSystem 專家系統與 RAG 知識庫 開發歷程與架構報告</h1>
-            <p class="subtitle">基於 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server 的完全本地化 RAG 專家系統</p>
+            <div class="logo-badge">⚡ Antigravity AI Pair Programming Agent</div>
+            <h1 class="logo-title">IBM FlashSystem 專家系統與 RAG 知識庫</h1>
+            <p class="subtitle">基於 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server 的完全本地化 RAG 專家系統與多模態圖表檢索架構</p>
             
             <div class="action-buttons">
-                <a href="docs/implementation_plan.html" target="_blank" class="btn-link btn-plan">📖 查看完整 Implementation Plan (設計計畫)</a>
-                <a href="docs/walkthrough.html" target="_blank" class="btn-link btn-walkthrough">🧪 查看完整 Walkthrough (驗證說明)</a>
+                <a href="docs/implementation_plan.html" target="_blank" class="btn-link btn-plan">📖 查看 Implementation Plan (設計計畫)</a>
+                <a href="docs/walkthrough.html" target="_blank" class="btn-link btn-walkthrough">🧪 查看 Walkthrough (完成驗證報告)</a>
+                <a href="https://github.com/Kuo1964/IBM-Flashsystem" target="_blank" class="btn-link btn-github">🐙 GitHub 遠端倉庫</a>
             </div>
         </header>
 
-        <!-- Implementation Plan & Walkthrough 摘要 Grid -->
-        <h2 class="section-heading">📋 架構與測試摘要 (Plan & Walkthrough)</h2>
+        <!-- 三方架構與統計數據 Grid -->
+        <h2 class="section-heading">📋 核心架構與數據總覽 (System Architecture & Metrics)</h2>
         <div class="summary-grid">
             <div class="glass-card">
                 <div class="card-header">
-                    <span class="card-icon">🚀</span>
-                    <h3 class="card-title">核心設計與計畫</h3>
+                    <div class="card-icon">🖼️</div>
+                    <h3 class="card-title">多模態 PDF 圖表解析</h3>
                 </div>
+                <div class="metric-value">48 本 PDF / 400+ 圖表</div>
                 <p class="timeline-desc">
-                    ▸ <b>系統架構</b>：包含核心業務邏輯、模組解耦與高度客製化配置。<br>
-                    ▸ <b>自動化流程</b>：全面支援定時排程與非同步背景調度。
+                    ▸ <b>技術圖表提取</b>：PyMuPDF 自動抽取 SAN 架構與 RAID 配置圖。<br>
+                    ▸ <b>Vision 模型</b>：Ollama <code>llama3.2-vision</code> 生成繁體中文圖表摘要。
                 </p>
             </div>
 
             <div class="glass-card">
                 <div class="card-header">
-                    <span class="card-icon">🔐</span>
-                    <h3 class="card-title">安全與自動化機制</h3>
+                    <div class="card-icon">🌐</div>
+                    <h3 class="card-title">動態網頁遞迴爬蟲</h3>
                 </div>
+                <div class="metric-value">5 大目錄 / 49 個章節</div>
                 <p class="timeline-desc">
-                    ▸ <b>狀態記憶</b>：執行前後自動檢測並還原系統與顯示狀態。<br>
-                    ▸ <b>自動修復</b>：內建重試與異常攔截防範死鎖與卡死問題。
+                    ▸ <b>SPA 渲染</b>：Playwright 無頭 Chromium 自動執行 JS 載入 DOM。<br>
+                    ▸ <b>同網域限制</b>：同產品路徑自動延伸抓取，完全防護外部雜訊。
                 </p>
             </div>
 
             <div class="glass-card">
                 <div class="card-header">
-                    <span class="card-icon">⚙️</span>
-                    <h3 class="card-title">背景與持久化防護</h3>
+                    <div class="card-icon">⚡</div>
+                    <h3 class="card-title">本機向量庫與 MCP Server</h3>
                 </div>
+                <div class="metric-value">70,000+ 向量 Chunks</div>
                 <p class="timeline-desc">
-                    ▸ <b>守護進程</b>：配備系統級守護服務 <code>KeepAlive: ON</code>。<br>
-                    ▸ <b>重開機無縫運作</b>：重新開機後自動載入，24/7 不間斷防護。
+                    ▸ <b>向量檢索</b>：ChromaDB 本地持久化資料庫 + <code>nomic-embed-text</code>。<br>
+                    ▸ <b>MCP Server</b>：<code>mcp_server.py</code> 供 Antigravity / Claude Desktop 調用。
                 </p>
             </div>
         </div>
 
-        <h2 class="section-heading">🕒 開發變動歷程 (Change Logs)</h2>
+        <!-- 搜尋與過濾列 -->
+        <h2 class="section-heading">🕒 開發變動歷程 (Change Logs Timeline)</h2>
+        <div class="controls-bar">
+            <input type="text" id="search-input" class="search-input" placeholder="🔍 搜尋變更標題或關鍵字..." oninput="filterLogs()">
+            <div class="filter-group">
+                <button class="filter-chip active" onclick="setFilter('all', this)">全部 (All)</button>
+                <button class="filter-chip" onclick="setFilter('feat', this)">全新功能 (FEAT)</button>
+                <button class="filter-chip" onclick="setFilter('fix', this)">系統修復 (FIX)</button>
+                <button class="filter-chip" onclick="setFilter('verify', this)">測試驗證 (VERIFY)</button>
+            </div>
+        </div>
+
         <div class="timeline" id="changelog-timeline">
+
             <!-- 變動 4 -->
-            <div class="timeline-item">
+            <div class="timeline-item" data-type="verify">
                 <div class="timeline-dot success"></div>
                 <div class="timeline-content">
                     <div class="timeline-header">
@@ -261,15 +434,19 @@
                     </div>
                     <p class="timeline-desc">完成全專案程式碼與紅皮書之 Git 提交並推送到 GitHub 遠端倉庫</p>
                     <ul class="timeline-list">
-                        <li>建立 .gitignore 並進行初次 Git 提交 2d4843c</li><li>自動調和遠端衝突並成功推送到 https://github.com/Kuo1964/IBM-Flashsystem</li>
+                        <li>建立 <code>.gitignore</code> 排除虛擬環境與快取，進行初次 Git 提交 (Commit <code>2d4843c</code>)</li>
+                        <li>自動調和遠端與本機分支衝突，成功推送到 <a href="https://github.com/Kuo1964/IBM-Flashsystem" target="_blank" style="color: var(--primary-accent);">Kuo1964/IBM-Flashsystem</a></li>
                     </ul>
-                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260804_v4.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-04)</a><a href="docs/walkthroughs/walkthrough_20260804_v4.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-04)</a></div>
+                    <div class="item-actions">
+                        <a href="docs/plans/plan_20260804_v4.html" target="_blank" class="btn-sub btn-sub-plan">📄 Plan (2026-08-04)</a>
+                        <a href="docs/walkthroughs/walkthrough_20260804_v4.html" target="_blank" class="btn-sub btn-sub-wt">🧪 Walkthrough (2026-08-04)</a>
+                    </div>
                 </div>
             </div>
 
             <!-- 變動 3 -->
-            <div class="timeline-item">
-                <div class="timeline-dot "></div>
+            <div class="timeline-item" data-type="feat">
+                <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <div class="timeline-header">
                         <span class="timeline-title">3. 升級動態網頁爬蟲與 Playwright 無頭瀏覽器渲染</span>
@@ -277,14 +454,18 @@
                     </div>
                     <p class="timeline-desc">支援 IBM Docs 單頁應用程式 (SPA) 頁面與同網域章節目錄遞迴爬取</p>
                     <ul class="timeline-list">
-                        <li>整合 Playwright 無頭 Chromium 瀏覽器，動態執行 JavaScript 並載入完整 DOM</li><li>實現同網域與同產品路徑自動爬取，成功寫入 70,000+ 筆向量 Chunk</li>
+                        <li>整合 Playwright 無頭 Chromium 瀏覽器，動態執行 JavaScript 並載入完整 DOM 內文與目錄結構</li>
+                        <li>實現同網域與同產品路徑自動爬取 (Depth-based Crawler)，累積寫入 70,000+ 筆向量 Chunk</li>
                     </ul>
-                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260804_v3.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-04)</a><a href="docs/walkthroughs/walkthrough_20260804_v3.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-04)</a></div>
+                    <div class="item-actions">
+                        <a href="docs/plans/plan_20260804_v3.html" target="_blank" class="btn-sub btn-sub-plan">📄 Plan (2026-08-04)</a>
+                        <a href="docs/walkthroughs/walkthrough_20260804_v3.html" target="_blank" class="btn-sub btn-sub-wt">🧪 Walkthrough (2026-08-04)</a>
+                    </div>
                 </div>
             </div>
 
             <!-- 變動 2 -->
-            <div class="timeline-item">
+            <div class="timeline-item" data-type="fix">
                 <div class="timeline-dot warning"></div>
                 <div class="timeline-content">
                     <div class="timeline-header">
@@ -293,15 +474,19 @@
                     </div>
                     <p class="timeline-desc">解決 Google Drive 雲端同步導致的 SQLite 檔案鎖定，維護向量資料庫讀寫穩定度</p>
                     <ul class="timeline-list">
-                        <li>將 ChromaDB 持久化目錄隔離至本機家目錄 (~/.ibm_flashsystem_kb/vector_db)</li><li>將寫入批次縮小為 50 筆，並導入 3 次自動重試與延遲機制</li>
+                        <li>將 ChromaDB 持久化目錄隔離至本機家目錄 (<code>~/.ibm_flashsystem_kb/vector_db</code>)</li>
+                        <li>將寫入批次縮小為 50 筆，並導入 3 次自動重試與延遲機制</li>
                     </ul>
-                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260804_v2.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-04)</a><a href="docs/walkthroughs/walkthrough_20260804_v2.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-04)</a></div>
+                    <div class="item-actions">
+                        <a href="docs/plans/plan_20260804_v2.html" target="_blank" class="btn-sub btn-sub-plan">📄 Plan (2026-08-04)</a>
+                        <a href="docs/walkthroughs/walkthrough_20260804_v2.html" target="_blank" class="btn-sub btn-sub-wt">🧪 Walkthrough (2026-08-04)</a>
+                    </div>
                 </div>
             </div>
 
             <!-- 變動 1 -->
-            <div class="timeline-item">
-                <div class="timeline-dot "></div>
+            <div class="timeline-item" data-type="feat">
+                <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <div class="timeline-header">
                         <span class="timeline-title">1. 全自動建置 IBM FlashSystem 本地專家系統核心</span>
@@ -309,21 +494,71 @@
                     </div>
                     <p class="timeline-desc">整合 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server，實現跨 AI Agent 可調用之本地專家知識庫</p>
                     <ul class="timeline-list">
-                        <li>建構 config.py, parser.py, vision_processor.py, vector_store.py, ingest.py, mcp_server.py, cli.py</li><li>下載安裝 Ollama llama3.2-vision 多模態技術圖表解析模型 (7.8 GB)</li><li>建立增量更新機制 (SHA-256 Hash 追蹤 manifest.json)</li>
+                        <li>建構 <code>config.py</code>, <code>parser.py</code>, <code>vision_processor.py</code>, <code>vector_store.py</code>, <code>ingest.py</code>, <code>mcp_server.py</code>, <code>cli.py</code></li>
+                        <li>下載安裝 Ollama <code>llama3.2-vision</code> 多模態技術圖表解析模型 (7.8 GB)</li>
+                        <li>建立增量更新機制 (SHA-256 Hash 追蹤 <code>manifest.json</code>)</li>
                     </ul>
-                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260804_v1.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-04)</a><a href="docs/walkthroughs/walkthrough_20260804_v1.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-04)</a></div>
+                    <div class="item-actions">
+                        <a href="docs/plans/plan_20260804_v1.html" target="_blank" class="btn-sub btn-sub-plan">📄 Plan (2026-08-04)</a>
+                        <a href="docs/walkthroughs/walkthrough_20260804_v1.html" target="_blank" class="btn-sub btn-sub-wt">🧪 Walkthrough (2026-08-04)</a>
+                    </div>
                 </div>
             </div>
 
-            <!-- 開發變動條目將由 update_changelog.py 自動填入 -->
         </div>
 
         <footer>
-            <p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time">2026-08-04 16:25:40</span></p>
+            <p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time"></span></p>
         </footer>
     </div>
+
+    <!-- 純前端 Modal 快照對話框 -->
+    <div class="modal" id="preview-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">文件預覽</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                載入中...
+            </div>
+        </div>
+    </div>
+
     <script>
-        document.getElementById('update-time').innerText = new Date().toLocaleString('zh-TW', {{ timeZone: 'Asia/Taipei' }});
+        document.getElementById('update-time').innerText = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+
+        let currentFilter = 'all';
+
+        function setFilter(type, element) {
+            currentFilter = type;
+            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+            element.classList.add('active');
+            filterLogs();
+        }
+
+        function filterLogs() {
+            const searchText = document.getElementById('search-input').value.toLowerCase();
+            const items = document.querySelectorAll('.timeline-item');
+
+            items.forEach(item => {
+                const itemType = item.getAttribute('data-type');
+                const itemText = item.innerText.toLowerCase();
+                
+                const matchesType = (currentFilter === 'all' || itemType === currentFilter);
+                const matchesSearch = itemText.includes(searchText);
+
+                if (matchesType && matchesSearch) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('preview-modal').classList.remove('active');
+        }
     </script>
 </body>
 </html>
