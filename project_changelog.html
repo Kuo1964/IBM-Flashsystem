@@ -418,6 +418,22 @@
 </div>
 </div>
 <div class="timeline" id="changelog-timeline">
+            <!-- 變動 3 -->
+            <div class="timeline-item">
+                <div class="timeline-dot "></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">3. 建置團隊雲端問答入口 (Web Portal) 與 Cloudflare 部署嚮導 Wizard</span>
+                        <span class="badge badge-feat">FEAT</span>
+                    </div>
+                    <p class="timeline-desc">提供同仁使用之 REST API、Glassmorphism Web UI、語意快取、速率限制與 Wizard 一鍵部署腳本</p>
+                    <ul class="timeline-list">
+                        <li>建立 web_app.py 提供 /api/query 與 /api/stats 介面</li><li>建立 static/index.html 提供高質感網頁問答與圖表 Lightbox 預覽</li><li>建立 wizard_cloud_setup.sh 實現四階段 Cloudflare 加密通道設定嚮導</li><li>實作 Path Traversal 防護與 asyncio.Semaphore(3) 併發排隊鎖</li>
+                    </ul>
+                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260814_v3.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-14)</a><a href="docs/walkthroughs/walkthrough_20260814_v3.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-14)</a></div>
+                </div>
+            </div>
+
 <!-- 變動 2 -->
 <div class="timeline-item">
 <div class="timeline-dot success"></div>
@@ -525,7 +541,7 @@
 </div>
 </div>
 <footer>
-<p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time">2026-08-06 12:23:34</span></p>
+<p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time">2026-08-14 14:51:23</span></p>
 </footer>
 </div>
 <!-- 純前端 Modal 快照對話框 -->

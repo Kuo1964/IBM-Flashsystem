@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBM FlashSystem 專家系統 - 團隊雲端知識問答入口</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 31, 49, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-border-glow: rgba(79, 172, 254, 0.4);
+            --primary-accent: #00f2fe;
+            --secondary-accent: #4facfe;
+            --success-color: #00e676;
+            --warning-color: #ffab00;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --code-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(79, 172, 254, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .badge-portal {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 1rem;
+            border-radius: 30px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: var(--primary-accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .logo-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 20%, var(--primary-accent) 60%, var(--secondary-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle { color: var(--text-muted); font-size: 1.05rem; }
+
+        /* Stats Bar */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary-accent);
+        }
+
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Chat Window */
+        .chat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.75rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            margin-bottom: 2rem;
+        }
+
+        .quick-prompts {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+
+        .prompt-chip {
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--secondary-accent);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .prompt-chip:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: rgba(0, 242, 254, 0.4);
+            color: var(--primary-accent);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .query-input {
+            flex: 1;
+            background: rgba(11, 15, 25, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 0.8rem 1.4rem;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
+
+        .query-input:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.25);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            color: #0b0f19;
+            font-weight: 700;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.35);
+        }
+
+        /* Result Display */
+        .response-box {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .response-box.active { display: block; }
+
+        .answer-content {
+            font-size: 1.02rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .sources-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary-accent);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .source-item {
+            background: rgba(22, 31, 49, 0.9);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.88rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .source-tag {
+            color: var(--primary-accent);
+            font-weight: 600;
+        }
+
+        .score-pill {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--success-color);
+            padding: 0.25rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .btn-view-img {
+            background: rgba(0, 242, 254, 0.15);
+            color: var(--primary-accent);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            padding: 0.3rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Lightbox Modal */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(12px); z-index: 1000;
+            justify-content: center; align-items: center; padding: 2rem;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #0f172a; border: 1px solid var(--card-border-glow); border-radius: 16px;
+            max-width: 90vw; max-height: 90vh; padding: 1.5rem; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .modal-img { max-width: 100%; max-height: 75vh; border-radius: 8px; margin-bottom: 1rem; }
+        .btn-close-modal {
+            background: rgba(255, 255, 255, 0.1); color: #fff; border: none; padding: 0.5rem 1.2rem;
+            border-radius: 20px; cursor: pointer; font-weight: 600;
+        }
+
+        footer { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="badge-portal">⚡ IBM FlashSystem 團隊專家系統</div>
+            <h1 class="logo-title">雲端知識與技術圖表檢索入口</h1>
+            <p class="subtitle">輸入關於 IBM FlashSystem (9500 / 7300 / 5200 / SVC) 之儲存架構、SAN 拓撲、RAID 配置與紅皮書規格問題</p>
+        </header>
+
+        <!-- Stats Counter -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-pdf">48 本</div>
+                <div class="stat-label">已索引紅皮書 (PDF)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-urls">5 大類 (49 頁)</div>
+                <div class="stat-label">IBM Docs 官方線上文檔</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-chunks">70,000+ 筆</div>
+                <div class="stat-label">向量知識庫片段 (Chunks)</div>
+            </div>
+        </div>
+
+        <!-- Main Query Section -->
+        <div class="chat-card">
+            <div class="quick-prompts">
+                <span class="prompt-chip" onclick="setQuery('FlashSystem 9500 的 NVMe-oF 拓撲架構是什麼？')">💡 FlashSystem 9500 拓撲架構</span>
+                <span class="prompt-chip" onclick="setQuery('DRAID 1 與 DRAID 6 的最佳配置建議為何？')">💡 DRAID 1 / DRAID 6 最佳實踐</span>
+                <span class="prompt-chip" onclick="setQuery('IBM FlashSystem 最佳運營範例 (Best Practices)')">💡 最佳運營範例 (Best Practices)</span>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="query-input" class="query-input" placeholder="請輸入您的問題 (例如: FlashSystem 9500 SAN 連線規格...)" onkeydown="if(event.key==='Enter') sendQuery()">
+                <button class="btn-submit" onclick="sendQuery()">搜尋解答</button>
+            </div>
+
+            <!-- Response Box -->
+            <div class="response-box" id="response-box">
+                <div id="loading-spinner" style="display:none; text-align:center; padding:1.5rem; color:var(--primary-accent);">
+                    ⏳ 正在檢索 70,000+ 筆技術文檔並呼叫專家 LLM 生成解答中...
+                </div>
+                <div id="answer-container" class="answer-content"></div>
+                <div id="sources-container"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>IBM FlashSystem Knowledge Base · 本地 RAG & Vision 多模態技術 · Powered by FastAPI & Ollama</p>
+        </footer>
+    </div>
+
+    <!-- Modal Lightbox -->
+    <div class="modal" id="image-modal">
+        <div class="modal-content">
+            <img src="" id="modal-img-src" class="modal-img">
+            <button class="btn-close-modal" onclick="closeImageModal()">關閉圖表預覽</button>
+        </div>
+    </div>
+
+    <script>
+        // 初始化讀取統計
+        async function fetchStats() {
+            try {
+                const res = await fetch('/api/stats');
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('stat-pdf').innerText = `${data.pdf_count} 本`;
+                    document.getElementById('stat-urls').innerText = `${data.url_count} 個目錄`;
+                    document.getElementById('stat-chunks').innerText = `${data.total_chunks_estimate.toLocaleString()} 筆`;
+                }
+            } catch (e) {
+                console.log('無法讀取統計', e);
+            }
+        }
+        fetchStats();
+
+        function setQuery(text) {
+            document.getElementById('query-input').value = text;
+            sendQuery();
+        }
+
+        async function sendQuery() {
+            const input = document.getElementById('query-input');
+            const queryText = input.value.trim();
+            if (!queryText) return;
+
+            const box = document.getElementById('response-box');
+            const spinner = document.getElementById('loading-spinner');
+            const answerDiv = document.getElementById('answer-container');
+            const sourcesDiv = document.getElementById('sources-container');
+
+            box.classList.add('active');
+            spinner.style.display = 'block';
+            answerDiv.innerText = '';
+            sourcesDiv.innerHTML = '';
+
+            try {
+                const res = await fetch('/api/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: queryText, top_k: 5 })
+                });
+
+                spinner.style.display = 'none';
+
+                if (res.ok) {
+                    const data = await res.json();
+                    answerDiv.innerText = data.answer;
+
+                    if (data.sources && data.sources.length > 0) {
+                        let sourcesHtml = '<div class="sources-heading">📚 參考引述官方文檔與圖表：</div><div class="sources-list">';
+                        data.sources.forEach(s => {
+                            let imgBtn = '';
+                            if (s.type === 'image_summary' && s.image_path) {
+                                sourcesHtml += `
+                                    <div class="source-item">
+                                        <div>
+                                            <span class="source-tag">🖼️ [技術圖表] ${s.source} (第 ${s.page} 頁)</span>
+                                        </div>
+                                        <div>
+                                            <span class="score-pill">相似度: ${(s.score * 100).toFixed(1)}%</span>
+                                            <button class="btn-view-img" onclick="openImageModal('${s.image_path}')">預覽圖表</button>
+                                        </div>
+                                    </div>
+                                `;
+                            } else {
+                                sourcesHtml += `
+                                    <div class="source-item">
+                                        <div>
+                                            <span class="source-tag">📄 ${s.source} (第 ${s.page} 頁)</span>
+                                        </div>
+                                        <span class="score-pill">相似度: ${(s.score * 100).toFixed(1)}%</span>
+                                    </div>
+                                `;
+                            }
+                        });
+                        sourcesHtml += '</div>';
+                        sourcesDiv.innerHTML = sourcesHtml;
+                    }
+                } else {
+                    const err = await res.json();
+                    answerDiv.innerText = `❌ 查詢失敗: ${err.detail || '伺服器發生錯誤'}`;
+                }
+            } catch (e) {
+                spinner.style.display = 'none';
+                answerDiv.innerText = `❌ 網路連線錯誤，請確認 Web Portal 服務已啟動。`;
+            }
+        }
+
+        function openImageModal(path) {
+            const modal = document.getElementById('image-modal');
+            const img = document.getElementById('modal-img-src');
+            img.src = `/api/images/${path}`;
+            modal.classList.add('active');
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
