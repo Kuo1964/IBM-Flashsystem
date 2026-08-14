@@ -107,9 +107,10 @@ async def query_knowledge_base(req: QueryRequest, request: Request):
     if len(query_text) > 500:
         raise HTTPException(status_code=400, detail="提問內容過長，請限制在 500 字以內")
 
-    # 1. 檢查語意快取 (Cache) - 命中直接回傳，零 Token 消耗
+    # 1. 檢查語意快取 (Cache) - 正規化 Key，命中直接回傳
     now = time.time()
-    cache_key = f"{query_text}_{req.top_k}"
+    normalized_query = " ".join(query_text.lower().split())
+    cache_key = f"{normalized_query}_{req.top_k}"
     if cache_key in QUERY_CACHE:
         cached_item = QUERY_CACHE[cache_key]
         if now - cached_item["timestamp"] < CACHE_TTL:
@@ -119,12 +120,12 @@ async def query_knowledge_base(req: QueryRequest, request: Request):
 
     # 2. 存取併發佇列鎖定 (Semaphore)
     async with query_semaphore:
-        # 檢索向量資料庫
-        retrieved_chunks = vector_store.query_kb(query_text=query_text, top_k=req.top_k)
+        # 檢索向量資料庫 (加入 min_similarity=0.75 門檻過濾)
+        retrieved_chunks = vector_store.query_kb(query_text=query_text, top_k=req.top_k, min_similarity=0.75)
         
         if not retrieved_chunks:
             return {
-                "answer": "抱歉，知識庫中未找到與您提問相關的 IBM FlashSystem 技術資料。",
+                "answer": "【知識庫檢索結果】：未找到相似度高於 75% 的高相關 IBM FlashSystem 官方技術文檔。請嘗試更換關鍵字（例如包含產品型號或具體技術功能名稱）。",
                 "sources": [],
                 "cached": False
             }
@@ -141,6 +142,7 @@ async def query_knowledge_base(req: QueryRequest, request: Request):
             page = meta.get("page", 1)
             item_type = meta.get("type", "text")
             image_path = meta.get("image_path", "")
+            image_id = meta.get("image_id", "")
 
             source_info = {
                 "id": idx,
@@ -148,31 +150,44 @@ async def query_knowledge_base(req: QueryRequest, request: Request):
                 "page": page,
                 "type": item_type,
                 "score": score,
-                "image_path": image_path
+                "image_path": image_path,
+                "image_id": image_id
             }
             sources_list.append(source_info)
 
             context_str += f"[{idx}] 來源: {source} (第 {page} 頁, 類型: {item_type})\n{content}\n\n"
 
-        # 呼叫 Ollama 生成專業解答
+        # 升級專家級 Prompt 結構化範本
         prompt = (
-            f"你是一位精通 IBM FlashSystem 儲存架構與紅皮書的資深技術專家。\n"
-            f"請依據以下檢索到的官方技術資料，回答使用者的問題。\n"
-            f"回答要求：\n"
-            f"1. 請使用精準、專業的【繁體中文】回答。\n"
-            f"2. 引用參考資料時請註明來源檔名與頁碼（例如：[來源: sg248520, 第 45 頁]）。\n"
-            f"3. 若資料中提及技術圖表摘要，請明確指出可參考圖表。\n\n"
+            f"你是一位精通 IBM Storage Virtualize 與 FlashSystem 儲存架構的資深首席技術專家。\n"
+            f"請嚴格依據以下從官方紅皮書與技術文檔檢索到的資料，以極度專業、結構嚴謹的【繁體中文】解答使用者的問題。\n\n"
+            f"【解答格式規範與要求】：\n"
+            f"1. **結構分明**：若涉及架構轉換、升級、配置或操作問題，必須依序劃分以下三大區塊：\n"
+            f"   - ⚠️ **一、關鍵注意事項與前置條件** (包含韌體版本要求、容量規劃、無法無縫切換等限制)\n"
+            f"   - 📋 **二、詳細轉換/設定步驟** (劃分步驟，包含 GUI 介面導覽與 CLI 具體操作指令範例)\n"
+            f"   - 🔍 **三、轉換後驗證與監控指令** (如 RPO 狀態、Volume Group 快照與防護機制)\n"
+            f"2. **精準引述**：提及任何規格或數據時，請明確標註來源文檔與頁碼（例如：[來源: sg248569, 第 45 頁]）。\n"
+            f"3. **嚴謹無空想**：答案必須完全建立在參考資料基礎上，切勿編造不存在的參數或命令。\n\n"
             f"【參考技術資料】：\n{context_str}\n"
             f"【使用者提問】：{query_text}\n\n"
-            f"【專家解答】：\n"
+            f"【資深專家解答】：\n"
         )
 
         answer_text = ""
         try:
-            async with httpx.AsyncClient(timeout=45.0) as client:
+            async with httpx.AsyncClient(timeout=60.0) as client:
                 resp = await client.post(
                     f"{config.OLLAMA_HOST}/api/generate",
-                    json={"model": config.LLM_MODEL, "prompt": prompt, "stream": False}
+                    json={
+                        "model": config.LLM_MODEL,
+                        "prompt": prompt,
+                        "stream": False,
+                        "options": {
+                            "temperature": 0.0,
+                            "top_p": 1.0,
+                            "seed": 42
+                        }
+                    }
                 )
                 if resp.status_code == 200:
                     answer_text = resp.json().get("response", "").strip()
@@ -201,11 +216,15 @@ async def query_knowledge_base(req: QueryRequest, request: Request):
 @app.get("/api/images/{image_path:path}")
 async def serve_extracted_image(image_path: str):
     """
-    提供技術圖表圖片下載與預覽（包含防範 Path Traversal 安全檢驗）
+    提供技術圖表圖片下載與預覽（修復雙斜線與絕對/相對路徑解析）
     """
-    target_path = Path(image_path)
-    if not target_path.is_absolute():
-        target_path = config.BASE_DIR / image_path
+    # 清理多餘的開頭斜線
+    clean_path = image_path.lstrip("/")
+    
+    # 嘗試作為絕對路徑或相對於 LOCAL_DATA_DIR / BASE_DIR 的路徑
+    target_path = Path("/" + clean_path) if os.path.exists("/" + clean_path) else Path(clean_path)
+    if not target_path.exists():
+        target_path = config.BASE_DIR / clean_path
 
     resolved_path = target_path.resolve()
 
@@ -220,9 +239,10 @@ async def serve_extracted_image(image_path: str):
             pass
 
     if not is_safe or not resolved_path.exists() or not resolved_path.is_file():
-        raise HTTPException(status_code=403, detail="存取拒絕：非法圖片存取路徑")
+        raise HTTPException(status_code=403, detail=f"存取拒絕或檔案不存在: {image_path}")
 
     return FileResponse(resolved_path)
+
 
 if __name__ == "__main__":
     import uvicorn

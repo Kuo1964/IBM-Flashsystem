@@ -368,7 +368,7 @@
                 const res = await fetch('/api/query', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query: queryText, top_k: 5 })
+                    body: JSON.stringify({ query: queryText, top_k: 8 })
                 });
 
                 spinner.style.display = 'none';
@@ -381,15 +381,16 @@
                         let sourcesHtml = '<div class="sources-heading">📚 參考引述官方文檔與圖表：</div><div class="sources-list">';
                         data.sources.forEach(s => {
                             let imgBtn = '';
+                            let imgLabel = s.image_id ? ` (${s.image_id})` : '';
                             if (s.type === 'image_summary' && s.image_path) {
                                 sourcesHtml += `
                                     <div class="source-item">
                                         <div>
-                                            <span class="source-tag">🖼️ [技術圖表] ${s.source} (第 ${s.page} 頁)</span>
+                                            <span class="source-tag">🖼️ [技術圖表] ${s.source} (第 ${s.page} 頁${imgLabel})</span>
                                         </div>
                                         <div>
                                             <span class="score-pill">相似度: ${(s.score * 100).toFixed(1)}%</span>
-                                            <button class="btn-view-img" onclick="openImageModal('${s.image_path}')">預覽圖表</button>
+                                            <button class="btn-view-img" onclick="openImageModal('${s.image_path.replace(/'/g, "\\'")}')">預覽圖表</button>
                                         </div>
                                     </div>
                                 `;
@@ -420,7 +421,9 @@
         function openImageModal(path) {
             const modal = document.getElementById('image-modal');
             const img = document.getElementById('modal-img-src');
-            img.src = `/api/images/${path}`;
+            // 清除前導斜線並正確處理 URI 編碼
+            const cleanPath = path ? path.replace(/^\/+/, '') : '';
+            img.src = '/api/images/' + cleanPath;
             modal.classList.add('active');
         }
 

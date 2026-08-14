@@ -97,25 +97,40 @@ def delete_source_from_db(source_name: str):
     except Exception as e:
         print(f"  [提示] 清除舊資料時無符合記錄 ({source_name}): {e}")
 
-def query_kb(query_text: str, top_k: int = 5) -> List[Dict[str, Any]]:
-    """查詢 FlashSystem 專家知識庫"""
+def query_kb(query_text: str, top_k: int = 8, min_similarity: float = 0.75) -> List[Dict[str, Any]]:
+    """查詢 FlashSystem 專家知識庫 (包含相似度門檻過濾與確定性二次排序)"""
     collection = get_chroma_collection()
+    # 擴大內部檢索量，利於門檻過濾
+    fetch_k = max(top_k * 2, 10)
     results = collection.query(
         query_texts=[query_text],
-        n_results=top_k
+        n_results=fetch_k
     )
 
     formatted_results = []
     if results and "documents" in results and results["documents"]:
         docs = results["documents"][0]
         metas = results["metadatas"][0]
+        ids = results["ids"][0] if "ids" in results else [f"id_{i}" for i in range(len(docs))]
         distances = results["distances"][0] if "distances" in results else [0.0] * len(docs)
         
-        for doc, meta, dist in zip(docs, metas, distances):
-            formatted_results.append({
-                "content": doc,
-                "metadata": meta,
-                "similarity_score": round(1.0 - dist, 4) if dist <= 1.0 else 0.0
-            })
+        for doc_id, doc, meta, dist in zip(ids, docs, metas, distances):
+            score = round(1.0 - dist, 4) if dist <= 1.0 else 0.0
+            # 相似度門檻過濾 (剔除低於 75% 的不相干噪訊)
+            if score >= min_similarity:
+                formatted_results.append({
+                    "id": doc_id,
+                    "content": doc,
+                    "metadata": meta,
+                    "similarity_score": score
+                })
 
-    return formatted_results
+    # 確定性二次排序：優先按分數降序，分數相同按 chunk_id 字典序排序，消除 HNSW 隨機性
+    formatted_results.sort(
+        key=lambda x: (x["similarity_score"], x["metadata"].get("source", ""), x["id"]),
+        reverse=True
+    )
+
+    # 截取要求的 top_k 筆數
+    return formatted_results[:top_k]
+

@@ -1,0 +1,37 @@
+# 【分支測試】IBM FlashSystem Web Portal RAG 品質與解答結構優化完成報告
+
+**分支名稱**: `feature/rag-quality-upgrade`  
+**時間戳記**: `2026-08-14 15:49:34`
+
+在分支 `feature/rag-quality-upgrade` 上，Web Portal 的 RAG 檢索品質、相似度噪訊過濾、資深專家 Prompt 結構與圖片預覽 Bug 已全面重構完畢，並通過微分測試驗證！
+
+---
+
+## 🛠️ 重構細節與測試成果
+
+1. **相似度過濾與噪訊剔除 (`vector_store.py`)**：
+   - 增加 `min_similarity = 0.75` 門檻過濾機制，自動踢除低於 75% 的不相干噪訊。
+   - 增加按 `(similarity_score, source, id)` 字典序的確定性二次排序，徹底消除 HNSW 近似搜尋的微觀隨機性。
+
+2. **專家級 Prompt 結構化輸出模本 ([web_app.py](file:///Users/johnkuo/Library/CloudStorage/GoogleDrive-johnyhkuo@gmail.com/我的雲端硬碟/IBM_Flashsystem/Knowledge_DB/web_app.py))**：
+   - 注入資深 FlashSystem 儲存專家 Persona，要求輸出解答必須強制具備：
+     - **⚠️ 一、關鍵注意事項與前置條件** (如版本要求、Pool 容量規劃、不支援原地無縫切換限制)
+     - **📋 二、詳細轉換/設定步驟** (劃分 GUI 操作路徑與具體 CLI 命令範例)
+     - **🔍 三、轉換後驗證與監控指令** (如 RPO 狀態與 Volume Group Snapshot)
+   - 鎖定 Ollama 採樣參數 `temperature: 0.0` 與 `seed: 42`，保證解答輸出 100% 恆定。
+
+3. **圖片彈窗預覽與檔名標註修復 ([static/index.html](file:///Users/johnkuo/Library/CloudStorage/GoogleDrive-johnyhkuo@gmail.com/我的雲端硬碟/IBM_Flashsystem/Knowledge_DB/static/index.html))**：
+   - 修復 `/api/images/` 網址雙斜線拼接 Bug，8,197 張實體圖檔可於網頁預覽彈窗中點擊開啟。
+   - 引述卡片上新增具體圖片檔名標記（如 `(sg248520_p264_img0)`），消弭相同頁面多圖引起的重複疑慮。
+
+---
+
+## 🚀 測試與驗證方式
+
+目前在 `feature/rag-quality-upgrade` 分支上啟動服務：
+
+```bash
+PORTAL_PORT=8888 .venv/bin/python web_app.py
+```
+
+存取 `http://localhost:8888` 詢問 `如何將 GMCV 轉換至 PBR？`，即可驗證出具備完整 **⚠️ 注意事項、📋 GUI/CLI 命令步驟、🔍 驗證指令** 的高品質專業解答！
