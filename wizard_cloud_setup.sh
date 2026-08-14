@@ -74,10 +74,10 @@ fi
 # ------------------------------------------------------------------------------
 stage_header
 say "階段 2/4: 設定 Web Cloud Portal 服務 Port 與 IP 綁定"
-step "預設 Port: 8000"
-echo -e -n "${CYAN}請輸入 Web Portal 欲使用的 Port [預設 8000]: ${NC}"
+step "建議 Port: 8888 (避開已佔用端口)"
+echo -e -n "${CYAN}請輸入 Web Portal 欲使用的 Port [預設 8888]: ${NC}"
 read -r input_port
-PORT=${input_port:-8000}
+PORT=${input_port:-8888}
 
 step "設定環境變數 PORTAL_PORT=${PORT} ..."
 export PORTAL_PORT="${PORT}"
@@ -92,6 +92,7 @@ step "說明：Cloudflare Tunnel 可讓外網/團隊同事連入本機，完全�
 echo ""
 step "選項 1: 使用本機快速公網通道 (Quick Tunnel)"
 step "選項 2: 開啟 Cloudflare Dashboard 自訂專屬安全域名"
+step "選項 3: 僅內網存取 (Local & LAN Only)"
 echo -e -n "${CYAN}請選擇 Cloudflare 通道模式 (1=Quick Tunnel / 2=自訂域名 / 3=僅內網存取) [預設 1]: ${NC}"
 read -r cf_choice
 cf_mode=${cf_choice:-1}
@@ -112,11 +113,17 @@ else
 fi
 
 # ------------------------------------------------------------------------------
-# 階段 4：啟動 Web Portal 伺服器並顯示存取資訊
+# 階段 4：啟動 Web Portal 伺服器與 Cloudflare 通道
 # ------------------------------------------------------------------------------
 stage_header
 say "階段 4/4: 啟動 IBM FlashSystem 專家系統 Web Cloud Portal"
-step "正在於本機啟動 Web 服務 (.venv/bin/python web_app.py) ..."
+step "正在本機背景啟動 Web 服務 (PORTAL_PORT=${PORT} .venv/bin/python web_app.py) ..."
+
+# 啟動本機 Web App 服務 (背景執行)
+PORTAL_PORT="${PORT}" .venv/bin/python web_app.py &
+WEB_PID=$!
+sleep 2
+
 echo ""
 success "=============================================================================="
 success "🎉 IBM FlashSystem 團隊專家系統 Web Cloud Portal 已成功準備完畢！"
@@ -130,6 +137,6 @@ if [ "$cf_mode" = "1" ] && command -v cloudflared &>/dev/null; then
     echo ""
     cloudflared tunnel --url "http://localhost:${PORT}"
 else
-    say "啟動本地服務："
-    .venv/bin/python web_app.py
+    say "本地服務已啟動 (PID: ${WEB_PID})，請於瀏覽器開啟 http://localhost:${PORT}"
+    wait ${WEB_PID}
 fi
