@@ -29,7 +29,13 @@ class OllamaEmbeddingFunction(chromadb.EmbeddingFunction):
                 else:
                     embeddings.append([0.0] * 768)
             except Exception as e:
-                print(f"[錯誤] 生成 Embedding 失敗: {e}")
+                err_str = str(e)
+                if "Operation not permitted" in err_str or "[Errno 1]" in err_str:
+                    print(f"[警告] 沙箱限制阻止了存取本地 Ollama 服務 ({self.host})。請確保在 BypassSandbox 模式或真實終端機中執行。")
+                elif "Connection refused" in err_str or "ConnectError" in err_str:
+                    print(f"[警告] 無法連線至 Ollama 服務 ({self.host})，請確認 Ollama 服務是否已啟動 (ollama serve)。")
+                else:
+                    print(f"[錯誤] 生成 Embedding 失敗: {e}")
                 embeddings.append([0.0] * 768)
         return embeddings
 

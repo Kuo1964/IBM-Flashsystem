@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBM FlashSystem 專家系統與 RAG 架構 — 技術說明文件</title>
+    <style>
+        /* System Font Stack & Design Tokens */
+        :root {
+            --bg-color: #090d16;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-accent: #00f2fe;
+            --secondary-accent: #38bdf8;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #f43f5e;
+            --code-bg: rgba(30, 41, 59, 0.8);
+            --grid-line: rgba(255, 255, 255, 0.05);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #f8fafc;
+                --card-bg: #ffffff;
+                --card-border: #e2e8f0;
+                --text-main: #0f172a;
+                --text-muted: #64748b;
+                --primary-accent: #0284c7;
+                --secondary-accent: #0369a1;
+                --success-color: #059669;
+                --warning-color: #d97706;
+                --danger-color: #e11d48;
+                --code-bg: #f1f5f9;
+                --grid-line: rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* Navigation & Header */
+        header {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1.5rem;
+        }
+        .header-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary-accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Section Layout */
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 2rem;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+        .section-num {
+            background: var(--code-bg);
+            color: var(--primary-accent);
+            border: 1px solid var(--card-border);
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        h2 { font-size: 1.4rem; font-weight: 700; }
+
+        /* Card Component */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Badges */
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            background: var(--code-bg);
+            border: 1px solid var(--card-border);
+            color: var(--secondary-accent);
+        }
+
+        /* Decision Matrix Table */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        .matrix-table th, .matrix-table td {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .matrix-table th {
+            background: var(--code-bg);
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .matrix-table tr:last-child td { border-bottom: none; }
+        .tag-chosen {
+            color: var(--success-color);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .tag-alt { color: var(--text-muted); }
+
+        /* Blast Radius Diagram Container */
+        .diagram-container {
+            width: 100%;
+            overflow-x: auto;
+            background: var(--code-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        svg { max-width: 100%; height: auto; }
+
+        /* List & Timeline */
+        .timeline-list {
+            list-style: none;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .timeline-list::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--card-border);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-dot {
+            position: absolute;
+            left: -1.5rem;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-accent);
+            border: 2px solid var(--bg-color);
+        }
+        .timeline-title { font-weight: 700; margin-bottom: 0.2rem; }
+        .timeline-body { font-size: 0.9rem; color: var(--text-muted); }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--card-border);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85em;
+            background: var(--code-bg);
+            padding: 0.15rem 0.35rem;
+            border-radius: 4px;
+            color: var(--primary-accent);
+        }
+    </style>
+</head>
+<body>
+
+<!--
+原始 MARKDOWN 摘要內容 (保留用於檢索與搜尋)：
+# IBM FlashSystem 專家系統與 RAG 架構
+摘要：
+基於 ChromaDB 本機向量資料庫、Ollama Vision (Llama3.2-Vision)、Playwright SPA 爬蟲與 Model Context Protocol (MCP) 整合的完全離線多模態 RAG 專家系統。
+支援自主 AI Agent (Antigravity, Claude Desktop) 在完全離線環境下查詢 IBM 紅皮書 (Redbooks)、SAN 拓撲圖與硬體規格。
+
+這是在做什麼：
+針對 IBM FlashSystem 儲存設備的零雲端依賴企業級知識庫。解析 48+ 本紅皮書 PDF，抽取技術架構圖表進行多模態 Vision 解析，
+並使用 Playwright 遞迴爬取 IBM Docs SPA 網頁。透過 FastMCP/MCPServer 暴露標準工具介面。
+
+為什麼選擇此架構：
+本機 ChromaDB + Ollama + MCP vs 純雲端 API vs 人工手動查詢。
+保障內部 SAN 架構拓撲零資料外洩、避免高額 API Token 費用，並達成自主 Agent 工具無縫調用。
+
+什麼情況會出錯：
+1. SQLite 檔案鎖定 (Google Drive 雲端同步衝突)：將 ChromaDB 持久化目錄隔離移至 ~/.ibm_flashsystem_kb/。
+2. FastMCP v2.0 模組架構變更：採用雙重 fallback 相容導入機制。
+3. 缺少的 Quorum 在線更換 SVC Node：Node 2145-SV1 更換至 SV3 期間若失去 Quorum 會導致集群 Panic。
+
+從中學到了什麼：
+1. 向量資料庫儲存目錄與雲端同步資料夾必須進行隔離。
+2. 雙重相容性導入是應對快速迭代的 AI SDK / MCP 協定的最佳模式。
+3. 嚴謹的 Cache 快取同步與 Quorum 驗證是 SAN 在線更換工程的防呆核心。
+-->
+
+<div class="container">
+    <header>
+        <div class="header-tag">架構與工程技術說明文件 (Explanation Workpage)</div>
+        <h1>IBM FlashSystem 專家系統與 RAG 架構</h1>
+        <p class="subtitle">完全本地化多模態 RAG 管道、Vision 圖表解析、向量引擎與 MCP Server 整合</p>
+    </header>
+
+    <!-- 區塊 1: 這是在做什麼 -->
+    <section id="what-is-this">
+        <div class="section-header">
+            <div class="section-num">1</div>
+            <h2>這是在做什麼 (What is this)</h2>
+        </div>
+        <div class="card">
+            <p>
+                本專案是一個<strong>完全本地化、多模態的檢索增強生成 (RAG) 專家系統</strong>，專為 IBM FlashSystem 儲存陣列（包含 FS5000, FS5200, FS5600, FS7300, FS9500 與 SVC 2145 等）打造。系統自動解析 48+ 本 IBM 紅皮書 (PDF)，透過 Ollama <code>llama3.2-vision</code> 多模態模型自動辨識 SAN 拓撲與 RAID 架構圖，使用 Playwright 遞迴爬取 IBM Docs 單頁應用 (SPA)，並透過標準化 Model Context Protocol (MCP) 介面提供給自主 AI Agent 直接調用。
+            </p>
+            <div class="badge-group">
+                <span class="badge">Python 3.12</span>
+                <span class="badge">ChromaDB 本機向量庫</span>
+                <span class="badge">Ollama (Nomic-Embed & Vision)</span>
+                <span class="badge">FastMCP / MCP 2.0</span>
+                <span class="badge">Playwright SPA 爬蟲</span>
+                <span class="badge">PyMuPDF 圖表提取</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 區塊 2: 為什麼選擇此架構 -->
+    <section id="why">
+        <div class="section-header">
+            <div class="section-num">2</div>
+            <h2>為什麼選擇此架構 (Why this approach)</h2>
+        </div>
+        <div class="card">
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.95rem;">
+                權衡比較 <strong>「本機離線 RAG + MCP Server」</strong> 方案與 <strong>「純雲端 LLM API」</strong> 及 <strong>「人工手動查詢」</strong> 的技術指標與效益。
+            </p>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th>架構評估維度</th>
+                        <th>本專案採用：本機 RAG + MCP Server</th>
+                        <th>替代方案：純雲端 LLM API</th>
+                        <th>替代方案：傳統人工手動檢索</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>資料安全與隱私</strong></td>
+                        <td><span class="tag-chosen">✓ 100% 離線隱私</span>（內部 SAN 拓撲零外洩）</td>
+                        <td><span class="tag-alt">✘ 存在資安風險</span>（內部 IP 與設定上傳至雲端）</td>
+                        <td><span class="tag-chosen">✓ 安全</span>（人工閱讀）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>營運成本結構</strong></td>
+                        <td><span class="tag-chosen">✓ $0 運算費用</span>（本地硬體推理）</td>
+                        <td><span class="tag-alt">✘ 按 Token 計費</span>（7萬+ Chunks 費用昂貴）</td>
+                        <td><span class="tag-alt">✘ 高昂人力成本</span>（耗費數小時查閱紅皮書）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AI Agent 工具整合</strong></td>
+                        <td><span class="tag-chosen">✓ 標準化 MCP</span>（對話框一鍵 @調用）</td>
+                        <td><span class="tag-alt">△ 須客製 API Plumbing</span></td>
+                        <td><span class="tag-alt">✘ 無法與 AI 整合</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>多模態技術圖表理解</strong></td>
+                        <td><span class="tag-chosen">✓ 自動 Vision OCR</span>（Ollama 生成繁中圖表摘要）</td>
+                        <td><span class="tag-alt">△ Vision Token 費用極高</span></td>
+                        <td><span class="tag-alt">✘ 僅靠人工肉眼辨識</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 區塊 3: 什麼情況會出錯 -->
+    <section id="break">
+        <div class="section-header">
+            <div class="section-num">3</div>
+            <h2>什麼情況會出錯 (What would break / 系統依賴與風險)</h2>
+        </div>
+        <div class="card">
+            <p style="margin-bottom: 1.25rem; color: var(--text-muted); font-size: 0.95rem;">
+                系統依賴拓撲與潛在故障模式（含嚴重點列與防呆解決方案）。
+            </p>
+            <div class="diagram-container">
+                <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background Grid -->
+                    <defs>
+                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--grid-line)" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" rx="6"/>
+
+                    <!-- Nodes -->
+                    <!-- Node 1: Ingestion / Cloud Drive -->
+                    <g transform="translate(40, 90)">
+                        <rect width="140" height="60" rx="8" fill="var(--code-bg)" stroke="var(--warning-color)" stroke-width="2"/>
+                        <text x="70" y="28" fill="var(--text-main)" font-size="12" font-weight="bold" text-anchor="middle">雲端硬碟同步</text>
+                        <text x="70" y="45" fill="var(--warning-color)" font-size="10" text-anchor="middle">SQLite 鎖定風險 ⚠️</text>
+                    </g>
+
+                    <!-- Connection 1 -> 2 -->
+                    <path d="M 180 120 L 230 120" stroke="var(--card-border)" stroke-width="2" stroke-dasharray="4"/>
+
+                    <!-- Node 2: Vector DB -->
+                    <g transform="translate(230, 90)">
+                        <rect width="150" height="60" rx="8" fill="var(--code-bg)" stroke="var(--success-color)" stroke-width="2"/>
+                        <text x="75" y="28" fill="var(--text-main)" font-size="12" font-weight="bold" text-anchor="middle">本機 ChromaDB</text>
+                        <text x="75" y="45" fill="var(--text-muted)" font-size="10" text-anchor="middle">~/.ibm_flashsystem_kb/</text>
+                    </g>
+
+                    <!-- Connection 2 -> 3 -->
+                    <path d="M 380 120 L 430 120" stroke="var(--primary-accent)" stroke-width="2"/>
+
+                    <!-- Node 3: Ollama / MCP Server -->
+                    <g transform="translate(430, 90)">
+                        <rect width="150" height="60" rx="8" fill="var(--code-bg)" stroke="var(--primary-accent)" stroke-width="2"/>
+                        <text x="75" y="28" fill="var(--text-main)" font-size="12" font-weight="bold" text-anchor="middle">mcp_server.py</text>
+                        <text x="75" y="45" fill="var(--secondary-accent)" font-size="10" text-anchor="middle">FastMCP/MCPServer 雙重相容</text>
+                    </g>
+
+                    <!-- Connection 3 -> 4 -->
+                    <path d="M 580 120 L 630 120" stroke="var(--primary-accent)" stroke-width="2"/>
+
+                    <!-- Node 4: AI Agent / SVC Operations -->
+                    <g transform="translate(630, 90)">
+                        <rect width="130" height="60" rx="8" fill="var(--code-bg)" stroke="var(--danger-color)" stroke-width="2"/>
+                        <text x="65" y="28" fill="var(--text-main)" font-size="12" font-weight="bold" text-anchor="middle">SVC Node 更換</text>
+                        <text x="65" y="45" fill="var(--danger-color)" font-size="10" text-anchor="middle">Quorum Panic 風險 🚨</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div style="margin-top: 1.25rem; font-size: 0.9rem;">
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 0.5rem;">
+                        <code style="color: var(--warning-color);">[警告] SQLite 檔案鎖定危機：</code> 若向量庫路徑放置在 Google Drive 同步資料夾內，背景同步會在批次寫入時鎖定 <code>chroma.sqlite3</code>。<em>解決方案：將持久化目錄隔離移至本機家目錄 <code>~/.ibm_flashsystem_kb/</code>。</em>
+                    </li>
+                    <li style="margin-bottom: 0.5rem;">
+                        <code style="color: var(--secondary-accent);">[提示] MCP SDK 異動破壞：</code> <code>mcp</code> 2.0 套件重構了 <code>FastMCP</code> 模組導出路徑。<em>解決方案：實作 <code>try...except ModuleNotFoundError</code> 雙重 fallback 相容導入。</em>
+                    </li>
+                    <li>
+                        <code style="color: var(--danger-color);">[嚴重] 缺少的 Quorum 在線更換風險：</code> 進行 SVC 2145-SV1 至 SV3 節點更換時，若 Active Quorum 磁碟異常，會引發 Cluster 防腦裂 Panic。<em>解決方案：強迫執行前置 <code>lsquorum</code> 檢查與 30 分鐘快取同步觀察期。</em>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 區塊 4: 從中學到了什麼 -->
+    <section id="learned">
+        <div class="section-header">
+            <div class="section-num">4</div>
+            <h2>從中學到了什麼 (What I learned)</h2>
+        </div>
+        <div class="card">
+            <ul class="timeline-list">
+                <li class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-title">本機資料庫與雲端同步資料夾必須隔離</div>
+                    <div class="timeline-body">
+                        切勿將基於 SQLite 的向量資料庫 (ChromaDB) 直接放在 Google Drive 或 OneDrive 資料夾內。背景同步進程會干擾 HNSW Compaction 與 SQLite WAL 寫入；將路徑隔離至本機 <code>~/.ibm_flashsystem_kb/</code> 可確保極致穩定的寫入效能。
+                    </div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-title">具備彈性防禦的 MCP SDK 相容性設計</div>
+                    <div class="timeline-body">
+                        快速迭代的 AI Protocol (MCP) 經常變更內部導出名稱。採用 Python <code>try...except ModuleNotFoundError</code> 的相容包裝模式，能讓工具伺服器在舊版與新版 MCP 2.0 套件下皆可無縫啟動，避免 Agent 開啟時伺服器崩潰。
+                    </div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-title">企業級 SAN 維護與在線移轉的防呆嚴謹度</div>
+                    <div class="timeline-body">
+                        在進行高風險的硬體更換工程（如 SVC 2145-SV1 到 SV3 在線替換）時，必須嚴格執行三道防線：事前 <code>lsquorum</code> 驗證、接光纖前寫入 VPD FC Port Map、以及每個節點替換完成後停留 15~30 分鐘確認快取同步。
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <span>生成時間：2026-08-07 · Antigravity AI 技術說明文件</span>
+        <span>單一獨立 HTML 檔案 (Self-contained Single-file HTML)</span>
+    </footer>
+</div>
+
+</body>
+</html>

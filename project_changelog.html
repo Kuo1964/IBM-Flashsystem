@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IBM FlashSystem 專家系統與 RAG 知識庫 - 專案開發歷程總覽 (Project Changelog)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IBM FlashSystem 專家系統與 RAG 知識庫 - 專案開發歷程總覽 (Project Changelog)</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Outfit:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
         :root {
             --bg-color: #0b0f19;
             --card-bg: rgba(22, 31, 49, 0.75);
@@ -357,175 +358,189 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo-badge">⚡ Antigravity AI Pair Programming Agent</div>
-            <h1 class="logo-title">IBM FlashSystem 專家系統與 RAG 知識庫</h1>
-            <p class="subtitle">基於 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server 的完全本地化 RAG 專家系統與多模態圖表檢索架構</p>
-            
-            <div class="action-buttons">
-                <a href="docs/implementation_plan.html" target="_blank" class="btn-link btn-plan">📖 查看 Implementation Plan (設計計畫)</a>
-                <a href="docs/walkthrough.html" target="_blank" class="btn-link btn-walkthrough">🧪 查看 Walkthrough (完成驗證報告)</a>
-                <a href="https://github.com/Kuo1964/IBM-Flashsystem" target="_blank" class="btn-link btn-github">🐙 GitHub 遠端倉庫</a>
-            </div>
-        </header>
-
-        <!-- 三方架構與統計數據 Grid -->
-        <h2 class="section-heading">📋 核心架構與數據總覽 (System Architecture & Metrics)</h2>
-        <div class="summary-grid">
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">🖼️</div>
-                    <h3 class="card-title">多模態 PDF 圖表解析</h3>
-                </div>
-                <div class="metric-value">48 本 PDF / 400+ 圖表</div>
-                <p class="timeline-desc">
-                    ▸ <b>技術圖表提取</b>：PyMuPDF 自動抽取 SAN 架構與 RAID 配置圖。<br>
+<div class="container">
+<header>
+<div class="logo-badge">⚡ Antigravity AI Pair Programming Agent</div>
+<h1 class="logo-title">IBM FlashSystem 專家系統與 RAG 知識庫</h1>
+<p class="subtitle">基於 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server 的完全本地化 RAG 專家系統與多模態圖表檢索架構</p>
+<div class="action-buttons">
+<a class="btn-link btn-plan" href="docs/implementation_plan.html" target="_blank">📖 查看 Implementation Plan (設計計畫)</a>
+<a class="btn-link btn-walkthrough" href="docs/walkthrough.html" target="_blank">🧪 查看 Walkthrough (完成驗證報告)</a>
+<a class="btn-link btn-github" href="https://github.com/Kuo1964/IBM-Flashsystem" target="_blank">🐙 GitHub 遠端倉庫</a>
+</div>
+</header>
+<!-- 三方架構與統計數據 Grid -->
+<h2 class="section-heading">📋 核心架構與數據總覽 (System Architecture &amp; Metrics)</h2>
+<div class="summary-grid">
+<div class="glass-card">
+<div class="card-header">
+<div class="card-icon">🖼️</div>
+<h3 class="card-title">多模態 PDF 圖表解析</h3>
+</div>
+<div class="metric-value">48 本 PDF / 400+ 圖表</div>
+<p class="timeline-desc">
+                    ▸ <b>技術圖表提取</b>：PyMuPDF 自動抽取 SAN 架構與 RAID 配置圖。<br/>
                     ▸ <b>Vision 模型</b>：Ollama <code>llama3.2-vision</code> 生成繁體中文圖表摘要。
                 </p>
-            </div>
-
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">🌐</div>
-                    <h3 class="card-title">動態網頁遞迴爬蟲</h3>
-                </div>
-                <div class="metric-value">5 大目錄 / 49 個章節</div>
-                <p class="timeline-desc">
-                    ▸ <b>SPA 渲染</b>：Playwright 無頭 Chromium 自動執行 JS 載入 DOM。<br>
+</div>
+<div class="glass-card">
+<div class="card-header">
+<div class="card-icon">🌐</div>
+<h3 class="card-title">動態網頁遞迴爬蟲</h3>
+</div>
+<div class="metric-value">5 大目錄 / 49 個章節</div>
+<p class="timeline-desc">
+                    ▸ <b>SPA 渲染</b>：Playwright 無頭 Chromium 自動執行 JS 載入 DOM。<br/>
                     ▸ <b>同網域限制</b>：同產品路徑自動延伸抓取，完全防護外部雜訊。
                 </p>
-            </div>
-
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">⚡</div>
-                    <h3 class="card-title">本機向量庫與 MCP Server</h3>
-                </div>
-                <div class="metric-value">70,000+ 向量 Chunks</div>
-                <p class="timeline-desc">
-                    ▸ <b>向量檢索</b>：ChromaDB 本地持久化資料庫 + <code>nomic-embed-text</code>。<br>
+</div>
+<div class="glass-card">
+<div class="card-header">
+<div class="card-icon">⚡</div>
+<h3 class="card-title">本機向量庫與 MCP Server</h3>
+</div>
+<div class="metric-value">70,000+ 向量 Chunks</div>
+<p class="timeline-desc">
+                    ▸ <b>向量檢索</b>：ChromaDB 本地持久化資料庫 + <code>nomic-embed-text</code>。<br/>
                     ▸ <b>MCP Server</b>：<code>mcp_server.py</code> 供 Antigravity / Claude Desktop 調用。
                 </p>
-            </div>
-        </div>
-
-        <!-- 搜尋與過濾列 -->
-        <h2 class="section-heading">🕒 開發變動歷程 (Change Logs Timeline)</h2>
-        <div class="controls-bar">
-            <input type="text" id="search-input" class="search-input" placeholder="🔍 搜尋變更標題或關鍵字..." oninput="filterLogs()">
-            <div class="filter-group">
-                <button class="filter-chip active" onclick="setFilter('all', this)">全部 (All)</button>
-                <button class="filter-chip" onclick="setFilter('feat', this)">全新功能 (FEAT)</button>
-                <button class="filter-chip" onclick="setFilter('fix', this)">系統修復 (FIX)</button>
-                <button class="filter-chip" onclick="setFilter('verify', this)">測試驗證 (VERIFY)</button>
-            </div>
-        </div>
-
-        <div class="timeline" id="changelog-timeline">
-
-            <!-- 變動 4 -->
-            <div class="timeline-item" data-type="verify">
-                <div class="timeline-dot success"></div>
-                <div class="timeline-content">
-                    <div class="timeline-header">
-                        <span class="timeline-title">4. 版本控管與 GitHub 遠端倉庫同步</span>
-                        <span class="badge badge-verify">VERIFY</span>
-                    </div>
-                    <p class="timeline-desc">完成全專案程式碼與紅皮書之 Git 提交並推送到 GitHub 遠端倉庫</p>
-                    <ul class="timeline-list">
-                        <li>建立 <code>.gitignore</code> 排除虛擬環境與快取，進行初次 Git 提交 (Commit <code>2d4843c</code>)</li>
-                        <li>自動調和遠端與本機分支衝突，成功推送到 <a href="https://github.com/Kuo1964/IBM-Flashsystem" target="_blank" style="color: var(--primary-accent);">Kuo1964/IBM-Flashsystem</a></li>
-                    </ul>
-                    <div class="item-actions">
-                        <a href="docs/plans/plan_20260804_v4.html" target="_blank" class="btn-sub btn-sub-plan">📄 Plan (2026-08-04)</a>
-                        <a href="docs/walkthroughs/walkthrough_20260804_v4.html" target="_blank" class="btn-sub btn-sub-wt">🧪 Walkthrough (2026-08-04)</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 變動 3 -->
-            <div class="timeline-item" data-type="feat">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="timeline-header">
-                        <span class="timeline-title">3. 升級動態網頁爬蟲與 Playwright 無頭瀏覽器渲染</span>
-                        <span class="badge badge-feat">FEAT</span>
-                    </div>
-                    <p class="timeline-desc">支援 IBM Docs 單頁應用程式 (SPA) 頁面與同網域章節目錄遞迴爬取</p>
-                    <ul class="timeline-list">
-                        <li>整合 Playwright 無頭 Chromium 瀏覽器，動態執行 JavaScript 並載入完整 DOM 內文與目錄結構</li>
-                        <li>實現同網域與同產品路徑自動爬取 (Depth-based Crawler)，累積寫入 70,000+ 筆向量 Chunk</li>
-                    </ul>
-                    <div class="item-actions">
-                        <a href="docs/plans/plan_20260804_v3.html" target="_blank" class="btn-sub btn-sub-plan">📄 Plan (2026-08-04)</a>
-                        <a href="docs/walkthroughs/walkthrough_20260804_v3.html" target="_blank" class="btn-sub btn-sub-wt">🧪 Walkthrough (2026-08-04)</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 變動 2 -->
-            <div class="timeline-item" data-type="fix">
-                <div class="timeline-dot warning"></div>
-                <div class="timeline-content">
-                    <div class="timeline-header">
-                        <span class="timeline-title">2. 修復 Google Drive 檔案鎖定與 HNSW compaction 寫入機制</span>
-                        <span class="badge badge-fix">FIX</span>
-                    </div>
-                    <p class="timeline-desc">解決 Google Drive 雲端同步導致的 SQLite 檔案鎖定，維護向量資料庫讀寫穩定度</p>
-                    <ul class="timeline-list">
-                        <li>將 ChromaDB 持久化目錄隔離至本機家目錄 (<code>~/.ibm_flashsystem_kb/vector_db</code>)</li>
-                        <li>將寫入批次縮小為 50 筆，並導入 3 次自動重試與延遲機制</li>
-                    </ul>
-                    <div class="item-actions">
-                        <a href="docs/plans/plan_20260804_v2.html" target="_blank" class="btn-sub btn-sub-plan">📄 Plan (2026-08-04)</a>
-                        <a href="docs/walkthroughs/walkthrough_20260804_v2.html" target="_blank" class="btn-sub btn-sub-wt">🧪 Walkthrough (2026-08-04)</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 變動 1 -->
-            <div class="timeline-item" data-type="feat">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="timeline-header">
-                        <span class="timeline-title">1. 全自動建置 IBM FlashSystem 本地專家系統核心</span>
-                        <span class="badge badge-feat">FEAT</span>
-                    </div>
-                    <p class="timeline-desc">整合 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server，實現跨 AI Agent 可調用之本地專家知識庫</p>
-                    <ul class="timeline-list">
-                        <li>建構 <code>config.py</code>, <code>parser.py</code>, <code>vision_processor.py</code>, <code>vector_store.py</code>, <code>ingest.py</code>, <code>mcp_server.py</code>, <code>cli.py</code></li>
-                        <li>下載安裝 Ollama <code>llama3.2-vision</code> 多模態技術圖表解析模型 (7.8 GB)</li>
-                        <li>建立增量更新機制 (SHA-256 Hash 追蹤 <code>manifest.json</code>)</li>
-                    </ul>
-                    <div class="item-actions">
-                        <a href="docs/plans/plan_20260804_v1.html" target="_blank" class="btn-sub btn-sub-plan">📄 Plan (2026-08-04)</a>
-                        <a href="docs/walkthroughs/walkthrough_20260804_v1.html" target="_blank" class="btn-sub btn-sub-wt">🧪 Walkthrough (2026-08-04)</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <footer>
-            <p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time"></span></p>
-        </footer>
-    </div>
-
-    <!-- 純前端 Modal 快照對話框 -->
-    <div class="modal" id="preview-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modal-title">文件預覽</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="modal-body">
+</div>
+</div>
+<!-- 搜尋與過濾列 -->
+<h2 class="section-heading">🕒 開發變動歷程 (Change Logs Timeline)</h2>
+<div class="controls-bar">
+<input class="search-input" id="search-input" oninput="filterLogs()" placeholder="🔍 搜尋變更標題或關鍵字..." type="text"/>
+<div class="filter-group">
+<button class="filter-chip active" onclick="setFilter('all', this)">全部 (All)</button>
+<button class="filter-chip" onclick="setFilter('feat', this)">全新功能 (FEAT)</button>
+<button class="filter-chip" onclick="setFilter('fix', this)">系統修復 (FIX)</button>
+<button class="filter-chip" onclick="setFilter('verify', this)">測試驗證 (VERIFY)</button>
+</div>
+</div>
+<div class="timeline" id="changelog-timeline">
+<!-- 變動 2 -->
+<div class="timeline-item">
+<div class="timeline-dot success"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">6. SVC 2145-SV1 至 2145-SV3 在線更換計畫技術審查與修訂</span>
+<span class="badge badge-verify">DOCS</span>
+</div>
+<p class="timeline-desc">完成專業 SVC 節點移轉 SOP 審查，強化 Quorum 檢查、快取鏡像同步與緊急回滾機制</p>
+<ul class="timeline-list">
+<li>新增【準備作業 0】Quorum 狀態 (lsquorum) 與全叢集 Error Log 清查</li><li>導入 15~30 分鐘快取同步觀察期 (lsnodecanister) 與 Config Node 身份轉移驗證</li><li>建立階段五緊急回滾與備援應變計畫 (Contingency &amp; Rollback Plan)</li>
+</ul>
+</div>
+</div>
+<!-- 變動 1 -->
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">5. MCP Server 配置與最新 mcp 2.0 套件相容性升級</span>
+<span class="badge badge-feat">FEAT</span>
+</div>
+<p class="timeline-desc">完成 Antigravity 與 Claude Desktop 之 MCP 服務整合，修復 FastMCP 相容性</p>
+<ul class="timeline-list">
+<li>新增專案 mcp_config.json 與 Claude Desktop claude_desktop_config.json 服務設定</li><li>重構 mcp_server.py 的 FastMCP / MCPServer 相容導入，解決 mcp 2.0.0 模組變更</li><li>實現對話框 @search_flashsystem_kb 直接調用本地向量資料庫與知識庫</li>
+</ul>
+</div>
+</div>
+<!-- 變動 4 -->
+<div class="timeline-item" data-type="verify">
+<div class="timeline-dot success"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">4. 版本控管與 GitHub 遠端倉庫同步</span>
+<span class="badge badge-verify">VERIFY</span>
+</div>
+<p class="timeline-desc">完成全專案程式碼與紅皮書之 Git 提交並推送到 GitHub 遠端倉庫</p>
+<ul class="timeline-list">
+<li>建立 <code>.gitignore</code> 排除虛擬環境與快取，進行初次 Git 提交 (Commit <code>2d4843c</code>)</li>
+<li>自動調和遠端與本機分支衝突，成功推送到 <a href="https://github.com/Kuo1964/IBM-Flashsystem" style="color: var(--primary-accent);" target="_blank">Kuo1964/IBM-Flashsystem</a></li>
+</ul>
+<div class="item-actions">
+<a class="btn-sub btn-sub-plan" href="docs/plans/plan_20260804_v4.html" target="_blank">📄 Plan (2026-08-04)</a>
+<a class="btn-sub btn-sub-wt" href="docs/walkthroughs/walkthrough_20260804_v4.html" target="_blank">🧪 Walkthrough (2026-08-04)</a>
+</div>
+</div>
+</div>
+<!-- 變動 3 -->
+<div class="timeline-item" data-type="feat">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">3. 升級動態網頁爬蟲與 Playwright 無頭瀏覽器渲染</span>
+<span class="badge badge-feat">FEAT</span>
+</div>
+<p class="timeline-desc">支援 IBM Docs 單頁應用程式 (SPA) 頁面與同網域章節目錄遞迴爬取</p>
+<ul class="timeline-list">
+<li>整合 Playwright 無頭 Chromium 瀏覽器，動態執行 JavaScript 並載入完整 DOM 內文與目錄結構</li>
+<li>實現同網域與同產品路徑自動爬取 (Depth-based Crawler)，累積寫入 70,000+ 筆向量 Chunk</li>
+</ul>
+<div class="item-actions">
+<a class="btn-sub btn-sub-plan" href="docs/plans/plan_20260804_v3.html" target="_blank">📄 Plan (2026-08-04)</a>
+<a class="btn-sub btn-sub-wt" href="docs/walkthroughs/walkthrough_20260804_v3.html" target="_blank">🧪 Walkthrough (2026-08-04)</a>
+</div>
+</div>
+</div>
+<!-- 變動 2 -->
+<div class="timeline-item" data-type="fix">
+<div class="timeline-dot warning"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">2. 修復 Google Drive 檔案鎖定與 HNSW compaction 寫入機制</span>
+<span class="badge badge-fix">FIX</span>
+</div>
+<p class="timeline-desc">解決 Google Drive 雲端同步導致的 SQLite 檔案鎖定，維護向量資料庫讀寫穩定度</p>
+<ul class="timeline-list">
+<li>將 ChromaDB 持久化目錄隔離至本機家目錄 (<code>~/.ibm_flashsystem_kb/vector_db</code>)</li>
+<li>將寫入批次縮小為 50 筆，並導入 3 次自動重試與延遲機制</li>
+</ul>
+<div class="item-actions">
+<a class="btn-sub btn-sub-plan" href="docs/plans/plan_20260804_v2.html" target="_blank">📄 Plan (2026-08-04)</a>
+<a class="btn-sub btn-sub-wt" href="docs/walkthroughs/walkthrough_20260804_v2.html" target="_blank">🧪 Walkthrough (2026-08-04)</a>
+</div>
+</div>
+</div>
+<!-- 變動 1 -->
+<div class="timeline-item" data-type="feat">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">1. 全自動建置 IBM FlashSystem 本地專家系統核心</span>
+<span class="badge badge-feat">FEAT</span>
+</div>
+<p class="timeline-desc">整合 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server，實現跨 AI Agent 可調用之本地專家知識庫</p>
+<ul class="timeline-list">
+<li>建構 <code>config.py</code>, <code>parser.py</code>, <code>vision_processor.py</code>, <code>vector_store.py</code>, <code>ingest.py</code>, <code>mcp_server.py</code>, <code>cli.py</code></li>
+<li>下載安裝 Ollama <code>llama3.2-vision</code> 多模態技術圖表解析模型 (7.8 GB)</li>
+<li>建立增量更新機制 (SHA-256 Hash 追蹤 <code>manifest.json</code>)</li>
+</ul>
+<div class="item-actions">
+<a class="btn-sub btn-sub-plan" href="docs/plans/plan_20260804_v1.html" target="_blank">📄 Plan (2026-08-04)</a>
+<a class="btn-sub btn-sub-wt" href="docs/walkthroughs/walkthrough_20260804_v1.html" target="_blank">🧪 Walkthrough (2026-08-04)</a>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time">2026-08-06 12:23:34</span></p>
+</footer>
+</div>
+<!-- 純前端 Modal 快照對話框 -->
+<div class="modal" id="preview-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="modal-title">文件預覽</h3>
+<button class="modal-close" onclick="closeModal()">×</button>
+</div>
+<div class="modal-body" id="modal-body">
                 載入中...
             </div>
-        </div>
-    </div>
-
-    <script>
+</div>
+</div>
+<script>
         document.getElementById('update-time').innerText = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
 
         let currentFilter = 'all';

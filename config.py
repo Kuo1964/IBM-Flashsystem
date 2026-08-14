@@ -26,7 +26,8 @@ for directory in [RAW_DATA_DIR, RAW_PDF_DIR, LOCAL_DATA_DIR, EXTRACTED_IMAGES_DI
     directory.mkdir(parents=True, exist_ok=True)
 
 # Ollama API 服務設定
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
+
 
 # Ollama 模型名稱設定
 EMBEDDING_MODEL = "nomic-embed-text"     # 文字向量化模型
