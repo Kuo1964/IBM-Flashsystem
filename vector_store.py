@@ -70,6 +70,19 @@ def delete_source_from_db(source_name: str):
     collection.delete(where={"source": source_name})
     print(f"  [資訊] 已清除來源 '{source_name}' 之舊記錄。")
 
+def is_pure_toc_chunk(text: str) -> bool:
+    """
+    判斷 chunk 是否為純目錄/導覽列超連結清單 (TOC Link Dump)
+    避免大量無技術內容的目錄清單污染 LLM Context 與引發幻覺
+    """
+    if not text:
+        return False
+    lines = [l.strip() for l in text.split('\n') if l.strip()]
+    if len(lines) < 3:
+        return False
+    link_lines = [l for l in lines if l.startswith('- [') or l.startswith('* [') or ('](/docs/' in l and len(l) < 120)]
+    return (len(link_lines) / len(lines)) >= 0.5
+
 def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: int = 10) -> List[Dict[str, Any]]:
     """
     透過 SQLite 全文關鍵字精準匹配 (Exact Lexical & Token Search)
@@ -100,7 +113,7 @@ def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: 
         conn = sqlite3.connect(str(db_path))
         c = conn.cursor()
         
-        important_tokens = [tok for tok in tokens if any(k in tok for k in ["7.68", "240", "nvme", "m.2", "fru", "part", "adapter", "fc", "32", "64", "sas", "drive", "ssd", "canister", "dimm", "03", "ag0"])]
+        important_tokens = [tok for tok in tokens if any(k in tok for k in ["7.68", "240", "nvme", "m.2", "fru", "part", "adapter", "fc", "32", "64", "sas", "drive", "ssd", "canister", "dimm", "03", "ag0", "cmmvc"])]
         if not important_tokens:
             important_tokens = list(tokens)[:4]
             
@@ -115,12 +128,15 @@ def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: 
             SELECT id, string_value 
             FROM embedding_metadata 
             WHERE key = 'chroma:document' AND {where_clause}
-            LIMIT {top_k};
+            LIMIT {top_k * 3};
             """
             c.execute(sql, params)
             rows = c.fetchall()
             if rows:
-                candidate_rows.extend(rows)
+                for r in rows:
+                    # 自動過濾純目錄導覽連結 Chunk，保留真正含有技術正文的段落
+                    if not is_pure_toc_chunk(r[1]):
+                        candidate_rows.append(r)
                 if len(candidate_rows) >= top_k:
                     break
                     
