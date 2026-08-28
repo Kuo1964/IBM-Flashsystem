@@ -125,10 +125,39 @@ class RAGEngine:
             context_str += f"{header}\n{item['content']}\n\n"
 
     @staticmethod
-    def _heal_markdown_tags(text: str) -> str:
+    def _is_truncated(text: str, finish_reason: str = "") -> bool:
         """
-        Markdown 語法自動癒合器 (Auto-Healing)
-        自動偵測並閉合未完結的代碼塊 (```) 與粗體標籤 (**)，確保前端 100% 正常渲染
+        結構完整性智能判定器 (Structural Truncation Detector)
+        精準判定文本是否在表格、清單、標點或語句中途中斷
+        """
+        if finish_reason == "MAX_TOKENS":
+            return True
+        t = text.strip()
+        if not t or len(t) < 30:
+            return False
+            
+        # 1. 檢查結尾是否為明顯未完結字元
+        if t.endswith(("|", "：", ":", "、", ",", "，", "-", "*", "(", "（", "以及", "包含", "包括", "如下", "如下：", "為：")):
+            return True
+            
+        # 2. 檢查最後一行是否為未封閉的 Markdown 表格行（例如 "| 料號 | 描述" 缺少右側 "|"）
+        lines = [line.strip() for line in t.split("\n") if line.strip()]
+        if lines:
+            last_line = lines[-1]
+            if last_line.startswith("|") and not last_line.endswith("|"):
+                return True
+                
+        # 3. 檢查未閉合的代碼區塊
+        if t.count("```") % 2 != 0:
+            return True
+            
+        return False
+
+    @classmethod
+    def _heal_markdown_tags(cls, text: str) -> str:
+        """
+        Markdown 語法與表格自動癒合器 (Auto-Healing)
+        自動偵測並閉合未完結的代碼塊 (```)、粗體標籤 (**) 與表格邊框 (|)，確保前端 100% 正常渲染
         """
         if not text:
             return ""
@@ -143,20 +172,27 @@ class RAGEngine:
         if bold_count % 2 != 0:
             text += "**"
 
+        # 3. 檢查並修復末尾未閉合表格行
+        lines = text.split("\n")
+        if lines:
+            last_line = lines[-1]
+            if last_line.strip().startswith("|") and not last_line.strip().endswith("|"):
+                lines[-1] = last_line + " |"
+                text = "\n".join(lines)
+
         return text
 
     @classmethod
     def _call_gemini_api(cls, prompt_text: str, max_tokens: int = 8192) -> str:
         """
         調用 Google Gemini API (支援 Google Search Grounding 原生即時聯網查證)
-        具備 thinkingBudget 預算保護、Search Grounding 自動補全與 MAX_TOKENS 自動斷點續寫修復
+        具備精準斷點接續 (Auto-Continuation Loop)、零截斷保證與 Markdown 自動癒合防護
         """
         if not config.GEMINI_API_KEY:
             return ""
         try:
             gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/{config.GEMINI_MODEL}:generateContent?key={config.GEMINI_API_KEY}"
             
-            # 優先嘗試具備 Google Search Grounding 聯網查證能力之請求
             payload = {
                 "contents": [{"parts": [{"text": prompt_text}]}],
                 "tools": [{"google_search": {}}],
@@ -166,12 +202,15 @@ class RAGEngine:
                 }
             }
 
+            accumulated_text = ""
+            finish_reason = ""
+
             for attempt in range(2):
                 try:
-                    with httpx.Client(timeout=60.0) as client:
+                    with httpx.Client(timeout=45.0) as client:
                         resp = client.post(gemini_url, json=payload)
                         
-                        # 若搜尋工具遇版本不相容或限制，自動降級至標準模式
+                        # 若搜尋工具遇限制，自動降級至標準模式
                         if resp.status_code != 200:
                             fallback_payload = {
                                 "contents": [{"parts": [{"text": prompt_text}]}],
@@ -190,33 +229,8 @@ class RAGEngine:
                                 cand = candidates[0]
                                 finish_reason = cand.get("finishReason", "")
                                 parts = cand.get("content", {}).get("parts", [])
-                                text = "".join(p.get("text", "") for p in parts if "text" in p).strip()
-
-                                # 防護網 2: 若觸發 MAX_TOKENS 限制，自動發起斷點接續請求
-                                if finish_reason == "MAX_TOKENS" and len(text) > 300:
-                                    print("[零截斷防護] 偵測到單次生成觸頂 (MAX_TOKENS)，啟動自動斷點續寫...")
-                                    cont_prompt = (
-                                        f"{prompt_text}\n\n"
-                                        f"【系統提示】：你先前的回答在以下內容處中斷：\n"
-                                        f"...{text[-350:]}\n\n"
-                                        f"請緊接著上述最後一個字，不要重複前文，繼續完整寫出後續所有內容直到結尾：\n"
-                                    )
-                                    cont_payload = {
-                                        "contents": [{"parts": [{"text": cont_prompt}]}],
-                                        "generationConfig": {
-                                            "temperature": 0.2,
-                                            "maxOutputTokens": 4096
-                                        }
-                                    }
-                                    c_resp = client.post(gemini_url, json=cont_payload)
-                                    if c_resp.status_code == 200:
-                                        c_cand = c_resp.json().get("candidates", [{}])[0]
-                                        c_parts = c_cand.get("content", {}).get("parts", [])
-                                        cont_text = "".join(p.get("text", "") for p in c_parts if "text" in p).strip()
-                                        if cont_text:
-                                            text = text + "\n\n" + cont_text
-
-                                return cls._heal_markdown_tags(text)
+                                accumulated_text = "".join(p.get("text", "") for p in parts if "text" in p).strip()
+                                break
                 except (httpx.TimeoutException, httpx.NetworkError) as te:
                     if attempt == 0:
                         print(f"[提示] Gemini API 網路逾時，正在進行第 2 次自動重試...")
@@ -224,6 +238,42 @@ class RAGEngine:
                         continue
                     else:
                         raise te
+
+            # 🛡️ 智能斷點接續引擎 (Auto-Continuation Loop - 發現中斷時快速接續 1 輪)
+            if cls._is_truncated(accumulated_text, finish_reason) and len(accumulated_text) > 30:
+                print(f"[零截斷保證] 偵測到輸出未完整，啟動快速斷點接續...")
+                
+                cont_prompt = (
+                    f"{prompt_text}\n\n"
+                    f"【系統提示 - 斷點續寫要求】：\n"
+                    f"你先前的回答在下方結尾處中斷：\n"
+                    f"\"\"\"\n...{accumulated_text[-250:]}\n\"\"\"\n\n"
+                    f"請緊接著上述最後一個字，絕對不要重複前文已輸出的內容，繼續完整寫出後續的所有資料（包含完整表格、參數與總結），直到全部結尾：\n"
+                )
+                
+                cont_payload = {
+                    "contents": [{"parts": [{"text": cont_prompt}]}],
+                    "generationConfig": {
+                        "temperature": 0.1,
+                        "maxOutputTokens": 4096
+                    }
+                }
+                
+                try:
+                    with httpx.Client(timeout=30.0) as client:
+                        c_resp = client.post(gemini_url, json=cont_payload)
+                        if c_resp.status_code == 200:
+                            c_cand = c_resp.json().get("candidates", [{}])[0]
+                            c_parts = c_cand.get("content", {}).get("parts", [])
+                            cont_text = "".join(p.get("text", "") for p in c_parts if "text" in p).strip()
+                            if cont_text:
+                                accumulated_text = accumulated_text + "\n" + cont_text
+                except Exception as ce:
+                    print(f"[警告] 接續請求例外: {ce}")
+
+            return cls._heal_markdown_tags(accumulated_text)
+
+
 
 
         except Exception as e:
