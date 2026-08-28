@@ -1,6 +1,6 @@
 import chromadb
 import config
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import httpx
 import uuid
 
@@ -167,10 +167,59 @@ def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: 
         print(f"[警告] 全文關鍵字檢索異常: {e}")
         return []
 
+def lookup_error_code_record(query_text: str, expanded_terms: List[str] = None) -> Optional[Dict[str, Any]]:
+    """
+    專屬結構化錯誤碼通道 (Structured Error Code Channel)
+    直接自 2,732 筆官方代碼字典庫秒級精準檢索 CMMVC / 事件代碼
+    """
+    import sqlite3
+    import re
+    
+    db_path = config.LOCAL_DATA_DIR / "error_codes.sqlite3"
+    if not db_path.exists():
+        return None
+        
+    all_str = query_text + " " + " ".join(expanded_terms or [])
+    matches = re.findall(r'(CMMVC\d{4,5}[EWIS])', all_str, re.IGNORECASE)
+    if not matches:
+        return None
+        
+    code_target = matches[0].upper()
+    try:
+        conn = sqlite3.connect(str(db_path))
+        c = conn.cursor()
+        c.execute("SELECT code, title, explanation, user_response, source, raw_text FROM error_codes WHERE code = ?", (code_target,))
+        row = c.fetchone()
+        conn.close()
+        if row:
+            code, title, exp, resp, src, raw = row
+            content_parts = [f"# {code} {title}"]
+            if exp:
+                content_parts.append(f"## Explanation\n{exp}")
+            if resp:
+                content_parts.append(f"## User response\n{resp}")
+            if raw and not exp and not resp:
+                content_parts.append(raw)
+                
+            return {
+                "id": f"err_{code}",
+                "content": "\n\n".join(content_parts),
+                "metadata": {
+                    "source": src,
+                    "page": 1,
+                    "type": "error_code_official_definition",
+                    "code": code
+                },
+                "similarity_score": 1.0
+            }
+    except Exception as e:
+        print(f"[警告] 錯誤碼字典查詢異常: {e}")
+    return None
+
 def query_kb(query_text: str, top_k: int = 25, min_similarity: float = 0.0, expanded_terms: List[str] = None) -> List[Dict[str, Any]]:
     """
     使用 ChromaDB Vector Search + SQLite Full-Text Lexical Search 雙軌混合檢索 (Hybrid Search)
-    並透過 RRF (Reciprocal Rank Fusion) 動態融合排序
+    並整合 2,732 筆官方錯誤碼字典資源組通道，透過 RRF 動態融合排序
     """
     collection = get_chroma_collection()
     
@@ -184,6 +233,13 @@ def query_kb(query_text: str, top_k: int = 25, min_similarity: float = 0.0, expa
     chunk_map: Dict[str, Dict[str, Any]] = {}
     rrf_scores: Dict[str, float] = {}
     
+    # 專屬通道 0: 結構化錯誤碼官方字典最高優先級直通車
+    err_chunk = lookup_error_code_record(query_text, expanded_terms)
+    if err_chunk:
+        cid = err_chunk["id"]
+        rrf_scores[cid] = 10.0
+        chunk_map[cid] = err_chunk
+
     # 軌道 1: 全文關鍵字精準檢索軌 (Lexical Search - 專治數字與料號表格)
     lexical_hits = lexical_search_kb(query_text, expanded_terms, top_k=15)
     for rank, item in enumerate(lexical_hits):
