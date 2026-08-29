@@ -272,6 +272,10 @@ def query_kb(query_text: str, top_k: int = 25, min_similarity: float = 0.0, expa
         q_dists = res['distances'][0] if 'distances' in res and res['distances'] else [0.0] * len(q_ids)
         
         for rank, (cid, doc, meta, dist) in enumerate(zip(q_ids, q_docs, q_metas, q_dists)):
+            # 自動過濾純目錄導覽超連結清單，防止 LLM Context 噪聲
+            if is_pure_toc_chunk(doc):
+                continue
+                
             if dist <= 2.0:
                 score = round(max(0.0, 1.0 - (dist / 2.0)), 4)
             else:
