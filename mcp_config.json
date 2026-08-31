@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ibm-flashsystem-kb": {
+      "command": "/Users/johnkuo/Library/CloudStorage/GoogleDrive-johnyhkuo@gmail.com/我的雲端硬碟/IBM_Flashsystem/Knowledge_DB/.venv/bin/python",
+      "args": [
+        "/Users/johnkuo/Library/CloudStorage/GoogleDrive-johnyhkuo@gmail.com/我的雲端硬碟/IBM_Flashsystem/Knowledge_DB/mcp_server.py"
+      ]
+    }
+  }
+}

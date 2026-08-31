@@ -1,0 +1,49 @@
+# IBM FlashSystem 全版本網址清單 (9.1.x ~ 8.5.x)
+
+# ================= 9.1 系列 =================
+# FS5000 系列
+https://www.ibm.com/docs/en/flashsystem-5x00/9.1.3
+https://www.ibm.com/docs/en/flashsystem-5x00/9.1.2
+https://www.ibm.com/docs/en/flashsystem-5x00/9.1.1
+https://www.ibm.com/docs/en/flashsystem-5x00/9.1.0
+
+# FS7000 系列
+https://www.ibm.com/docs/en/flashsystem-7x00/9.1.3
+https://www.ibm.com/docs/en/flashsystem-7x00/9.1.2
+https://www.ibm.com/docs/en/flashsystem-7x00/9.1.1
+https://www.ibm.com/docs/en/flashsystem-7x00/9.1.0
+
+# FS9000 系列
+https://www.ibm.com/docs/en/flashsystem-9x00/9.1.3
+https://www.ibm.com/docs/en/flashsystem-9x00/9.1.2
+https://www.ibm.com/docs/en/flashsystem-9x00/9.1.1
+https://www.ibm.com/docs/en/flashsystem-9x00/9.1.0
+
+# ================= 8.7 系列 =================
+# FS5000 系列
+https://www.ibm.com/docs/en/flashsystem-5x00/8.7.3
+https://www.ibm.com/docs/en/flashsystem-5x00/8.7.2
+https://www.ibm.com/docs/en/flashsystem-5x00/8.7.1
+https://www.ibm.com/docs/en/flashsystem-5x00/8.7.0
+
+# FS7000 系列
+https://www.ibm.com/docs/en/flashsystem-7x00/8.7.3
+https://www.ibm.com/docs/en/flashsystem-7x00/8.7.2
+https://www.ibm.com/docs/en/flashsystem-7x00/8.7.1
+https://www.ibm.com/docs/en/flashsystem-7x00/8.7.0
+
+# FS9000 系列
+https://www.ibm.com/docs/en/flashsystem-9x00/8.7.3
+https://www.ibm.com/docs/en/flashsystem-9x00/8.7.2
+https://www.ibm.com/docs/en/flashsystem-9x00/8.7.1
+https://www.ibm.com/docs/en/flashsystem-9x00/8.7.0
+
+# ================= 8.6 系列 =================
+https://www.ibm.com/docs/en/flashsystem-5x00/8.6.0
+https://www.ibm.com/docs/en/flashsystem-7x00/8.6.0
+https://www.ibm.com/docs/en/flashsystem-9x00/8.6.0
+
+# ================= 8.5 系列 =================
+https://www.ibm.com/docs/en/flashsystem-5x00/8.5.0
+https://www.ibm.com/docs/en/flashsystem-7x00/8.5.0
+https://www.ibm.com/docs/en/flashsystem-9x00/8.5.0

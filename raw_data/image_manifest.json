@@ -1,0 +1,3058 @@
+{
+  "sg248543_p253_img0": {
+    "status": "success",
+    "pdf": "sg248543",
+    "page": 253,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248543/page_253_img_0.jpg",
+    "summary_len": 51,
+    "engine": "Gemini (gemini-2.5-flash)"
+  },
+  "sg248543_p93_img0": {
+    "status": "success",
+    "pdf": "sg248543",
+    "page": 93,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248543/page_93_img_0.jpg",
+    "summary_len": 51,
+    "engine": "Gemini (gemini-2.5-flash)"
+  },
+  "sg248543_p95_img0": {
+    "status": "success",
+    "pdf": "sg248543",
+    "page": 95,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248543/page_95_img_0.jpg",
+    "summary_len": 888,
+    "engine": "Ollama (llava)"
+  },
+  "sg248543_p238_img0": {
+    "status": "success",
+    "pdf": "sg248543",
+    "page": 238,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248543/page_238_img_0.jpg",
+    "summary_len": 993,
+    "engine": "Ollama (llava)"
+  },
+  "sg248543_p103_img1": {
+    "status": "success",
+    "pdf": "sg248543",
+    "page": 103,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248543/page_103_img_1.jpg",
+    "summary_len": 936,
+    "engine": "Ollama (llava)"
+  },
+  "sg248543_p83_img1": {
+    "status": "success",
+    "pdf": "sg248543",
+    "page": 83,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248543/page_83_img_1.jpg",
+    "summary_len": 761,
+    "engine": "Ollama (llava)"
+  },
+  "ibm flash system best pracitical_p394_img0": {
+    "status": "success",
+    "pdf": "ibm flash system best pracitical",
+    "page": 394,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/ibm flash system best pracitical/page_394_img_0.jpg",
+    "summary_len": 1063,
+    "engine": "Ollama (llava)"
+  },
+  "ibm flash system best pracitical_p32_img0": {
+    "status": "success",
+    "pdf": "ibm flash system best pracitical",
+    "page": 32,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/ibm flash system best pracitical/page_32_img_0.jpg",
+    "summary_len": 655,
+    "engine": "Ollama (llava)"
+  },
+  "ibm flash system best pracitical_p570_img0": {
+    "status": "success",
+    "pdf": "ibm flash system best pracitical",
+    "page": 570,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/ibm flash system best pracitical/page_570_img_0.jpg",
+    "summary_len": 1779,
+    "engine": "Ollama (llava)"
+  },
+  "ibm flash system best pracitical_p1_img0": {
+    "status": "success",
+    "pdf": "ibm flash system best pracitical",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/ibm flash system best pracitical/page_1_img_0.jpg",
+    "summary_len": 980,
+    "engine": "Ollama (llava)"
+  },
+  "ibm flash system best pracitical_p50_img0": {
+    "status": "success",
+    "pdf": "ibm flash system best pracitical",
+    "page": 50,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/ibm flash system best pracitical/page_50_img_0.jpg",
+    "summary_len": 605,
+    "engine": "Ollama (llava)"
+  },
+  "ibm flash system best pracitical_p410_img0": {
+    "status": "success",
+    "pdf": "ibm flash system best pracitical",
+    "page": 410,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/ibm flash system best pracitical/page_410_img_0.jpg",
+    "summary_len": 613,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_pdfguide_p134_img0": {
+    "status": "success",
+    "pdf": "fs5300_pdfguide",
+    "page": 134,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_pdfguide/page_134_img_0.jpg",
+    "summary_len": 1072,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_pdfguide_p114_img1": {
+    "status": "success",
+    "pdf": "fs5300_pdfguide",
+    "page": 114,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_pdfguide/page_114_img_1.jpg",
+    "summary_len": 752,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_pdfguide_p87_img0": {
+    "status": "success",
+    "pdf": "fs5300_pdfguide",
+    "page": 87,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_pdfguide/page_87_img_0.jpg",
+    "summary_len": 527,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_pdfguide_p134_img1": {
+    "status": "success",
+    "pdf": "fs5300_pdfguide",
+    "page": 134,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_pdfguide/page_134_img_1.jpg",
+    "summary_len": 141,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_pdfguide_p86_img1": {
+    "status": "success",
+    "pdf": "fs5300_pdfguide",
+    "page": 86,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_pdfguide/page_86_img_1.jpg",
+    "summary_len": 653,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_pdfguide_p140_img1": {
+    "status": "success",
+    "pdf": "fs5300_pdfguide",
+    "page": 140,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_pdfguide/page_140_img_1.jpg",
+    "summary_len": 1106,
+    "engine": "Ollama (llava)"
+  },
+  "sg248542_p1010_img0": {
+    "status": "success",
+    "pdf": "sg248542",
+    "page": 1010,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248542/page_1010_img_0.jpg",
+    "summary_len": 979,
+    "engine": "Ollama (llava)"
+  },
+  "sg248542_p1009_img0": {
+    "status": "success",
+    "pdf": "sg248542",
+    "page": 1009,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248542/page_1009_img_0.jpg",
+    "summary_len": 723,
+    "engine": "Ollama (llava)"
+  },
+  "sg248542_p1008_img0": {
+    "status": "success",
+    "pdf": "sg248542",
+    "page": 1008,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248542/page_1008_img_0.jpg",
+    "summary_len": 829,
+    "engine": "Ollama (llava)"
+  },
+  "sg248542_p1004_img1": {
+    "status": "success",
+    "pdf": "sg248542",
+    "page": 1004,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248542/page_1004_img_1.jpg",
+    "summary_len": 592,
+    "engine": "Ollama (llava)"
+  },
+  "sg248542_p1006_img1": {
+    "status": "success",
+    "pdf": "sg248542",
+    "page": 1006,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248542/page_1006_img_1.jpg",
+    "summary_len": 896,
+    "engine": "Ollama (llava)"
+  },
+  "redp5586_p26_img1": {
+    "status": "success",
+    "pdf": "redp5586",
+    "page": 26,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5586/page_26_img_1.jpg",
+    "summary_len": 1159,
+    "engine": "Ollama (llava)"
+  },
+  "redp5586_p36_img1": {
+    "status": "success",
+    "pdf": "redp5586",
+    "page": 36,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5586/page_36_img_1.jpg",
+    "summary_len": 863,
+    "engine": "Ollama (llava)"
+  },
+  "redp5586_p36_img0": {
+    "status": "success",
+    "pdf": "redp5586",
+    "page": 36,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5586/page_36_img_0.jpg",
+    "summary_len": 705,
+    "engine": "Ollama (llava)"
+  },
+  "redp5586_p22_img0": {
+    "status": "success",
+    "pdf": "redp5586",
+    "page": 22,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5586/page_22_img_0.jpg",
+    "summary_len": 1061,
+    "engine": "Ollama (llava)"
+  },
+  "redp5586_p26_img0": {
+    "status": "success",
+    "pdf": "redp5586",
+    "page": 26,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5586/page_26_img_0.jpg",
+    "summary_len": 932,
+    "engine": "Ollama (llava)"
+  },
+  "redp5586_p18_img1": {
+    "status": "success",
+    "pdf": "redp5586",
+    "page": 18,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5586/page_18_img_1.jpg",
+    "summary_len": 599,
+    "engine": "Ollama (llava)"
+  },
+  "redp5587_p28_img0": {
+    "status": "success",
+    "pdf": "redp5587",
+    "page": 28,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5587/page_28_img_0.jpg",
+    "summary_len": 947,
+    "engine": "Ollama (llava)"
+  },
+  "redp5587_p39_img0": {
+    "status": "success",
+    "pdf": "redp5587",
+    "page": 39,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5587/page_39_img_0.jpg",
+    "summary_len": 1023,
+    "engine": "Ollama (llava)"
+  },
+  "redp5587_p38_img0": {
+    "status": "success",
+    "pdf": "redp5587",
+    "page": 38,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5587/page_38_img_0.jpg",
+    "summary_len": 759,
+    "engine": "Ollama (llava)"
+  },
+  "redp5587_p22_img1": {
+    "status": "success",
+    "pdf": "redp5587",
+    "page": 22,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5587/page_22_img_1.jpg",
+    "summary_len": 1001,
+    "engine": "Ollama (llava)"
+  },
+  "redp5587_p27_img1": {
+    "status": "success",
+    "pdf": "redp5587",
+    "page": 27,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5587/page_27_img_1.jpg",
+    "summary_len": 785,
+    "engine": "Ollama (llava)"
+  },
+  "redp5587_p16_img0": {
+    "status": "success",
+    "pdf": "redp5587",
+    "page": 16,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5587/page_16_img_0.jpg",
+    "summary_len": 834,
+    "engine": "Ollama (llava)"
+  },
+  "sg248569_p47_img0": {
+    "status": "success",
+    "pdf": "sg248569",
+    "page": 47,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248569/page_47_img_0.jpg",
+    "summary_len": 710,
+    "engine": "Ollama (llava)"
+  },
+  "sg248569_p49_img0": {
+    "status": "success",
+    "pdf": "sg248569",
+    "page": 49,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248569/page_49_img_0.jpg",
+    "summary_len": 1068,
+    "engine": "Ollama (llava)"
+  },
+  "sg248569_p50_img0": {
+    "status": "success",
+    "pdf": "sg248569",
+    "page": 50,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248569/page_50_img_0.jpg",
+    "summary_len": 805,
+    "engine": "Ollama (llava)"
+  },
+  "sg248569_p48_img0": {
+    "status": "success",
+    "pdf": "sg248569",
+    "page": 48,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248569/page_48_img_0.jpg",
+    "summary_len": 827,
+    "engine": "Ollama (llava)"
+  },
+  "sg248569_p47_img1": {
+    "status": "success",
+    "pdf": "sg248569",
+    "page": 47,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248569/page_47_img_1.jpg",
+    "summary_len": 587,
+    "engine": "Ollama (llava)"
+  },
+  "sg248569_p45_img0": {
+    "status": "success",
+    "pdf": "sg248569",
+    "page": 45,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248569/page_45_img_0.jpg",
+    "summary_len": 886,
+    "engine": "Ollama (llava)"
+  },
+  "redp5742_p11_img0": {
+    "status": "success",
+    "pdf": "redp5742",
+    "page": 11,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5742/page_11_img_0.jpg",
+    "summary_len": 569,
+    "engine": "Ollama (llava)"
+  },
+  "redp5742_p32_img0": {
+    "status": "success",
+    "pdf": "redp5742",
+    "page": 32,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5742/page_32_img_0.jpg",
+    "summary_len": 957,
+    "engine": "Ollama (llava)"
+  },
+  "redp5742_p24_img0": {
+    "status": "success",
+    "pdf": "redp5742",
+    "page": 24,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5742/page_24_img_0.jpg",
+    "summary_len": 934,
+    "engine": "Ollama (llava)"
+  },
+  "redp5742_p31_img0": {
+    "status": "success",
+    "pdf": "redp5742",
+    "page": 31,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5742/page_31_img_0.jpg",
+    "summary_len": 649,
+    "engine": "Ollama (llava)"
+  },
+  "redp5742_p9_img1": {
+    "status": "success",
+    "pdf": "redp5742",
+    "page": 9,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5742/page_9_img_1.jpg",
+    "summary_len": 79,
+    "engine": "Ollama (llava)"
+  },
+  "redp5742_p1_img0": {
+    "status": "success",
+    "pdf": "redp5742",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5742/page_1_img_0.jpg",
+    "summary_len": 588,
+    "engine": "Ollama (llava)"
+  },
+  "redp5597_p4_img0": {
+    "status": "success",
+    "pdf": "redp5597",
+    "page": 4,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5597/page_4_img_0.jpg",
+    "summary_len": 954,
+    "engine": "Ollama (llava)"
+  },
+  "redp5597_p1_img0": {
+    "status": "success",
+    "pdf": "redp5597",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5597/page_1_img_0.jpg",
+    "summary_len": 802,
+    "engine": "Ollama (llava)"
+  },
+  "redp5597_p6_img0": {
+    "status": "success",
+    "pdf": "redp5597",
+    "page": 6,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5597/page_6_img_0.jpg",
+    "summary_len": 61,
+    "engine": "Ollama (llava)"
+  },
+  "redp5597_p8_img0": {
+    "status": "success",
+    "pdf": "redp5597",
+    "page": 8,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5597/page_8_img_0.jpg",
+    "summary_len": 1162,
+    "engine": "Ollama (llava)"
+  },
+  "sg248586_p176_img0": {
+    "status": "success",
+    "pdf": "sg248586",
+    "page": 176,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248586/page_176_img_0.jpg",
+    "summary_len": 645,
+    "engine": "Ollama (llava)"
+  },
+  "sg248586_p177_img0": {
+    "status": "success",
+    "pdf": "sg248586",
+    "page": 177,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248586/page_177_img_0.jpg",
+    "summary_len": 710,
+    "engine": "Ollama (llava)"
+  },
+  "sg248586_p90_img0": {
+    "status": "success",
+    "pdf": "sg248586",
+    "page": 90,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248586/page_90_img_0.jpg",
+    "summary_len": 656,
+    "engine": "Ollama (llava)"
+  },
+  "sg248586_p120_img0": {
+    "status": "success",
+    "pdf": "sg248586",
+    "page": 120,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248586/page_120_img_0.jpg",
+    "summary_len": 924,
+    "engine": "Ollama (llava)"
+  },
+  "sg248586_p178_img0": {
+    "status": "success",
+    "pdf": "sg248586",
+    "page": 178,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248586/page_178_img_0.jpg",
+    "summary_len": 123,
+    "engine": "Ollama (llava)"
+  },
+  "sg248586_p84_img0": {
+    "status": "success",
+    "pdf": "sg248586",
+    "page": 84,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248586/page_84_img_0.jpg",
+    "summary_len": 884,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_install_poster_p1_img21": {
+    "status": "success",
+    "pdf": "fs5200_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_install_poster/page_1_img_21.jpg",
+    "summary_len": 873,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_install_poster_p1_img18": {
+    "status": "success",
+    "pdf": "fs5200_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_install_poster/page_1_img_18.jpg",
+    "summary_len": 911,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_install_poster_p1_img22": {
+    "status": "success",
+    "pdf": "fs5200_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_install_poster/page_1_img_22.jpg",
+    "summary_len": 853,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_install_poster_p1_img20": {
+    "status": "success",
+    "pdf": "fs5200_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_install_poster/page_1_img_20.jpg",
+    "summary_len": 579,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_install_poster_p1_img27": {
+    "status": "success",
+    "pdf": "fs5200_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_install_poster/page_1_img_27.jpg",
+    "summary_len": 846,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_install_poster_p1_img12": {
+    "status": "success",
+    "pdf": "fs5200_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_install_poster/page_1_img_12.jpg",
+    "summary_len": 1127,
+    "engine": "Ollama (llava)"
+  },
+  "sg248425_p15_img1": {
+    "status": "success",
+    "pdf": "sg248425",
+    "page": 15,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248425/page_15_img_1.jpg",
+    "summary_len": 58,
+    "engine": "Ollama (llava)"
+  },
+  "sg248425_p145_img1": {
+    "status": "success",
+    "pdf": "sg248425",
+    "page": 145,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248425/page_145_img_1.jpg",
+    "summary_len": 706,
+    "engine": "Ollama (llava)"
+  },
+  "sg248425_p14_img1": {
+    "status": "success",
+    "pdf": "sg248425",
+    "page": 14,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248425/page_14_img_1.jpg",
+    "summary_len": 872,
+    "engine": "Ollama (llava)"
+  },
+  "sg248425_p15_img0": {
+    "status": "success",
+    "pdf": "sg248425",
+    "page": 15,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248425/page_15_img_0.jpg",
+    "summary_len": 118,
+    "engine": "Ollama (llava)"
+  },
+  "sg248425_p142_img1": {
+    "status": "success",
+    "pdf": "sg248425",
+    "page": 142,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248425/page_142_img_1.jpg",
+    "summary_len": 869,
+    "engine": "Ollama (llava)"
+  },
+  "sg248425_p119_img0": {
+    "status": "success",
+    "pdf": "sg248425",
+    "page": 119,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248425/page_119_img_0.jpg",
+    "summary_len": 1494,
+    "engine": "Ollama (llava)"
+  },
+  "sg248430_p12_img2": {
+    "status": "success",
+    "pdf": "sg248430",
+    "page": 12,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248430/page_12_img_2.jpg",
+    "summary_len": 777,
+    "engine": "Ollama (llava)"
+  },
+  "sg248430_p11_img0": {
+    "status": "success",
+    "pdf": "sg248430",
+    "page": 11,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248430/page_11_img_0.jpg",
+    "summary_len": 1611,
+    "engine": "Ollama (llava)"
+  },
+  "sg248430_p54_img0": {
+    "status": "success",
+    "pdf": "sg248430",
+    "page": 54,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248430/page_54_img_0.jpg",
+    "summary_len": 68,
+    "engine": "Ollama (llava)"
+  },
+  "sg248430_p1_img0": {
+    "status": "success",
+    "pdf": "sg248430",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248430/page_1_img_0.jpg",
+    "summary_len": 85,
+    "engine": "Ollama (llava)"
+  },
+  "sg248430_p45_img0": {
+    "status": "success",
+    "pdf": "sg248430",
+    "page": 45,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248430/page_45_img_0.jpg",
+    "summary_len": 1470,
+    "engine": "Ollama (llava)"
+  },
+  "sg248430_p47_img0": {
+    "status": "success",
+    "pdf": "sg248430",
+    "page": 47,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248430/page_47_img_0.jpg",
+    "summary_len": 680,
+    "engine": "Ollama (llava)"
+  },
+  "redp5741_p9_img0": {
+    "status": "success",
+    "pdf": "redp5741",
+    "page": 9,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5741/page_9_img_0.jpg",
+    "summary_len": 965,
+    "engine": "Ollama (llava)"
+  },
+  "redp5741_p29_img1": {
+    "status": "success",
+    "pdf": "redp5741",
+    "page": 29,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5741/page_29_img_1.jpg",
+    "summary_len": 547,
+    "engine": "Ollama (llava)"
+  },
+  "redp5741_p29_img0": {
+    "status": "success",
+    "pdf": "redp5741",
+    "page": 29,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5741/page_29_img_0.jpg",
+    "summary_len": 854,
+    "engine": "Ollama (llava)"
+  },
+  "redp5741_p7_img0": {
+    "status": "success",
+    "pdf": "redp5741",
+    "page": 7,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5741/page_7_img_0.jpg",
+    "summary_len": 667,
+    "engine": "Ollama (llava)"
+  },
+  "redp5741_p24_img0": {
+    "status": "success",
+    "pdf": "redp5741",
+    "page": 24,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5741/page_24_img_0.jpg",
+    "summary_len": 947,
+    "engine": "Ollama (llava)"
+  },
+  "redp5741_p33_img1": {
+    "status": "success",
+    "pdf": "redp5741",
+    "page": 33,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5741/page_33_img_1.jpg",
+    "summary_len": 748,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_pdfguide_p223_img1": {
+    "status": "success",
+    "pdf": "fs5200_pdfguide",
+    "page": 223,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_pdfguide/page_223_img_1.jpg",
+    "summary_len": 866,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_pdfguide_p53_img0": {
+    "status": "success",
+    "pdf": "fs5200_pdfguide",
+    "page": 53,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_pdfguide/page_53_img_0.jpg",
+    "summary_len": 847,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_pdfguide_p145_img0": {
+    "status": "success",
+    "pdf": "fs5200_pdfguide",
+    "page": 145,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_pdfguide/page_145_img_0.jpg",
+    "summary_len": 680,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_pdfguide_p62_img0": {
+    "status": "success",
+    "pdf": "fs5200_pdfguide",
+    "page": 62,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_pdfguide/page_62_img_0.jpg",
+    "summary_len": 801,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_pdfguide_p63_img0": {
+    "status": "success",
+    "pdf": "fs5200_pdfguide",
+    "page": 63,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_pdfguide/page_63_img_0.jpg",
+    "summary_len": 932,
+    "engine": "Ollama (llava)"
+  },
+  "fs5200_pdfguide_p88_img0": {
+    "status": "success",
+    "pdf": "fs5200_pdfguide",
+    "page": 88,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5200_pdfguide/page_88_img_0.jpg",
+    "summary_len": 774,
+    "engine": "Ollama (llava)"
+  },
+  "sg248585_p61_img0": {
+    "status": "success",
+    "pdf": "sg248585",
+    "page": 61,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248585/page_61_img_0.jpg",
+    "summary_len": 600,
+    "engine": "Ollama (llava)"
+  },
+  "sg248585_p181_img0": {
+    "status": "success",
+    "pdf": "sg248585",
+    "page": 181,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248585/page_181_img_0.jpg",
+    "summary_len": 1013,
+    "engine": "Ollama (llava)"
+  },
+  "sg248585_p162_img0": {
+    "status": "success",
+    "pdf": "sg248585",
+    "page": 162,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248585/page_162_img_0.jpg",
+    "summary_len": 743,
+    "engine": "Ollama (llava)"
+  },
+  "sg248585_p181_img1": {
+    "status": "success",
+    "pdf": "sg248585",
+    "page": 181,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248585/page_181_img_1.jpg",
+    "summary_len": 706,
+    "engine": "Ollama (llava)"
+  },
+  "sg248585_p51_img0": {
+    "status": "success",
+    "pdf": "sg248585",
+    "page": 51,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248585/page_51_img_0.jpg",
+    "summary_len": 48,
+    "engine": "Ollama (llava)"
+  },
+  "sg248585_p49_img0": {
+    "status": "success",
+    "pdf": "sg248585",
+    "page": 49,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248585/page_49_img_0.jpg",
+    "summary_len": 1314,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_install_poster_p1_img25": {
+    "status": "success",
+    "pdf": "fs9600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_install_poster/page_1_img_25.jpg",
+    "summary_len": 790,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_install_poster_p1_img21": {
+    "status": "success",
+    "pdf": "fs9600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_install_poster/page_1_img_21.jpg",
+    "summary_len": 710,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_install_poster_p1_img20": {
+    "status": "success",
+    "pdf": "fs9600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_install_poster/page_1_img_20.jpg",
+    "summary_len": 1054,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_install_poster_p1_img18": {
+    "status": "success",
+    "pdf": "fs9600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_install_poster/page_1_img_18.jpg",
+    "summary_len": 1228,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_install_poster_p1_img22": {
+    "status": "success",
+    "pdf": "fs9600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_install_poster/page_1_img_22.jpg",
+    "summary_len": 669,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_install_poster_p1_img19": {
+    "status": "success",
+    "pdf": "fs9600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_install_poster/page_1_img_19.jpg",
+    "summary_len": 775,
+    "engine": "Ollama (llava)"
+  },
+  "svc_bkmap_cliguidebk_p1_img1": {
+    "status": "success",
+    "pdf": "svc_bkmap_cliguidebk",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/svc_bkmap_cliguidebk/page_1_img_1.jpg",
+    "summary_len": 646,
+    "engine": "Ollama (llava)"
+  },
+  "sg248520_p79_img0": {
+    "status": "success",
+    "pdf": "sg248520",
+    "page": 79,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248520/page_79_img_0.jpg",
+    "summary_len": 73,
+    "engine": "Ollama (llava)"
+  },
+  "sg248520_p66_img1": {
+    "status": "success",
+    "pdf": "sg248520",
+    "page": 66,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248520/page_66_img_1.jpg",
+    "summary_len": 722,
+    "engine": "Ollama (llava)"
+  },
+  "sg248520_p81_img0": {
+    "status": "success",
+    "pdf": "sg248520",
+    "page": 81,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248520/page_81_img_0.jpg",
+    "summary_len": 1070,
+    "engine": "Ollama (llava)"
+  },
+  "sg248520_p840_img0": {
+    "status": "success",
+    "pdf": "sg248520",
+    "page": 840,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248520/page_840_img_0.jpg",
+    "summary_len": 104,
+    "engine": "Ollama (llava)"
+  },
+  "sg248520_p99_img1": {
+    "status": "success",
+    "pdf": "sg248520",
+    "page": 99,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248520/page_99_img_1.jpg",
+    "summary_len": 916,
+    "engine": "Ollama (llava)"
+  },
+  "sg248520_p75_img0": {
+    "status": "success",
+    "pdf": "sg248520",
+    "page": 75,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248520/page_75_img_0.jpg",
+    "summary_len": 727,
+    "engine": "Ollama (llava)"
+  },
+  "sg248508_p454_img0": {
+    "status": "success",
+    "pdf": "sg248508",
+    "page": 454,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248508/page_454_img_0.jpg",
+    "summary_len": 914,
+    "engine": "Ollama (llava)"
+  },
+  "sg248508_p22_img0": {
+    "status": "success",
+    "pdf": "sg248508",
+    "page": 22,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248508/page_22_img_0.jpg",
+    "summary_len": 722,
+    "engine": "Ollama (llava)"
+  },
+  "sg248508_p639_img0": {
+    "status": "success",
+    "pdf": "sg248508",
+    "page": 639,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248508/page_639_img_0.jpg",
+    "summary_len": 822,
+    "engine": "Ollama (llava)"
+  },
+  "sg248508_p44_img0": {
+    "status": "success",
+    "pdf": "sg248508",
+    "page": 44,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248508/page_44_img_0.jpg",
+    "summary_len": 834,
+    "engine": "Ollama (llava)"
+  },
+  "sg248508_p170_img0": {
+    "status": "success",
+    "pdf": "sg248508",
+    "page": 170,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248508/page_170_img_0.jpg",
+    "summary_len": 680,
+    "engine": "Ollama (llava)"
+  },
+  "sg248508_p630_img0": {
+    "status": "success",
+    "pdf": "sg248508",
+    "page": 630,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248508/page_630_img_0.jpg",
+    "summary_len": 1089,
+    "engine": "Ollama (llava)"
+  },
+  "fs5000_pdfguide_p19_img0": {
+    "status": "success",
+    "pdf": "fs5000_pdfguide",
+    "page": 19,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5000_pdfguide/page_19_img_0.jpg",
+    "summary_len": 715,
+    "engine": "Ollama (llava)"
+  },
+  "fs5000_pdfguide_p53_img1": {
+    "status": "success",
+    "pdf": "fs5000_pdfguide",
+    "page": 53,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5000_pdfguide/page_53_img_1.jpg",
+    "summary_len": 843,
+    "engine": "Ollama (llava)"
+  },
+  "fs5000_pdfguide_p63_img0": {
+    "status": "success",
+    "pdf": "fs5000_pdfguide",
+    "page": 63,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5000_pdfguide/page_63_img_0.jpg",
+    "summary_len": 884,
+    "engine": "Ollama (llava)"
+  },
+  "fs5000_pdfguide_p63_img1": {
+    "status": "success",
+    "pdf": "fs5000_pdfguide",
+    "page": 63,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5000_pdfguide/page_63_img_1.jpg",
+    "summary_len": 741,
+    "engine": "Ollama (llava)"
+  },
+  "fs5000_pdfguide_p56_img0": {
+    "status": "success",
+    "pdf": "fs5000_pdfguide",
+    "page": 56,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5000_pdfguide/page_56_img_0.jpg",
+    "summary_len": 953,
+    "engine": "Ollama (llava)"
+  },
+  "fs5000_pdfguide_p213_img0": {
+    "status": "success",
+    "pdf": "fs5000_pdfguide",
+    "page": 213,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5000_pdfguide/page_213_img_0.jpg",
+    "summary_len": 898,
+    "engine": "Ollama (llava)"
+  },
+  "sg248521_p81_img0": {
+    "status": "success",
+    "pdf": "sg248521",
+    "page": 81,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248521/page_81_img_0.jpg",
+    "summary_len": 770,
+    "engine": "Ollama (llava)"
+  },
+  "sg248521_p749_img0": {
+    "status": "success",
+    "pdf": "sg248521",
+    "page": 749,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248521/page_749_img_0.jpg",
+    "summary_len": 1149,
+    "engine": "Ollama (llava)"
+  },
+  "sg248521_p58_img0": {
+    "status": "success",
+    "pdf": "sg248521",
+    "page": 58,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248521/page_58_img_0.jpg",
+    "summary_len": 911,
+    "engine": "Ollama (llava)"
+  },
+  "sg248521_p240_img0": {
+    "status": "success",
+    "pdf": "sg248521",
+    "page": 240,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248521/page_240_img_0.jpg",
+    "summary_len": 752,
+    "engine": "Ollama (llava)"
+  },
+  "sg248521_p717_img0": {
+    "status": "success",
+    "pdf": "sg248521",
+    "page": 717,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248521/page_717_img_0.jpg",
+    "summary_len": 1051,
+    "engine": "Ollama (llava)"
+  },
+  "sg248521_p741_img0": {
+    "status": "success",
+    "pdf": "sg248521",
+    "page": 741,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248521/page_741_img_0.jpg",
+    "summary_len": 815,
+    "engine": "Ollama (llava)"
+  },
+  "redp5524_p41_img1": {
+    "status": "success",
+    "pdf": "redp5524",
+    "page": 41,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5524/page_41_img_1.jpg",
+    "summary_len": 636,
+    "engine": "Ollama (llava)"
+  },
+  "redp5524_p27_img0": {
+    "status": "success",
+    "pdf": "redp5524",
+    "page": 27,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5524/page_27_img_0.jpg",
+    "summary_len": 712,
+    "engine": "Ollama (llava)"
+  },
+  "redp5524_p29_img0": {
+    "status": "success",
+    "pdf": "redp5524",
+    "page": 29,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5524/page_29_img_0.jpg",
+    "summary_len": 761,
+    "engine": "Ollama (llava)"
+  },
+  "redp5524_p26_img0": {
+    "status": "success",
+    "pdf": "redp5524",
+    "page": 26,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5524/page_26_img_0.jpg",
+    "summary_len": 1034,
+    "engine": "Ollama (llava)"
+  },
+  "redp5524_p41_img0": {
+    "status": "success",
+    "pdf": "redp5524",
+    "page": 41,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5524/page_41_img_0.jpg",
+    "summary_len": 829,
+    "engine": "Ollama (llava)"
+  },
+  "redp5524_p60_img1": {
+    "status": "success",
+    "pdf": "redp5524",
+    "page": 60,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5524/page_60_img_1.jpg",
+    "summary_len": 795,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_install_poster_p1_img24": {
+    "status": "success",
+    "pdf": "fs7600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_install_poster/page_1_img_24.jpg",
+    "summary_len": 811,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_install_poster_p1_img25": {
+    "status": "success",
+    "pdf": "fs7600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_install_poster/page_1_img_25.jpg",
+    "summary_len": 859,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_install_poster_p1_img20": {
+    "status": "success",
+    "pdf": "fs7600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_install_poster/page_1_img_20.jpg",
+    "summary_len": 937,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_install_poster_p1_img18": {
+    "status": "success",
+    "pdf": "fs7600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_install_poster/page_1_img_18.jpg",
+    "summary_len": 560,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_install_poster_p1_img21": {
+    "status": "success",
+    "pdf": "fs7600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_install_poster/page_1_img_21.jpg",
+    "summary_len": 949,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_install_poster_p1_img19": {
+    "status": "success",
+    "pdf": "fs7600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_install_poster/page_1_img_19.jpg",
+    "summary_len": 728,
+    "engine": "Ollama (llava)"
+  },
+  "troubleshooting_pdfguide_p1_img1": {
+    "status": "success",
+    "pdf": "troubleshooting_pdfguide",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/troubleshooting_pdfguide/page_1_img_1.jpg",
+    "summary_len": 1605,
+    "engine": "Ollama (llava)"
+  },
+  "fs7300_install_poster_p1_img28": {
+    "status": "success",
+    "pdf": "fs7300_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7300_install_poster/page_1_img_28.jpg",
+    "summary_len": 674,
+    "engine": "Ollama (llava)"
+  },
+  "fs7300_install_poster_p1_img33": {
+    "status": "success",
+    "pdf": "fs7300_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7300_install_poster/page_1_img_33.jpg",
+    "summary_len": 779,
+    "engine": "Ollama (llava)"
+  },
+  "redp5725_p20_img0": {
+    "status": "success",
+    "pdf": "redp5725",
+    "page": 20,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5725/page_20_img_0.jpg",
+    "summary_len": 851,
+    "engine": "Ollama (llava)"
+  },
+  "redp5725_p14_img0": {
+    "status": "success",
+    "pdf": "redp5725",
+    "page": 14,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5725/page_14_img_0.jpg",
+    "summary_len": 896,
+    "engine": "Ollama (llava)"
+  },
+  "redp5725_p27_img0": {
+    "status": "success",
+    "pdf": "redp5725",
+    "page": 27,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5725/page_27_img_0.jpg",
+    "summary_len": 78,
+    "engine": "Ollama (llava)"
+  },
+  "redp5725_p10_img0": {
+    "status": "success",
+    "pdf": "redp5725",
+    "page": 10,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5725/page_10_img_0.jpg",
+    "summary_len": 951,
+    "engine": "Ollama (llava)"
+  },
+  "redp5725_p15_img0": {
+    "status": "success",
+    "pdf": "redp5725",
+    "page": 15,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5725/page_15_img_0.jpg",
+    "summary_len": 522,
+    "engine": "Ollama (llava)"
+  },
+  "redp5725_p19_img0": {
+    "status": "success",
+    "pdf": "redp5725",
+    "page": 19,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5725/page_19_img_0.jpg",
+    "summary_len": 524,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448-2021_p406_img0": {
+    "status": "success",
+    "pdf": "sg248448-2021",
+    "page": 406,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448-2021/page_406_img_0.jpg",
+    "summary_len": 639,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448-2021_p395_img0": {
+    "status": "success",
+    "pdf": "sg248448-2021",
+    "page": 395,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448-2021/page_395_img_0.jpg",
+    "summary_len": 875,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448-2021_p379_img0": {
+    "status": "success",
+    "pdf": "sg248448-2021",
+    "page": 379,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448-2021/page_379_img_0.jpg",
+    "summary_len": 1091,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448-2021_p222_img0": {
+    "status": "success",
+    "pdf": "sg248448-2021",
+    "page": 222,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448-2021/page_222_img_0.jpg",
+    "summary_len": 873,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448-2021_p403_img0": {
+    "status": "success",
+    "pdf": "sg248448-2021",
+    "page": 403,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448-2021/page_403_img_0.jpg",
+    "summary_len": 810,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448-2021_p24_img0": {
+    "status": "success",
+    "pdf": "sg248448-2021",
+    "page": 24,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448-2021/page_24_img_0.jpg",
+    "summary_len": 892,
+    "engine": "Ollama (llava)"
+  },
+  "sg248491_p199_img1": {
+    "status": "success",
+    "pdf": "sg248491",
+    "page": 199,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248491/page_199_img_1.jpg",
+    "summary_len": 59,
+    "engine": "Ollama (llava)"
+  },
+  "sg248491_p200_img1": {
+    "status": "success",
+    "pdf": "sg248491",
+    "page": 200,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248491/page_200_img_1.jpg",
+    "summary_len": 491,
+    "engine": "Ollama (llava)"
+  },
+  "sg248491_p694_img1": {
+    "status": "success",
+    "pdf": "sg248491",
+    "page": 694,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248491/page_694_img_1.jpg",
+    "summary_len": 68,
+    "engine": "Ollama (llava)"
+  },
+  "sg248491_p932_img0": {
+    "status": "success",
+    "pdf": "sg248491",
+    "page": 932,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248491/page_932_img_0.jpg",
+    "summary_len": 692,
+    "engine": "Ollama (llava)"
+  },
+  "sg248491_p931_img0": {
+    "status": "success",
+    "pdf": "sg248491",
+    "page": 931,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248491/page_931_img_0.jpg",
+    "summary_len": 657,
+    "engine": "Ollama (llava)"
+  },
+  "sg248491_p783_img0": {
+    "status": "success",
+    "pdf": "sg248491",
+    "page": 783,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248491/page_783_img_0.jpg",
+    "summary_len": 990,
+    "engine": "Ollama (llava)"
+  },
+  "redp5669_p36_img0": {
+    "status": "success",
+    "pdf": "redp5669",
+    "page": 36,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5669/page_36_img_0.jpg",
+    "summary_len": 615,
+    "engine": "Ollama (llava)"
+  },
+  "redp5669_p43_img0": {
+    "status": "success",
+    "pdf": "redp5669",
+    "page": 43,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5669/page_43_img_0.jpg",
+    "summary_len": 844,
+    "engine": "Ollama (llava)"
+  },
+  "redp5669_p28_img0": {
+    "status": "success",
+    "pdf": "redp5669",
+    "page": 28,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5669/page_28_img_0.jpg",
+    "summary_len": 883,
+    "engine": "Ollama (llava)"
+  },
+  "redp5669_p50_img0": {
+    "status": "success",
+    "pdf": "redp5669",
+    "page": 50,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5669/page_50_img_0.jpg",
+    "summary_len": 997,
+    "engine": "Ollama (llava)"
+  },
+  "redp5669_p35_img0": {
+    "status": "success",
+    "pdf": "redp5669",
+    "page": 35,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5669/page_35_img_0.jpg",
+    "summary_len": 700,
+    "engine": "Ollama (llava)"
+  },
+  "redp5669_p23_img0": {
+    "status": "success",
+    "pdf": "redp5669",
+    "page": 23,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5669/page_23_img_0.jpg",
+    "summary_len": 117,
+    "engine": "Ollama (llava)"
+  },
+  "redp5654_p1_img0": {
+    "status": "success",
+    "pdf": "redp5654",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5654/page_1_img_0.jpg",
+    "summary_len": 781,
+    "engine": "Ollama (llava)"
+  },
+  "redp5654_p46_img1": {
+    "status": "success",
+    "pdf": "redp5654",
+    "page": 46,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5654/page_46_img_1.jpg",
+    "summary_len": 823,
+    "engine": "Ollama (llava)"
+  },
+  "redp5654_p54_img1": {
+    "status": "success",
+    "pdf": "redp5654",
+    "page": 54,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5654/page_54_img_1.jpg",
+    "summary_len": 67,
+    "engine": "Ollama (llava)"
+  },
+  "redp5654_p30_img0": {
+    "status": "success",
+    "pdf": "redp5654",
+    "page": 30,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5654/page_30_img_0.jpg",
+    "summary_len": 756,
+    "engine": "Ollama (llava)"
+  },
+  "redp5654_p46_img0": {
+    "status": "success",
+    "pdf": "redp5654",
+    "page": 46,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5654/page_46_img_0.jpg",
+    "summary_len": 244,
+    "engine": "Ollama (llava)"
+  },
+  "redp5654_p54_img0": {
+    "status": "success",
+    "pdf": "redp5654",
+    "page": 54,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5654/page_54_img_0.jpg",
+    "summary_len": 133,
+    "engine": "Ollama (llava)"
+  },
+  "redp5668_p31_img1": {
+    "status": "success",
+    "pdf": "redp5668",
+    "page": 31,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5668/page_31_img_1.jpg",
+    "summary_len": 733,
+    "engine": "Ollama (llava)"
+  },
+  "redp5668_p31_img0": {
+    "status": "success",
+    "pdf": "redp5668",
+    "page": 31,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5668/page_31_img_0.jpg",
+    "summary_len": 835,
+    "engine": "Ollama (llava)"
+  },
+  "redp5668_p9_img0": {
+    "status": "success",
+    "pdf": "redp5668",
+    "page": 9,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5668/page_9_img_0.jpg",
+    "summary_len": 619,
+    "engine": "Ollama (llava)"
+  },
+  "redp5668_p26_img0": {
+    "status": "success",
+    "pdf": "redp5668",
+    "page": 26,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5668/page_26_img_0.jpg",
+    "summary_len": 1147,
+    "engine": "Ollama (llava)"
+  },
+  "redp5668_p20_img0": {
+    "status": "success",
+    "pdf": "redp5668",
+    "page": 20,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5668/page_20_img_0.jpg",
+    "summary_len": 628,
+    "engine": "Ollama (llava)"
+  },
+  "redp5668_p44_img0": {
+    "status": "success",
+    "pdf": "redp5668",
+    "page": 44,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5668/page_44_img_0.jpg",
+    "summary_len": 853,
+    "engine": "Ollama (llava)"
+  },
+  "redp5734_p15_img0": {
+    "status": "success",
+    "pdf": "redp5734",
+    "page": 15,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5734/page_15_img_0.jpg",
+    "summary_len": 1335,
+    "engine": "Ollama (llava)"
+  },
+  "redp5734_p43_img0": {
+    "status": "success",
+    "pdf": "redp5734",
+    "page": 43,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5734/page_43_img_0.jpg",
+    "summary_len": 550,
+    "engine": "Ollama (llava)"
+  },
+  "redp5734_p41_img0": {
+    "status": "success",
+    "pdf": "redp5734",
+    "page": 41,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5734/page_41_img_0.jpg",
+    "summary_len": 1195,
+    "engine": "Ollama (llava)"
+  },
+  "redp5734_p22_img0": {
+    "status": "success",
+    "pdf": "redp5734",
+    "page": 22,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5734/page_22_img_0.jpg",
+    "summary_len": 108,
+    "engine": "Ollama (llava)"
+  },
+  "redp5734_p46_img0": {
+    "status": "success",
+    "pdf": "redp5734",
+    "page": 46,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5734/page_46_img_0.jpg",
+    "summary_len": 712,
+    "engine": "Ollama (llava)"
+  },
+  "redp5734_p39_img0": {
+    "status": "success",
+    "pdf": "redp5734",
+    "page": 39,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5734/page_39_img_0.jpg",
+    "summary_len": 797,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_pdfguide_p84_img0": {
+    "status": "success",
+    "pdf": "fs5600_pdfguide",
+    "page": 84,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_pdfguide/page_84_img_0.jpg",
+    "summary_len": 102,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_pdfguide_p132_img0": {
+    "status": "success",
+    "pdf": "fs5600_pdfguide",
+    "page": 132,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_pdfguide/page_132_img_0.jpg",
+    "summary_len": 44,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_pdfguide_p48_img1": {
+    "status": "success",
+    "pdf": "fs5600_pdfguide",
+    "page": 48,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_pdfguide/page_48_img_1.jpg",
+    "summary_len": 884,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_pdfguide_p141_img1": {
+    "status": "success",
+    "pdf": "fs5600_pdfguide",
+    "page": 141,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_pdfguide/page_141_img_1.jpg",
+    "summary_len": 831,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_pdfguide_p113_img1": {
+    "status": "success",
+    "pdf": "fs5600_pdfguide",
+    "page": 113,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_pdfguide/page_113_img_1.jpg",
+    "summary_len": 719,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_pdfguide_p85_img1": {
+    "status": "success",
+    "pdf": "fs5600_pdfguide",
+    "page": 85,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_pdfguide/page_85_img_1.jpg",
+    "summary_len": 817,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_install_poster_p1_img12": {
+    "status": "success",
+    "pdf": "fs5300_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_install_poster/page_1_img_12.jpg",
+    "summary_len": 871,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_install_poster_p1_img20": {
+    "status": "success",
+    "pdf": "fs5300_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_install_poster/page_1_img_20.jpg",
+    "summary_len": 94,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_install_poster_p1_img17": {
+    "status": "success",
+    "pdf": "fs5300_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_install_poster/page_1_img_17.jpg",
+    "summary_len": 732,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_install_poster_p1_img22": {
+    "status": "success",
+    "pdf": "fs5300_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_install_poster/page_1_img_22.jpg",
+    "summary_len": 793,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_install_poster_p1_img19": {
+    "status": "success",
+    "pdf": "fs5300_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_install_poster/page_1_img_19.jpg",
+    "summary_len": 1108,
+    "engine": "Ollama (llava)"
+  },
+  "fs5300_install_poster_p1_img0": {
+    "status": "success",
+    "pdf": "fs5300_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5300_install_poster/page_1_img_0.jpg",
+    "summary_len": 766,
+    "engine": "Ollama (llava)"
+  },
+  "sg248492_p35_img0": {
+    "status": "success",
+    "pdf": "sg248492",
+    "page": 35,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248492/page_35_img_0.jpg",
+    "summary_len": 42,
+    "engine": "Ollama (llava)"
+  },
+  "sg248492_p214_img1": {
+    "status": "success",
+    "pdf": "sg248492",
+    "page": 214,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248492/page_214_img_1.jpg",
+    "summary_len": 69,
+    "engine": "Ollama (llava)"
+  },
+  "sg248492_p229_img0": {
+    "status": "success",
+    "pdf": "sg248492",
+    "page": 229,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248492/page_229_img_0.jpg",
+    "summary_len": 797,
+    "engine": "Ollama (llava)"
+  },
+  "sg248492_p718_img1": {
+    "status": "success",
+    "pdf": "sg248492",
+    "page": 718,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248492/page_718_img_1.jpg",
+    "summary_len": 791,
+    "engine": "Ollama (llava)"
+  },
+  "sg248492_p954_img0": {
+    "status": "success",
+    "pdf": "sg248492",
+    "page": 954,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248492/page_954_img_0.jpg",
+    "summary_len": 96,
+    "engine": "Ollama (llava)"
+  },
+  "sg248492_p233_img1": {
+    "status": "success",
+    "pdf": "sg248492",
+    "page": 233,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248492/page_233_img_1.jpg",
+    "summary_len": 945,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_install_poster_p1_img25": {
+    "status": "success",
+    "pdf": "fs5600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_install_poster/page_1_img_25.jpg",
+    "summary_len": 943,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_install_poster_p1_img0": {
+    "status": "success",
+    "pdf": "fs5600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_install_poster/page_1_img_0.jpg",
+    "summary_len": 577,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_install_poster_p1_img15": {
+    "status": "success",
+    "pdf": "fs5600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_install_poster/page_1_img_15.jpg",
+    "summary_len": 688,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_install_poster_p1_img12": {
+    "status": "success",
+    "pdf": "fs5600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_install_poster/page_1_img_12.jpg",
+    "summary_len": 768,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_install_poster_p1_img24": {
+    "status": "success",
+    "pdf": "fs5600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_install_poster/page_1_img_24.jpg",
+    "summary_len": 669,
+    "engine": "Ollama (llava)"
+  },
+  "fs5600_install_poster_p1_img16": {
+    "status": "success",
+    "pdf": "fs5600_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs5600_install_poster/page_1_img_16.jpg",
+    "summary_len": 669,
+    "engine": "Ollama (llava)"
+  },
+  "redp5737_p35_img0": {
+    "status": "success",
+    "pdf": "redp5737",
+    "page": 35,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5737/page_35_img_0.jpg",
+    "summary_len": 708,
+    "engine": "Ollama (llava)"
+  },
+  "redp5737_p53_img0": {
+    "status": "success",
+    "pdf": "redp5737",
+    "page": 53,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5737/page_53_img_0.jpg",
+    "summary_len": 932,
+    "engine": "Ollama (llava)"
+  },
+  "redp5737_p52_img0": {
+    "status": "success",
+    "pdf": "redp5737",
+    "page": 52,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5737/page_52_img_0.jpg",
+    "summary_len": 627,
+    "engine": "Ollama (llava)"
+  },
+  "redp5737_p32_img0": {
+    "status": "success",
+    "pdf": "redp5737",
+    "page": 32,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5737/page_32_img_0.jpg",
+    "summary_len": 739,
+    "engine": "Ollama (llava)"
+  },
+  "redp5737_p36_img0": {
+    "status": "success",
+    "pdf": "redp5737",
+    "page": 36,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5737/page_36_img_0.jpg",
+    "summary_len": 65,
+    "engine": "Ollama (llava)"
+  },
+  "redp5737_p66_img0": {
+    "status": "success",
+    "pdf": "redp5737",
+    "page": 66,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5737/page_66_img_0.jpg",
+    "summary_len": 71,
+    "engine": "Ollama (llava)"
+  },
+  "fs9200_pdfguide_p57_img0": {
+    "status": "success",
+    "pdf": "fs9200_pdfguide",
+    "page": 57,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9200_pdfguide/page_57_img_0.jpg",
+    "summary_len": 987,
+    "engine": "Ollama (llava)"
+  },
+  "fs9200_pdfguide_p64_img0": {
+    "status": "success",
+    "pdf": "fs9200_pdfguide",
+    "page": 64,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9200_pdfguide/page_64_img_0.jpg",
+    "summary_len": 614,
+    "engine": "Ollama (llava)"
+  },
+  "fs9200_pdfguide_p64_img1": {
+    "status": "success",
+    "pdf": "fs9200_pdfguide",
+    "page": 64,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9200_pdfguide/page_64_img_1.jpg",
+    "summary_len": 627,
+    "engine": "Ollama (llava)"
+  },
+  "fs9200_pdfguide_p152_img3": {
+    "status": "success",
+    "pdf": "fs9200_pdfguide",
+    "page": 152,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9200_pdfguide/page_152_img_3.jpg",
+    "summary_len": 915,
+    "engine": "Ollama (llava)"
+  },
+  "fs9200_pdfguide_p268_img0": {
+    "status": "success",
+    "pdf": "fs9200_pdfguide",
+    "page": 268,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9200_pdfguide/page_268_img_0.jpg",
+    "summary_len": 1290,
+    "engine": "Ollama (llava)"
+  },
+  "fs9200_pdfguide_p269_img0": {
+    "status": "success",
+    "pdf": "fs9200_pdfguide",
+    "page": 269,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9200_pdfguide/page_269_img_0.jpg",
+    "summary_len": 583,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448_p406_img0": {
+    "status": "success",
+    "pdf": "sg248448",
+    "page": 406,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448/page_406_img_0.jpg",
+    "summary_len": 861,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448_p395_img0": {
+    "status": "success",
+    "pdf": "sg248448",
+    "page": 395,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448/page_395_img_0.jpg",
+    "summary_len": 686,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448_p379_img0": {
+    "status": "success",
+    "pdf": "sg248448",
+    "page": 379,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448/page_379_img_0.jpg",
+    "summary_len": 700,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448_p222_img0": {
+    "status": "success",
+    "pdf": "sg248448",
+    "page": 222,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448/page_222_img_0.jpg",
+    "summary_len": 89,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448_p403_img0": {
+    "status": "success",
+    "pdf": "sg248448",
+    "page": 403,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448/page_403_img_0.jpg",
+    "summary_len": 811,
+    "engine": "Ollama (llava)"
+  },
+  "sg248448_p24_img0": {
+    "status": "success",
+    "pdf": "sg248448",
+    "page": 24,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248448/page_24_img_0.jpg",
+    "summary_len": 1158,
+    "engine": "Ollama (llava)"
+  },
+  "sg247933_V8.2_p18_img2": {
+    "status": "success",
+    "pdf": "sg247933_V8.2",
+    "page": 18,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247933_V8.2/page_18_img_2.jpg",
+    "summary_len": 87,
+    "engine": "Ollama (llava)"
+  },
+  "sg247933_V8.2_p1_img0": {
+    "status": "success",
+    "pdf": "sg247933_V8.2",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247933_V8.2/page_1_img_0.jpg",
+    "summary_len": 603,
+    "engine": "Ollama (llava)"
+  },
+  "sg247933_V8.2_p19_img0": {
+    "status": "success",
+    "pdf": "sg247933_V8.2",
+    "page": 19,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247933_V8.2/page_19_img_0.jpg",
+    "summary_len": 523,
+    "engine": "Ollama (llava)"
+  },
+  "sg247933_V8.2_p25_img0": {
+    "status": "success",
+    "pdf": "sg247933_V8.2",
+    "page": 25,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247933_V8.2/page_25_img_0.jpg",
+    "summary_len": 1564,
+    "engine": "Ollama (llava)"
+  },
+  "sg247933_V8.2_p117_img0": {
+    "status": "success",
+    "pdf": "sg247933_V8.2",
+    "page": 117,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247933_V8.2/page_117_img_0.jpg",
+    "summary_len": 1057,
+    "engine": "Ollama (llava)"
+  },
+  "sg247933_V8.2_p201_img0": {
+    "status": "success",
+    "pdf": "sg247933_V8.2",
+    "page": 201,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247933_V8.2/page_201_img_0.jpg",
+    "summary_len": 107,
+    "engine": "Ollama (llava)"
+  },
+  "sg248474_p10_img1": {
+    "status": "success",
+    "pdf": "sg248474",
+    "page": 10,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248474/page_10_img_1.jpg",
+    "summary_len": 777,
+    "engine": "Ollama (llava)"
+  },
+  "sg248474_p10_img0": {
+    "status": "success",
+    "pdf": "sg248474",
+    "page": 10,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248474/page_10_img_0.jpg",
+    "summary_len": 84,
+    "engine": "Ollama (llava)"
+  },
+  "sg248474_p10_img2": {
+    "status": "success",
+    "pdf": "sg248474",
+    "page": 10,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248474/page_10_img_2.jpg",
+    "summary_len": 94,
+    "engine": "Ollama (llava)"
+  },
+  "sg248474_p1_img0": {
+    "status": "success",
+    "pdf": "sg248474",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248474/page_1_img_0.jpg",
+    "summary_len": 620,
+    "engine": "Ollama (llava)"
+  },
+  "sg248474_p56_img0": {
+    "status": "success",
+    "pdf": "sg248474",
+    "page": 56,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248474/page_56_img_0.jpg",
+    "summary_len": 1051,
+    "engine": "Ollama (llava)"
+  },
+  "sg248474_p9_img0": {
+    "status": "success",
+    "pdf": "sg248474",
+    "page": 9,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248474/page_9_img_0.jpg",
+    "summary_len": 1094,
+    "engine": "Ollama (llava)"
+  },
+  "sg247521_2020_p333_img0": {
+    "status": "success",
+    "pdf": "sg247521_2020",
+    "page": 333,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247521_2020/page_333_img_0.jpg",
+    "summary_len": 913,
+    "engine": "Ollama (llava)"
+  },
+  "sg247521_2020_p484_img0": {
+    "status": "success",
+    "pdf": "sg247521_2020",
+    "page": 484,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247521_2020/page_484_img_0.jpg",
+    "summary_len": 974,
+    "engine": "Ollama (llava)"
+  },
+  "sg247521_2020_p54_img0": {
+    "status": "success",
+    "pdf": "sg247521_2020",
+    "page": 54,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247521_2020/page_54_img_0.jpg",
+    "summary_len": 894,
+    "engine": "Ollama (llava)"
+  },
+  "sg247521_2020_p53_img0": {
+    "status": "success",
+    "pdf": "sg247521_2020",
+    "page": 53,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247521_2020/page_53_img_0.jpg",
+    "summary_len": 1146,
+    "engine": "Ollama (llava)"
+  },
+  "sg247521_2020_p58_img0": {
+    "status": "success",
+    "pdf": "sg247521_2020",
+    "page": 58,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247521_2020/page_58_img_0.jpg",
+    "summary_len": 834,
+    "engine": "Ollama (llava)"
+  },
+  "sg247521_2020_p263_img0": {
+    "status": "success",
+    "pdf": "sg247521_2020",
+    "page": 263,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg247521_2020/page_263_img_0.jpg",
+    "summary_len": 899,
+    "engine": "Ollama (llava)"
+  },
+  "sg248502_p27_img1": {
+    "status": "success",
+    "pdf": "sg248502",
+    "page": 27,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248502/page_27_img_1.jpg",
+    "summary_len": 738,
+    "engine": "Ollama (llava)"
+  },
+  "sg248502_p566_img0": {
+    "status": "success",
+    "pdf": "sg248502",
+    "page": 566,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248502/page_566_img_0.jpg",
+    "summary_len": 833,
+    "engine": "Ollama (llava)"
+  },
+  "sg248502_p392_img0": {
+    "status": "success",
+    "pdf": "sg248502",
+    "page": 392,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248502/page_392_img_0.jpg",
+    "summary_len": 866,
+    "engine": "Ollama (llava)"
+  },
+  "sg248502_p150_img0": {
+    "status": "success",
+    "pdf": "sg248502",
+    "page": 150,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248502/page_150_img_0.jpg",
+    "summary_len": 876,
+    "engine": "Ollama (llava)"
+  },
+  "sg248502_p558_img0": {
+    "status": "success",
+    "pdf": "sg248502",
+    "page": 558,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248502/page_558_img_0.jpg",
+    "summary_len": 674,
+    "engine": "Ollama (llava)"
+  },
+  "sg248502_p516_img0": {
+    "status": "success",
+    "pdf": "sg248502",
+    "page": 516,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248502/page_516_img_0.jpg",
+    "summary_len": 1080,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_pdfguide_p189_img0": {
+    "status": "success",
+    "pdf": "fs9500_pdfguide",
+    "page": 189,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_pdfguide/page_189_img_0.jpg",
+    "summary_len": 780,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_pdfguide_p60_img0": {
+    "status": "success",
+    "pdf": "fs9500_pdfguide",
+    "page": 60,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_pdfguide/page_60_img_0.jpg",
+    "summary_len": 791,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_pdfguide_p55_img0": {
+    "status": "success",
+    "pdf": "fs9500_pdfguide",
+    "page": 55,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_pdfguide/page_55_img_0.jpg",
+    "summary_len": 785,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_pdfguide_p192_img1": {
+    "status": "success",
+    "pdf": "fs9500_pdfguide",
+    "page": 192,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_pdfguide/page_192_img_1.jpg",
+    "summary_len": 971,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_pdfguide_p193_img0": {
+    "status": "success",
+    "pdf": "fs9500_pdfguide",
+    "page": 193,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_pdfguide/page_193_img_0.jpg",
+    "summary_len": 810,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_pdfguide_p131_img0": {
+    "status": "success",
+    "pdf": "fs9500_pdfguide",
+    "page": 131,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_pdfguide/page_131_img_0.jpg",
+    "summary_len": 700,
+    "engine": "Ollama (llava)"
+  },
+  "redp5670_p20_img0": {
+    "status": "success",
+    "pdf": "redp5670",
+    "page": 20,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5670/page_20_img_0.jpg",
+    "summary_len": 681,
+    "engine": "Ollama (llava)"
+  },
+  "redp5670_p19_img0": {
+    "status": "success",
+    "pdf": "redp5670",
+    "page": 19,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5670/page_19_img_0.jpg",
+    "summary_len": 904,
+    "engine": "Ollama (llava)"
+  },
+  "redp5670_p16_img0": {
+    "status": "success",
+    "pdf": "redp5670",
+    "page": 16,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5670/page_16_img_0.jpg",
+    "summary_len": 865,
+    "engine": "Ollama (llava)"
+  },
+  "redp5670_p1_img0": {
+    "status": "success",
+    "pdf": "redp5670",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5670/page_1_img_0.jpg",
+    "summary_len": 75,
+    "engine": "Ollama (llava)"
+  },
+  "redp5670_p18_img0": {
+    "status": "success",
+    "pdf": "redp5670",
+    "page": 18,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5670/page_18_img_0.jpg",
+    "summary_len": 959,
+    "engine": "Ollama (llava)"
+  },
+  "redp5670_p28_img0": {
+    "status": "success",
+    "pdf": "redp5670",
+    "page": 28,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5670/page_28_img_0.jpg",
+    "summary_len": 826,
+    "engine": "Ollama (llava)"
+  },
+  "FlashSystem900_OOPS_BestPractices_1.12_p4_img0": {
+    "status": "success",
+    "pdf": "FlashSystem900_OOPS_BestPractices_1.12",
+    "page": 4,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/FlashSystem900_OOPS_BestPractices_1.12/page_4_img_0.jpg",
+    "summary_len": 52,
+    "engine": "Ollama (llava)"
+  },
+  "redp5466_p141_img18": {
+    "status": "success",
+    "pdf": "redp5466",
+    "page": 141,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5466/page_141_img_18.jpg",
+    "summary_len": 917,
+    "engine": "Ollama (llava)"
+  },
+  "redp5466_p1_img0": {
+    "status": "success",
+    "pdf": "redp5466",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5466/page_1_img_0.jpg",
+    "summary_len": 755,
+    "engine": "Ollama (llava)"
+  },
+  "redp5466_p42_img0": {
+    "status": "success",
+    "pdf": "redp5466",
+    "page": 42,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5466/page_42_img_0.jpg",
+    "summary_len": 834,
+    "engine": "Ollama (llava)"
+  },
+  "redp5466_p92_img0": {
+    "status": "success",
+    "pdf": "redp5466",
+    "page": 92,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5466/page_92_img_0.jpg",
+    "summary_len": 250,
+    "engine": "Ollama (llava)"
+  },
+  "redp5466_p21_img0": {
+    "status": "success",
+    "pdf": "redp5466",
+    "page": 21,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5466/page_21_img_0.jpg",
+    "summary_len": 552,
+    "engine": "Ollama (llava)"
+  },
+  "redp5466_p32_img0": {
+    "status": "success",
+    "pdf": "redp5466",
+    "page": 32,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5466/page_32_img_0.jpg",
+    "summary_len": 1566,
+    "engine": "Ollama (llava)"
+  },
+  "sg248503_p394_img0": {
+    "status": "success",
+    "pdf": "sg248503",
+    "page": 394,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248503/page_394_img_0.jpg",
+    "summary_len": 865,
+    "engine": "Ollama (llava)"
+  },
+  "sg248503_p32_img0": {
+    "status": "success",
+    "pdf": "sg248503",
+    "page": 32,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248503/page_32_img_0.jpg",
+    "summary_len": 686,
+    "engine": "Ollama (llava)"
+  },
+  "sg248503_p570_img0": {
+    "status": "success",
+    "pdf": "sg248503",
+    "page": 570,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248503/page_570_img_0.jpg",
+    "summary_len": 782,
+    "engine": "Ollama (llava)"
+  },
+  "sg248503_p1_img0": {
+    "status": "success",
+    "pdf": "sg248503",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248503/page_1_img_0.jpg",
+    "summary_len": 1107,
+    "engine": "Ollama (llava)"
+  },
+  "sg248503_p50_img0": {
+    "status": "success",
+    "pdf": "sg248503",
+    "page": 50,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248503/page_50_img_0.jpg",
+    "summary_len": 96,
+    "engine": "Ollama (llava)"
+  },
+  "sg248503_p410_img0": {
+    "status": "success",
+    "pdf": "sg248503",
+    "page": 410,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248503/page_410_img_0.jpg",
+    "summary_len": 819,
+    "engine": "Ollama (llava)"
+  },
+  "redp5704_p1_img0": {
+    "status": "success",
+    "pdf": "redp5704",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5704/page_1_img_0.jpg",
+    "summary_len": 111,
+    "engine": "Ollama (llava)"
+  },
+  "redp5704_p20_img0": {
+    "status": "success",
+    "pdf": "redp5704",
+    "page": 20,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5704/page_20_img_0.jpg",
+    "summary_len": 107,
+    "engine": "Ollama (llava)"
+  },
+  "redp5704_p13_img0": {
+    "status": "success",
+    "pdf": "redp5704",
+    "page": 13,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5704/page_13_img_0.jpg",
+    "summary_len": 809,
+    "engine": "Ollama (llava)"
+  },
+  "redp5704_p15_img0": {
+    "status": "success",
+    "pdf": "redp5704",
+    "page": 15,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5704/page_15_img_0.jpg",
+    "summary_len": 936,
+    "engine": "Ollama (llava)"
+  },
+  "redp5704_p23_img0": {
+    "status": "success",
+    "pdf": "redp5704",
+    "page": 23,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5704/page_23_img_0.jpg",
+    "summary_len": 77,
+    "engine": "Ollama (llava)"
+  },
+  "sg248467_p28_img0": {
+    "status": "success",
+    "pdf": "sg248467",
+    "page": 28,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248467/page_28_img_0.jpg",
+    "summary_len": 1244,
+    "engine": "Ollama (llava)"
+  },
+  "sg248467_p18_img2": {
+    "status": "success",
+    "pdf": "sg248467",
+    "page": 18,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248467/page_18_img_2.jpg",
+    "summary_len": 782,
+    "engine": "Ollama (llava)"
+  },
+  "sg248467_p20_img0": {
+    "status": "success",
+    "pdf": "sg248467",
+    "page": 20,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248467/page_20_img_0.jpg",
+    "summary_len": 876,
+    "engine": "Ollama (llava)"
+  },
+  "sg248467_p57_img0": {
+    "status": "success",
+    "pdf": "sg248467",
+    "page": 57,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248467/page_57_img_0.jpg",
+    "summary_len": 667,
+    "engine": "Ollama (llava)"
+  },
+  "sg248467_p85_img0": {
+    "status": "success",
+    "pdf": "sg248467",
+    "page": 85,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248467/page_85_img_0.jpg",
+    "summary_len": 698,
+    "engine": "Ollama (llava)"
+  },
+  "sg248467_p84_img0": {
+    "status": "success",
+    "pdf": "sg248467",
+    "page": 84,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248467/page_84_img_0.jpg",
+    "summary_len": 669,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_pdfguide_p102_img0": {
+    "status": "success",
+    "pdf": "fs7600_pdfguide",
+    "page": 102,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_pdfguide/page_102_img_0.jpg",
+    "summary_len": 915,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_pdfguide_p98_img0": {
+    "status": "success",
+    "pdf": "fs7600_pdfguide",
+    "page": 98,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_pdfguide/page_98_img_0.jpg",
+    "summary_len": 661,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_pdfguide_p67_img0": {
+    "status": "success",
+    "pdf": "fs7600_pdfguide",
+    "page": 67,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_pdfguide/page_67_img_0.jpg",
+    "summary_len": 1154,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_pdfguide_p87_img1": {
+    "status": "success",
+    "pdf": "fs7600_pdfguide",
+    "page": 87,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_pdfguide/page_87_img_1.jpg",
+    "summary_len": 91,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_pdfguide_p68_img1": {
+    "status": "success",
+    "pdf": "fs7600_pdfguide",
+    "page": 68,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_pdfguide/page_68_img_1.jpg",
+    "summary_len": 539,
+    "engine": "Ollama (llava)"
+  },
+  "fs7600_pdfguide_p85_img0": {
+    "status": "success",
+    "pdf": "fs7600_pdfguide",
+    "page": 85,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7600_pdfguide/page_85_img_0.jpg",
+    "summary_len": 1565,
+    "engine": "Ollama (llava)"
+  },
+  "redp5477_p1_img0": {
+    "status": "success",
+    "pdf": "redp5477",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5477/page_1_img_0.jpg",
+    "summary_len": 153,
+    "engine": "Ollama (llava)"
+  },
+  "redp5477_p11_img1": {
+    "status": "success",
+    "pdf": "redp5477",
+    "page": 11,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5477/page_11_img_1.jpg",
+    "summary_len": 664,
+    "engine": "Ollama (llava)"
+  },
+  "redp5477_p11_img0": {
+    "status": "success",
+    "pdf": "redp5477",
+    "page": 11,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5477/page_11_img_0.jpg",
+    "summary_len": 1288,
+    "engine": "Ollama (llava)"
+  },
+  "redp5477_p7_img0": {
+    "status": "success",
+    "pdf": "redp5477",
+    "page": 7,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5477/page_7_img_0.jpg",
+    "summary_len": 859,
+    "engine": "Ollama (llava)"
+  },
+  "redp5477_p8_img1": {
+    "status": "success",
+    "pdf": "redp5477",
+    "page": 8,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5477/page_8_img_1.jpg",
+    "summary_len": 800,
+    "engine": "Ollama (llava)"
+  },
+  "redp5477_p8_img0": {
+    "status": "success",
+    "pdf": "redp5477",
+    "page": 8,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5477/page_8_img_0.jpg",
+    "summary_len": 779,
+    "engine": "Ollama (llava)"
+  },
+  "sg248466_p78_img0": {
+    "status": "success",
+    "pdf": "sg248466",
+    "page": 78,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248466/page_78_img_0.jpg",
+    "summary_len": 593,
+    "engine": "Ollama (llava)"
+  },
+  "sg248466_p890_img1": {
+    "status": "success",
+    "pdf": "sg248466",
+    "page": 890,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248466/page_890_img_1.jpg",
+    "summary_len": 633,
+    "engine": "Ollama (llava)"
+  },
+  "sg248466_p890_img0": {
+    "status": "success",
+    "pdf": "sg248466",
+    "page": 890,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248466/page_890_img_0.jpg",
+    "summary_len": 403,
+    "engine": "Ollama (llava)"
+  },
+  "sg248466_p30_img0": {
+    "status": "success",
+    "pdf": "sg248466",
+    "page": 30,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248466/page_30_img_0.jpg",
+    "summary_len": 719,
+    "engine": "Ollama (llava)"
+  },
+  "sg248466_p891_img0": {
+    "status": "success",
+    "pdf": "sg248466",
+    "page": 891,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248466/page_891_img_0.jpg",
+    "summary_len": 1169,
+    "engine": "Ollama (llava)"
+  },
+  "sg248466_p90_img0": {
+    "status": "success",
+    "pdf": "sg248466",
+    "page": 90,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248466/page_90_img_0.jpg",
+    "summary_len": 619,
+    "engine": "Ollama (llava)"
+  },
+  "concept_pdfguide_p267_img0": {
+    "status": "success",
+    "pdf": "concept_pdfguide",
+    "page": 267,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/concept_pdfguide/page_267_img_0.jpg",
+    "summary_len": 700,
+    "engine": "Ollama (llava)"
+  },
+  "concept_pdfguide_p514_img0": {
+    "status": "success",
+    "pdf": "concept_pdfguide",
+    "page": 514,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/concept_pdfguide/page_514_img_0.jpg",
+    "summary_len": 836,
+    "engine": "Ollama (llava)"
+  },
+  "concept_pdfguide_p515_img0": {
+    "status": "success",
+    "pdf": "concept_pdfguide",
+    "page": 515,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/concept_pdfguide/page_515_img_0.jpg",
+    "summary_len": 66,
+    "engine": "Ollama (llava)"
+  },
+  "concept_pdfguide_p513_img1": {
+    "status": "success",
+    "pdf": "concept_pdfguide",
+    "page": 513,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/concept_pdfguide/page_513_img_1.jpg",
+    "summary_len": 91,
+    "engine": "Ollama (llava)"
+  },
+  "concept_pdfguide_p513_img0": {
+    "status": "success",
+    "pdf": "concept_pdfguide",
+    "page": 513,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/concept_pdfguide/page_513_img_0.jpg",
+    "summary_len": 546,
+    "engine": "Ollama (llava)"
+  },
+  "concept_pdfguide_p511_img0": {
+    "status": "success",
+    "pdf": "concept_pdfguide",
+    "page": 511,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/concept_pdfguide/page_511_img_0.jpg",
+    "summary_len": 53,
+    "engine": "Ollama (llava)"
+  },
+  "sg248504_p97_img0": {
+    "status": "success",
+    "pdf": "sg248504",
+    "page": 97,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248504/page_97_img_0.jpg",
+    "summary_len": 586,
+    "engine": "Ollama (llava)"
+  },
+  "sg248504_p88_img1": {
+    "status": "success",
+    "pdf": "sg248504",
+    "page": 88,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248504/page_88_img_1.jpg",
+    "summary_len": 100,
+    "engine": "Ollama (llava)"
+  },
+  "sg248504_p94_img0": {
+    "status": "success",
+    "pdf": "sg248504",
+    "page": 94,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248504/page_94_img_0.jpg",
+    "summary_len": 748,
+    "engine": "Ollama (llava)"
+  },
+  "sg248504_p92_img0": {
+    "status": "success",
+    "pdf": "sg248504",
+    "page": 92,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248504/page_92_img_0.jpg",
+    "summary_len": 803,
+    "engine": "Ollama (llava)"
+  },
+  "sg248504_p86_img1": {
+    "status": "success",
+    "pdf": "sg248504",
+    "page": 86,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248504/page_86_img_1.jpg",
+    "summary_len": 873,
+    "engine": "Ollama (llava)"
+  },
+  "sg248504_p93_img0": {
+    "status": "success",
+    "pdf": "sg248504",
+    "page": 93,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248504/page_93_img_0.jpg",
+    "summary_len": 104,
+    "engine": "Ollama (llava)"
+  },
+  "sg248505_p177_img1": {
+    "status": "success",
+    "pdf": "sg248505",
+    "page": 177,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248505/page_177_img_1.jpg",
+    "summary_len": 464,
+    "engine": "Ollama (llava)"
+  },
+  "sg248505_p32_img0": {
+    "status": "success",
+    "pdf": "sg248505",
+    "page": 32,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248505/page_32_img_0.jpg",
+    "summary_len": 773,
+    "engine": "Ollama (llava)"
+  },
+  "sg248505_p178_img0": {
+    "status": "success",
+    "pdf": "sg248505",
+    "page": 178,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248505/page_178_img_0.jpg",
+    "summary_len": 825,
+    "engine": "Ollama (llava)"
+  },
+  "sg248505_p56_img0": {
+    "status": "success",
+    "pdf": "sg248505",
+    "page": 56,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248505/page_56_img_0.jpg",
+    "summary_len": 847,
+    "engine": "Ollama (llava)"
+  },
+  "sg248505_p158_img0": {
+    "status": "success",
+    "pdf": "sg248505",
+    "page": 158,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248505/page_158_img_0.jpg",
+    "summary_len": 820,
+    "engine": "Ollama (llava)"
+  },
+  "sg248505_p178_img1": {
+    "status": "success",
+    "pdf": "sg248505",
+    "page": 178,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248505/page_178_img_1.jpg",
+    "summary_len": 803,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_install_poster_p1_img13": {
+    "status": "success",
+    "pdf": "fs9500_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_install_poster/page_1_img_13.jpg",
+    "summary_len": 676,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_install_poster_p1_img16": {
+    "status": "success",
+    "pdf": "fs9500_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_install_poster/page_1_img_16.jpg",
+    "summary_len": 119,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_install_poster_p1_img24": {
+    "status": "success",
+    "pdf": "fs9500_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_install_poster/page_1_img_24.jpg",
+    "summary_len": 113,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_install_poster_p1_img1": {
+    "status": "success",
+    "pdf": "fs9500_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_install_poster/page_1_img_1.jpg",
+    "summary_len": 600,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_install_poster_p1_img9": {
+    "status": "success",
+    "pdf": "fs9500_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_install_poster/page_1_img_9.jpg",
+    "summary_len": 709,
+    "engine": "Ollama (llava)"
+  },
+  "fs9500_install_poster_p1_img22": {
+    "status": "success",
+    "pdf": "fs9500_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9500_install_poster/page_1_img_22.jpg",
+    "summary_len": 759,
+    "engine": "Ollama (llava)"
+  },
+  "fs7300_pdfguide_p54_img0": {
+    "status": "success",
+    "pdf": "fs7300_pdfguide",
+    "page": 54,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7300_pdfguide/page_54_img_0.jpg",
+    "summary_len": 79,
+    "engine": "Ollama (llava)"
+  },
+  "fs7300_pdfguide_p60_img0": {
+    "status": "success",
+    "pdf": "fs7300_pdfguide",
+    "page": 60,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7300_pdfguide/page_60_img_0.jpg",
+    "summary_len": 1105,
+    "engine": "Ollama (llava)"
+  },
+  "fs7300_pdfguide_p61_img0": {
+    "status": "success",
+    "pdf": "fs7300_pdfguide",
+    "page": 61,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7300_pdfguide/page_61_img_0.jpg",
+    "summary_len": 1170,
+    "engine": "Ollama (llava)"
+  },
+  "fs7300_pdfguide_p142_img0": {
+    "status": "success",
+    "pdf": "fs7300_pdfguide",
+    "page": 142,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7300_pdfguide/page_142_img_0.jpg",
+    "summary_len": 832,
+    "engine": "Ollama (llava)"
+  },
+  "fs7300_pdfguide_p145_img3": {
+    "status": "success",
+    "pdf": "fs7300_pdfguide",
+    "page": 145,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7300_pdfguide/page_145_img_3.jpg",
+    "summary_len": 953,
+    "engine": "Ollama (llava)"
+  },
+  "fs7300_pdfguide_p48_img1": {
+    "status": "success",
+    "pdf": "fs7300_pdfguide",
+    "page": 48,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7300_pdfguide/page_48_img_1.jpg",
+    "summary_len": 802,
+    "engine": "Ollama (llava)"
+  },
+  "FS5015_install_poster_p1_img74": {
+    "status": "success",
+    "pdf": "FS5015_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/FS5015_install_poster/page_1_img_74.jpg",
+    "summary_len": 977,
+    "engine": "Ollama (llava)"
+  },
+  "FS5015_install_poster_p2_img111": {
+    "status": "success",
+    "pdf": "FS5015_install_poster",
+    "page": 2,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/FS5015_install_poster/page_2_img_111.jpg",
+    "summary_len": 1109,
+    "engine": "Ollama (llava)"
+  },
+  "FS5015_install_poster_p1_img99": {
+    "status": "success",
+    "pdf": "FS5015_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/FS5015_install_poster/page_1_img_99.jpg",
+    "summary_len": 560,
+    "engine": "Ollama (llava)"
+  },
+  "FS5015_install_poster_p1_img69": {
+    "status": "success",
+    "pdf": "FS5015_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/FS5015_install_poster/page_1_img_69.jpg",
+    "summary_len": 929,
+    "engine": "Ollama (llava)"
+  },
+  "fs9100_pdfguide_p54_img1": {
+    "status": "success",
+    "pdf": "fs9100_pdfguide",
+    "page": 54,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9100_pdfguide/page_54_img_1.jpg",
+    "summary_len": 776,
+    "engine": "Ollama (llava)"
+  },
+  "fs9100_pdfguide_p60_img0": {
+    "status": "success",
+    "pdf": "fs9100_pdfguide",
+    "page": 60,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9100_pdfguide/page_60_img_0.jpg",
+    "summary_len": 762,
+    "engine": "Ollama (llava)"
+  },
+  "fs9100_pdfguide_p60_img1": {
+    "status": "success",
+    "pdf": "fs9100_pdfguide",
+    "page": 60,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9100_pdfguide/page_60_img_1.jpg",
+    "summary_len": 1107,
+    "engine": "Ollama (llava)"
+  },
+  "fs9100_pdfguide_p146_img3": {
+    "status": "success",
+    "pdf": "fs9100_pdfguide",
+    "page": 146,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9100_pdfguide/page_146_img_3.jpg",
+    "summary_len": 102,
+    "engine": "Ollama (llava)"
+  },
+  "fs9100_pdfguide_p51_img0": {
+    "status": "success",
+    "pdf": "fs9100_pdfguide",
+    "page": 51,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9100_pdfguide/page_51_img_0.jpg",
+    "summary_len": 729,
+    "engine": "Ollama (llava)"
+  },
+  "fs9100_pdfguide_p52_img0": {
+    "status": "success",
+    "pdf": "fs9100_pdfguide",
+    "page": 52,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9100_pdfguide/page_52_img_0.jpg",
+    "summary_len": 685,
+    "engine": "Ollama (llava)"
+  },
+  "sg248561_p20_img1": {
+    "status": "success",
+    "pdf": "sg248561",
+    "page": 20,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248561/page_20_img_1.jpg",
+    "summary_len": 103,
+    "engine": "Ollama (llava)"
+  },
+  "sg248561_p65_img0": {
+    "status": "success",
+    "pdf": "sg248561",
+    "page": 65,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248561/page_65_img_0.jpg",
+    "summary_len": 80,
+    "engine": "Ollama (llava)"
+  },
+  "sg248561_p53_img0": {
+    "status": "success",
+    "pdf": "sg248561",
+    "page": 53,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248561/page_53_img_0.jpg",
+    "summary_len": 701,
+    "engine": "Ollama (llava)"
+  },
+  "sg248561_p78_img0": {
+    "status": "success",
+    "pdf": "sg248561",
+    "page": 78,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248561/page_78_img_0.jpg",
+    "summary_len": 1321,
+    "engine": "Ollama (llava)"
+  },
+  "sg248561_p25_img0": {
+    "status": "success",
+    "pdf": "sg248561",
+    "page": 25,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248561/page_25_img_0.jpg",
+    "summary_len": 88,
+    "engine": "Ollama (llava)"
+  },
+  "sg248561_p73_img0": {
+    "status": "success",
+    "pdf": "sg248561",
+    "page": 73,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248561/page_73_img_0.jpg",
+    "summary_len": 959,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_pdfguide_p67_img0": {
+    "status": "success",
+    "pdf": "fs9600_pdfguide",
+    "page": 67,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_pdfguide/page_67_img_0.jpg",
+    "summary_len": 945,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_pdfguide_p87_img1": {
+    "status": "success",
+    "pdf": "fs9600_pdfguide",
+    "page": 87,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_pdfguide/page_87_img_1.jpg",
+    "summary_len": 933,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_pdfguide_p68_img1": {
+    "status": "success",
+    "pdf": "fs9600_pdfguide",
+    "page": 68,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_pdfguide/page_68_img_1.jpg",
+    "summary_len": 767,
+    "engine": "Ollama (llava)"
+  },
+  "fs9600_pdfguide_p85_img0": {
+    "status": "success",
+    "pdf": "fs9600_pdfguide",
+    "page": 85,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs9600_pdfguide/page_85_img_0.jpg",
+    "summary_len": 1079,
+    "engine": "Ollama (llava)"
+  },
+  "redp5617_p36_img0": {
+    "status": "success",
+    "pdf": "redp5617",
+    "page": 36,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5617/page_36_img_0.jpg",
+    "summary_len": 986,
+    "engine": "Ollama (llava)"
+  },
+  "redp5617_p27_img0": {
+    "status": "success",
+    "pdf": "redp5617",
+    "page": 27,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5617/page_27_img_0.jpg",
+    "summary_len": 924,
+    "engine": "Ollama (llava)"
+  },
+  "redp5617_p35_img0": {
+    "status": "success",
+    "pdf": "redp5617",
+    "page": 35,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5617/page_35_img_0.jpg",
+    "summary_len": 805,
+    "engine": "Ollama (llava)"
+  },
+  "redp5617_p29_img0": {
+    "status": "success",
+    "pdf": "redp5617",
+    "page": 29,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5617/page_29_img_0.jpg",
+    "summary_len": 810,
+    "engine": "Ollama (llava)"
+  },
+  "redp5617_p7_img0": {
+    "status": "success",
+    "pdf": "redp5617",
+    "page": 7,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5617/page_7_img_0.jpg",
+    "summary_len": 815,
+    "engine": "Ollama (llava)"
+  },
+  "redp5617_p43_img0": {
+    "status": "success",
+    "pdf": "redp5617",
+    "page": 43,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp5617/page_43_img_0.jpg",
+    "summary_len": 1025,
+    "engine": "Ollama (llava)"
+  },
+  "tips1079_p17_img0": {
+    "status": "success",
+    "pdf": "tips1079",
+    "page": 17,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/tips1079/page_17_img_0.jpg",
+    "summary_len": 1496,
+    "engine": "Ollama (llava)"
+  },
+  "tips1079_p4_img1": {
+    "status": "success",
+    "pdf": "tips1079",
+    "page": 4,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/tips1079/page_4_img_1.jpg",
+    "summary_len": 828,
+    "engine": "Ollama (llava)"
+  },
+  "tips1079_p16_img0": {
+    "status": "success",
+    "pdf": "tips1079",
+    "page": 16,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/tips1079/page_16_img_0.jpg",
+    "summary_len": 77,
+    "engine": "Ollama (llava)"
+  },
+  "redp4859_p71_img0": {
+    "status": "success",
+    "pdf": "redp4859",
+    "page": 71,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp4859/page_71_img_0.jpg",
+    "summary_len": 816,
+    "engine": "Ollama (llava)"
+  },
+  "redp4859_p69_img0": {
+    "status": "success",
+    "pdf": "redp4859",
+    "page": 69,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp4859/page_69_img_0.jpg",
+    "summary_len": 661,
+    "engine": "Ollama (llava)"
+  },
+  "redp4859_p108_img0": {
+    "status": "success",
+    "pdf": "redp4859",
+    "page": 108,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp4859/page_108_img_0.jpg",
+    "summary_len": 832,
+    "engine": "Ollama (llava)"
+  },
+  "redp4859_p68_img1": {
+    "status": "success",
+    "pdf": "redp4859",
+    "page": 68,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp4859/page_68_img_1.jpg",
+    "summary_len": 732,
+    "engine": "Ollama (llava)"
+  },
+  "redp4859_p109_img0": {
+    "status": "success",
+    "pdf": "redp4859",
+    "page": 109,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp4859/page_109_img_0.jpg",
+    "summary_len": 868,
+    "engine": "Ollama (llava)"
+  },
+  "redp4859_p12_img1": {
+    "status": "success",
+    "pdf": "redp4859",
+    "page": 12,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/redp4859/page_12_img_1.jpg",
+    "summary_len": 76,
+    "engine": "Ollama (llava)"
+  },
+  "FS5045_install_poster_p1_img74": {
+    "status": "success",
+    "pdf": "FS5045_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/FS5045_install_poster/page_1_img_74.jpg",
+    "summary_len": 855,
+    "engine": "Ollama (llava)"
+  },
+  "FS5045_install_poster_p2_img114": {
+    "status": "success",
+    "pdf": "FS5045_install_poster",
+    "page": 2,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/FS5045_install_poster/page_2_img_114.jpg",
+    "summary_len": 667,
+    "engine": "Ollama (llava)"
+  },
+  "FS5045_install_poster_p1_img99": {
+    "status": "success",
+    "pdf": "FS5045_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/FS5045_install_poster/page_1_img_99.jpg",
+    "summary_len": 58,
+    "engine": "Ollama (llava)"
+  },
+  "FS5045_install_poster_p1_img69": {
+    "status": "success",
+    "pdf": "FS5045_install_poster",
+    "page": 1,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/FS5045_install_poster/page_1_img_69.jpg",
+    "summary_len": 419,
+    "engine": "Ollama (llava)"
+  },
+  "sg248604_p105_img0": {
+    "status": "success",
+    "pdf": "sg248604",
+    "page": 105,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248604/page_105_img_0.jpg",
+    "summary_len": 999,
+    "engine": "Ollama (llava)"
+  },
+  "sg248604_p92_img0": {
+    "status": "success",
+    "pdf": "sg248604",
+    "page": 92,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248604/page_92_img_0.jpg",
+    "summary_len": 862,
+    "engine": "Ollama (llava)"
+  },
+  "sg248604_p84_img0": {
+    "status": "success",
+    "pdf": "sg248604",
+    "page": 84,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248604/page_84_img_0.jpg",
+    "summary_len": 969,
+    "engine": "Ollama (llava)"
+  },
+  "sg248604_p136_img0": {
+    "status": "success",
+    "pdf": "sg248604",
+    "page": 136,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248604/page_136_img_0.jpg",
+    "summary_len": 1693,
+    "engine": "Ollama (llava)"
+  },
+  "sg248604_p62_img0": {
+    "status": "success",
+    "pdf": "sg248604",
+    "page": 62,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248604/page_62_img_0.jpg",
+    "summary_len": 945,
+    "engine": "Ollama (llava)"
+  },
+  "sg248604_p203_img0": {
+    "status": "success",
+    "pdf": "sg248604",
+    "page": 203,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/sg248604/page_203_img_0.jpg",
+    "summary_len": 1409,
+    "engine": "Ollama (llava)"
+  },
+  "fs7200_pdfguide_p52_img1": {
+    "status": "success",
+    "pdf": "fs7200_pdfguide",
+    "page": 52,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7200_pdfguide/page_52_img_1.jpg",
+    "summary_len": 685,
+    "engine": "Ollama (llava)"
+  },
+  "fs7200_pdfguide_p58_img0": {
+    "status": "success",
+    "pdf": "fs7200_pdfguide",
+    "page": 58,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7200_pdfguide/page_58_img_0.jpg",
+    "summary_len": 745,
+    "engine": "Ollama (llava)"
+  },
+  "fs7200_pdfguide_p59_img0": {
+    "status": "success",
+    "pdf": "fs7200_pdfguide",
+    "page": 59,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7200_pdfguide/page_59_img_0.jpg",
+    "summary_len": 574,
+    "engine": "Ollama (llava)"
+  },
+  "fs7200_pdfguide_p140_img0": {
+    "status": "success",
+    "pdf": "fs7200_pdfguide",
+    "page": 140,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7200_pdfguide/page_140_img_0.jpg",
+    "summary_len": 829,
+    "engine": "Ollama (llava)"
+  },
+  "fs7200_pdfguide_p49_img0": {
+    "status": "success",
+    "pdf": "fs7200_pdfguide",
+    "page": 49,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7200_pdfguide/page_49_img_0.jpg",
+    "summary_len": 757,
+    "engine": "Ollama (llava)"
+  },
+  "fs7200_pdfguide_p50_img0": {
+    "status": "success",
+    "pdf": "fs7200_pdfguide",
+    "page": 50,
+    "path": "/Users/johnkuo/.ibm_flashsystem_kb/extracted_images/fs7200_pdfguide/page_50_img_0.jpg",
+    "summary_len": 1005,
+    "engine": "Ollama (llava)"
+  }
+}

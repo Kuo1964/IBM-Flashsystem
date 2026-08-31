@@ -130,22 +130,28 @@ class RAGEngine:
         結構完整性智能判定器 (Structural Truncation Detector)
         精準判定文本是否在表格、清單、標點或語句中途中斷
         """
-        if finish_reason == "MAX_TOKENS":
+        if finish_reason in ["MAX_TOKENS", "LENGTH"]:
             return True
         t = text.strip()
         if not t or len(t) < 30:
             return False
             
         # 1. 檢查結尾是否為明顯未完結字元
-        if t.endswith(("|", "：", ":", "、", ",", "，", "-", "*", "(", "（", "以及", "包含", "包括", "如下", "如下：", "為：")):
+        if t.endswith(("|", "：", ":", "、", ",", "，", "-", "*", "(", "（", "以及", "包含", "包括", "如下", "如下：", "為：", "等")):
             return True
             
-        # 2. 檢查最後一行是否為未封閉的 Markdown 表格行（例如 "| 料號 | 描述" 缺少右側 "|"）
+        # 2. 檢查最後一行是否為未封閉的 Markdown 表格行（例如 "| 參數名稱 | 說明" 缺少後續內容或邊框）
         lines = [line.strip() for line in t.split("\n") if line.strip()]
         if lines:
             last_line = lines[-1]
             if last_line.startswith("|") and not last_line.endswith("|"):
                 return True
+            # 如果最後一行是表格標頭分隔線 (例如 |---|---|) 或剛好只有表格標頭
+            if last_line.startswith("|") and ("---" in last_line or "參數" in last_line or "說明" in last_line or "指令" in last_line):
+                # 若全文只有表格標頭或剛開始建立表格
+                table_lines = [l for l in lines[-4:] if l.startswith("|")]
+                if len(table_lines) <= 2:
+                    return True
                 
         # 3. 檢查未閉合的代碼區塊
         if t.count("```") % 2 != 0:
@@ -172,13 +178,21 @@ class RAGEngine:
         if bold_count % 2 != 0:
             text += "**"
 
-        # 3. 檢查並修復末尾未閉合表格行
+        # 3. 檢查並修復末尾未閉合表格行或孤立表格標題
         lines = text.split("\n")
+        while lines and lines[-1].strip().startswith("|") and ("---" in lines[-1] or "參數" in lines[-1] or "說明" in lines[-1]):
+            # 若末尾只剩空表格標題行或分隔線，直接清理以保持排版整潔
+            prev_tables = [l for l in lines[-3:] if l.strip().startswith("|")]
+            if len(prev_tables) <= 2:
+                lines.pop()
+            else:
+                break
+
         if lines:
             last_line = lines[-1]
             if last_line.strip().startswith("|") and not last_line.strip().endswith("|"):
                 lines[-1] = last_line + " |"
-                text = "\n".join(lines)
+        text = "\n".join(lines)
 
         return text
 
@@ -186,7 +200,7 @@ class RAGEngine:
     def _call_gemini_api(cls, prompt_text: str, max_tokens: int = 8192) -> str:
         """
         調用 Google Gemini API (支援 Google Search Grounding 原生即時聯網查證)
-        具備精準斷點接續 (Auto-Continuation Loop)、零截斷保證與 Markdown 自動癒合防護
+        具備極限 8192 Token 輸出、多輪精準斷點接續 (Auto-Continuation Loop) 與零截斷保證
         """
         if not config.GEMINI_API_KEY:
             return ""
@@ -207,10 +221,10 @@ class RAGEngine:
 
             for attempt in range(2):
                 try:
-                    with httpx.Client(timeout=45.0) as client:
+                    with httpx.Client(timeout=60.0) as client:
                         resp = client.post(gemini_url, json=payload)
                         
-                        # 若搜尋工具遇限制，自動降級至標準模式
+                        # 若搜尋工具遇限制或格式不支援，自動降級至原生高容量模式
                         if resp.status_code != 200:
                             fallback_payload = {
                                 "contents": [{"parts": [{"text": prompt_text}]}],
@@ -239,37 +253,46 @@ class RAGEngine:
                     else:
                         raise te
 
-            # 🛡️ 智能斷點接續引擎 (Auto-Continuation Loop - 發現中斷時快速接續 1 輪)
-            if cls._is_truncated(accumulated_text, finish_reason) and len(accumulated_text) > 30:
-                print(f"[零截斷保證] 偵測到輸出未完整，啟動快速斷點接續...")
-                
-                cont_prompt = (
-                    f"{prompt_text}\n\n"
-                    f"【系統提示 - 斷點續寫要求】：\n"
-                    f"你先前的回答在下方結尾處中斷：\n"
-                    f"\"\"\"\n...{accumulated_text[-250:]}\n\"\"\"\n\n"
-                    f"請緊接著上述最後一個字，絕對不要重複前文已輸出的內容，繼續完整寫出後續的所有資料（包含完整表格、參數與總結），直到全部結尾：\n"
-                )
-                
-                cont_payload = {
-                    "contents": [{"parts": [{"text": cont_prompt}]}],
-                    "generationConfig": {
-                        "temperature": 0.1,
-                        "maxOutputTokens": 4096
+            # 🛡️ 智能多輪斷點接續引擎 (Auto-Continuation Loop - 發現中斷時最多自動接續 2 輪)
+            for cont_round in range(2):
+                if cls._is_truncated(accumulated_text, finish_reason) and len(accumulated_text) > 30:
+                    print(f"[零截斷保證] 偵測到輸出未完整 (Round {cont_round + 1})，啟動快速斷點接續...")
+                    
+                    cont_prompt = (
+                        f"{prompt_text}\n\n"
+                        f"【系統提示 - 斷點續寫要求】：\n"
+                        f"你先前的回答在下方結尾處中斷：\n"
+                        f"\"\"\"\n...{accumulated_text[-300:]}\n\"\"\"\n\n"
+                        f"請緊接著上述最後一個字，絕對不要重複前文已輸出的內容，繼續完整寫出後續的所有資料（包含完整表格、參數說明、CLI 指令與總結），直到全部結尾：\n"
+                    )
+                    
+                    cont_payload = {
+                        "contents": [{"parts": [{"text": cont_prompt}]}],
+                        "generationConfig": {
+                            "temperature": 0.1,
+                            "maxOutputTokens": 8192
+                        }
                     }
-                }
-                
-                try:
-                    with httpx.Client(timeout=30.0) as client:
-                        c_resp = client.post(gemini_url, json=cont_payload)
-                        if c_resp.status_code == 200:
-                            c_cand = c_resp.json().get("candidates", [{}])[0]
-                            c_parts = c_cand.get("content", {}).get("parts", [])
-                            cont_text = "".join(p.get("text", "") for p in c_parts if "text" in p).strip()
-                            if cont_text:
-                                accumulated_text = accumulated_text + "\n" + cont_text
-                except Exception as ce:
-                    print(f"[警告] 接續請求例外: {ce}")
+                    
+                    try:
+                        with httpx.Client(timeout=45.0) as client:
+                            c_resp = client.post(gemini_url, json=cont_payload)
+                            if c_resp.status_code == 200:
+                                c_cand = c_resp.json().get("candidates", [{}])[0]
+                                finish_reason = c_cand.get("finishReason", "")
+                                c_parts = c_cand.get("content", {}).get("parts", [])
+                                cont_text = "".join(p.get("text", "") for p in c_parts if "text" in p).strip()
+                                if cont_text:
+                                    accumulated_text = accumulated_text + "\n" + cont_text
+                                else:
+                                    break
+                            else:
+                                break
+                    except Exception as ce:
+                        print(f"[警告] 接續請求例外: {ce}")
+                        break
+                else:
+                    break
 
             return cls._heal_markdown_tags(accumulated_text)
 
@@ -438,6 +461,22 @@ class RAGEngine:
         # 3. 檢索純淨技術正文 (支援轉譯詞最高優先權加權 + 目錄頁自動去噪過濾)
         retrieved_chunks = vector_store.query_kb(search_query, top_k=top_k, expanded_terms=expanded_terms)
 
+        # 🛡️ 零上下文安全熔斷保護 (Zero-Context Circuit Breaker)
+        # 當知識庫未檢索到任何相關片段時，直接阻斷，嚴禁將空 Context 送入模型誘發數列循環幻覺
+        if not retrieved_chunks:
+            duration = round(time.time() - start_time, 2)
+            intent = cls.classify_intent(q_raw)
+            fallback_msg = "【官方技術資料庫檢索結果】：知識庫中未檢索到與您提問直接相關的 IBM 官方技術文檔。\n\n💡 **建議線上確認方式 (CLI)**：\n- 零件料號與節點 VPD 查詢：`lsnodevpd <node_id>` 或 `lsdrive <drive_id>`\n- 開機硬碟狀態查詢：`lsbootdrive`\n- 系統事件與錯誤查詢：`lseventlog`\n- 系統狀態檢視：`lssystem` 或 `sainfo lsservicestatus`"
+            return {
+                "status": "success",
+                "answer": fallback_msg,
+                "sources": [],
+                "chunks_count": 0,
+                "execution_time_seconds": duration,
+                "provider": "安全熔斷保護層 (Zero-Context Guardrail)",
+                "intent": intent,
+                "cached": False
+            }
 
         # 整理出處清單
         sources_list = []
@@ -489,10 +528,19 @@ class RAGEngine:
         if not answer_text:
             try:
                 master_prompt = prompts.build_antigravity_master_prompt(q_raw, context_str, intent=intent)
-                with httpx.Client(timeout=60.0) as client:
+                with httpx.Client(timeout=90.0) as client:
                     resp = client.post(
                         f"{config.OLLAMA_HOST}/api/generate",
-                        json={"model": config.LLM_MODEL, "prompt": master_prompt, "stream": False}
+                        json={
+                            "model": config.LLM_MODEL,
+                            "prompt": master_prompt,
+                            "stream": False,
+                            "options": {
+                                "num_predict": 8192,
+                                "num_ctx": 16384,
+                                "temperature": 0.1
+                            }
+                        }
                     )
                     if resp.status_code == 200:
                         raw_ans = resp.json().get("response", "").strip()
@@ -504,10 +552,19 @@ class RAGEngine:
         if not answer_text:
             try:
                 prompt = prompts.build_cli_fasttrack_prompt(q_raw, context_str)
-                with httpx.Client(timeout=60.0) as client:
+                with httpx.Client(timeout=90.0) as client:
                     resp = client.post(
                         f"{config.OLLAMA_HOST}/api/generate",
-                        json={"model": config.LLM_MODEL, "prompt": prompt, "stream": False}
+                        json={
+                            "model": config.LLM_MODEL,
+                            "prompt": prompt,
+                            "stream": False,
+                            "options": {
+                                "num_predict": 8192,
+                                "num_ctx": 16384,
+                                "temperature": 0.1
+                            }
+                        }
                     )
                     if resp.status_code == 200:
                         raw_ans = resp.json().get("response", "").strip()
@@ -537,21 +594,6 @@ class RAGEngine:
                 return f"![{alt_text}](/api/images/{clean_rel})"
 
         answer_text = re.sub(r"!\[(.*?)\]\((.*?)\)", _normalize_img_url, answer_text)
-
-        # 6. 若提問明確要求看圖/後視圖/機匣圖，且回答中未包含圖片，自動智慧關聯最佳實體架構圖
-        q_lower = q_raw.lower()
-        if any(k in q_lower for k in ["看圖", "看一下圖", "後視圖", "機匣圖", "架構圖", "正面圖", "背視圖", "圖解", "看一下", "圖片"]) and "![" not in answer_text:
-            matched_img = None
-            if "5200" in q_lower and any(k in q_lower for k in ["node", "canister", "後視", "背視", "機匣", "插槽", "adapter", "sas", "硬體"]):
-                if (config.BASE_DIR / "extracted_images/sg248520/page_68_img_0.png").exists():
-                    matched_img = "/api/images/sg248520/page_68_img_0.png"
-            elif "7300" in q_lower and any(k in q_lower for k in ["node", "canister", "後視", "背視", "機匣", "硬體"]):
-                if (config.BASE_DIR / "extracted_images/sg248543/page_650_img_0.png").exists():
-                    matched_img = "/api/images/sg248543/page_650_img_0.png"
-
-            if matched_img:
-                answer_text += f"\n\n---\n\n### 🖼️ 原廠實體硬體與 Node Canister 架構圖解\n\n![IBM FlashSystem 原廠硬體架構圖]({matched_img})\n"
-
 
         duration = round(time.time() - start_time, 2)
 

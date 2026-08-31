@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多進程多代理並行爬取計畫書 (Multi-Process Spawn Agent Architecture)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(18, 24, 38, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-purple: #c084fc;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.7;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .back-btn {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--accent-blue);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+            transform: translateX(-3px);
+        }
+        .content-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+        h1 { font-family: 'Outfit', sans-serif; color: #fff; font-size: 2rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent-blue); padding-bottom: 0.5rem; }
+        h2 { font-family: 'Outfit', sans-serif; color: var(--accent-blue); font-size: 1.4rem; margin-top: 1.8rem; margin-bottom: 1rem; }
+        h3 { color: var(--accent-purple); font-size: 1.1rem; margin-top: 1.2rem; margin-bottom: 0.6rem; }
+        p { margin-bottom: 1rem; color: #cbd5e1; }
+        ul { margin-left: 1.5rem; margin-bottom: 1.5rem; color: #cbd5e1; }
+        li { margin-bottom: 0.4rem; }
+        pre { background: #05070d; padding: 1.2rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); overflow-x: auto; margin-bottom: 1.5rem; }
+        code { font-family: monospace; color: #38bdf8; font-size: 0.9rem; }
+        a { color: var(--accent-blue); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-nav">
+            <button onclick="closeOrGoBack()" class="back-btn">← 返回專案歷程報告 (Return to Overview)</button>
+        </div>
+        <div class="content-card">
+            <h1>多進程多代理並行爬取計畫書 (Multi-Process Spawn Agent Architecture)</h1>
+<p>為了同時對 IBM FlashSystem 各大版本（<strong>9.1.3、9.1.2、9.1.1、9.1.0、8.7、8.6、8.5</strong>）展開極速並行爬取，且徹底杜絕先前多線程引發的 Node.js EPIPE 與 Segfault 崩潰，我們設計了<strong>純 Spawn 多進程代理架構 (Process-Level Concurrency)</strong>。</p>
+<p>> [!IMPORTANT]</p>
+<p>> 本計畫書為正式安全審查設計案，<strong>在獲得您的核准之前，不會更動任何程式碼</strong>。</p>
+<p>---</p>
+<h2>1. Codebase Recon & Context Map (多進程架構偵察)</h2>
+<ul>
+<li><strong>核心矛盾與技術演進</strong>：</li>
+<li><strong>第一代 (單線程順序)</strong>：穩定但耗時，爬取 30 多條版本網址需耗費數小時。</li>
+<li><strong>第二代 (多線程 ThreadPool)</strong>：引發 Playwright 的跨語言 Node.js stdio 管道衝突 (`EPIPE`) 與記憶體段錯誤 (`Segmentation fault`)。</li>
+<li><strong>第三代 (本次目標：Spawn 多進程池)</strong>：</li>
+</ul>
+<p>    使用 Python 原生 `concurrent.futures.ProcessPoolExecutor(mp_context=mp.get_context("spawn"))` 或 `multiprocessing.Pool`。</p>
+<p>    每個爬蟲代理運行在<strong>完全獨立的作業系統進程中</strong>，擁有獨立的記憶體空間、獨立的 Node.js driver 管道與 Chromium 實例，既享有並發的高速優勢，又具備 100% 的進程隔離安全性！</p>
+<pre><code class="language-mermaid">
+flowchart TD
+    A[ingest.py 主控調度中心] --&gt;|分派任務| B(Spawn Process Pool: max_workers=4)
+    B --&gt; C[Agent 1: 9.1.x 系列]
+    B --&gt; D[Agent 2: 8.7 系列]
+    B --&gt; E[Agent 3: 8.6 系列]
+    B --&gt; F[Agent 4: 8.5 系列]
+    C --&gt;|回傳 Chunks 與 Visited URLs| G[主進程集中寫入佇列]
+    D --&gt;|回傳 Chunks 與 Visited URLs| G
+    E --&gt;|回傳 Chunks 與 Visited URLs| G
+    F --&gt;|回傳 Chunks 與 Visited URLs| G
+    G --&gt;|安全寫入| H[(ChromaDB / SQLite 向量庫)]
+    G --&gt;|持久化| I[manifest.json &amp; 全域狀態檔]
+</code></pre>
+<p>---</p>
+<h2>2. Guardrail Spec (多進程正式安全檢查規範)</h2>
+<p>1. <strong>完全進程隔離護欄 (Spawn Isolation Guard)</strong>：</p>
+<ul>
+<li>嚴禁使用 `fork` 模式（macOS 下 fork + Playwright 會直接 Segfault）。強制指定 `mp.get_context("spawn")`，保證每個 Worker 擁有全新的直譯器環境。</li>
+</ul>
+<p>2. <strong>流量與頻寬節流護欄 (Throttle Guard)</strong>：</p>
+<ul>
+<li>設定 `max_workers = 4`。最多同時派出 4 個獨立代理，避免對 IBM 伺服器造成過大壓力或觸發 WAF 封鎖 IP。</li>
+</ul>
+<p>3. <strong>資料庫集中寫入護欄 (Centralized DB Writer Guard)</strong>：</p>
+<ul>
+<li><strong>子進程只負責網路抓取與 HTML/PDF 解析，絕不直接碰觸資料庫檔案</strong>。</li>
+<li>所有子進程將解析後的 Chunks 透過 IPC 回傳給主進程，由主進程統一執行 `delete_source_from_db` 與 `add_chunks_to_db`，徹底杜絕多進程並發寫入 SQLite 引發的 `database is locked` 錯誤。</li>
+</ul>
+<p>4. <strong>狀態聚合與持久化護欄 (State Aggregation Guard)</strong>：</p>
+<ul>
+<li>主進程即時聚合各個代理回傳的 `visited_urls` 與 `content_hashes`，並在 `finally` 區塊中保存，確保下次執行可跳過已處理網址。</li>
+</ul>
+<p>---</p>
+<h2>3. Brownfield Diff Review (現有程式碼變更審查)</h2>
+<p>以下為預計在 `ingest.py` 實裝的進程池調度代碼：</p>
+<pre><code class="language-diff">
++ from concurrent.futures import ProcessPoolExecutor, as_completed
++ import multiprocessing as mp
+
+  def run_ingestion(force_url: bool = False, max_depth: int = 50, max_pages: int = 3000):
+      ...
+      # 2. 處理網頁 URLs (多進程並行掃描)
+      if config.RAW_URLS_FILE.exists():
+          with open(config.RAW_URLS_FILE, "r", encoding="utf-8") as f:
+              urls = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+          
+          print(f"\n🌐 掃描到 {len(urls)} 個技術文檔網址，啟動多代理並行掃描 (4 Workers)...")
+          global_urls = load_global_set(config.GLOBAL_VISITED_URLS_FILE)
+          global_hashes = load_global_set(config.GLOBAL_CONTENT_HASHES_FILE)
+          
++         spawn_ctx = mp.get_context("spawn")
+          try:
++             with ProcessPoolExecutor(max_workers=4, mp_context=spawn_ctx) as executor:
++                 futures = {}
++                 for url in urls:
++                     url_key = f"url_{url}"
++                     url_hash = calculate_file_hash_text(url)
++                     if not force_url and manifest.get(url_key, {}).get("hash") == url_hash:
++                         print(f"  [跳過] 網址未變更: {url}")
++                         continue
++                     
++                     # 分派任務給獨立子進程
++                     future = executor.submit(_url_worker_standalone, url, max_depth, max_pages, list(global_urls), list(global_hashes))
++                     futures[future] = (url_key, url, url_hash)
++                 
++                 # 主進程依序接收並集中入庫
++                 for future in as_completed(futures):
++                     url_key, url, url_hash = futures[future]
++                     try:
++                         res = future.result()
++                         if res.get("status") == "success":
++                             web_chunks = res.get("chunks", [])
++                             global_urls.update(res.get("visited", []))
++                             global_hashes.update(res.get("hashes", []))
++                             
++                             if web_chunks:
++                                 delete_source_from_db(web_chunks[0]["metadata"]["source"])
++                                 add_chunks_to_db(web_chunks)
++                                 manifest[url_key] = {
++                                     "type": "url",
++                                     "url": url,
++                                     "hash": url_hash,
++                                     "chunks_count": len(web_chunks)
++                                 }
++                                 updated_count += 1
++                         else:
++                             print(f"  [警告] 網址處理失敗 ({url}): {res.get('error')}")
++                     except Exception as e:
++                         print(f"  [異常] 代理執行失敗 ({url}): {e}")
+          finally:
+              save_global_set(config.GLOBAL_VISITED_URLS_FILE, global_urls)
+              save_global_set(config.GLOBAL_CONTENT_HASHES_FILE, global_hashes)
+</code></pre>
+<p>---</p>
+<h2>4. 驗收標準 (Acceptance Criteria)</h2>
+<p>1. <strong>並行效能驗收</strong>：同時啟動 4 個獨立工作進程，吞吐效率提升 300% 以上。</p>
+<p>2. <strong>穩定性驗收</strong>：完全零 `EPIPE`、零 `Segmentation fault`、零 `database is locked`。</p>
+<p>3. <strong>資料一致性</strong>：所有 9.1~8.5 版本的網頁 Chunks 與 PDF 自動攔截檔案全數正確入庫。</p>
+        </div>
+    </div>
+    <script>
+        function closeOrGoBack() {
+            if (window.opener && !window.opener.closed) {
+                window.close();
+            } else {
+                window.location.href = "../../project_changelog.html";
+            }
+        }
+    </script>
+</body>
+</html>

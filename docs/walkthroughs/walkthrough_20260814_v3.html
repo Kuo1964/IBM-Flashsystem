@@ -1,0 +1,47 @@
+# IBM FlashSystem 雲端問答入口 (Web Cloud Portal) 與 Wizard 部署建置完成報告
+
+**時間戳記**: `2026-08-14 14:49:26`
+
+雲端問答入口 (Web Cloud Portal)、FastAPI REST API 伺服器與 Wizard 自動化部署腳本已建置完成並驗證成功！
+
+---
+
+## 🛠️ 完成項目總覽
+
+1. **雲端問答入口 Web Portal 伺服器 ([web_app.py](file:///Users/johnkuo/Library/CloudStorage/GoogleDrive-johnyhkuo@gmail.com/我的雲端硬碟/IBM_Flashsystem/Knowledge_DB/web_app.py))**：
+   - 採用 FastAPI + Uvicorn 架設高效 REST API 服務。
+   - **`/api/query`**：支援全團隊問答，呼叫 ChromaDB 檢索與 Ollama/LLM 推理生成繁體中文專家解答。
+   - **`/api/stats`**：即時回傳 48 本紅皮書、5 大文檔目錄與 70,000+ 向量筆數。
+   - **`/api/images/{path}`**：提供 PDF 提取之拓撲圖與連線圖安全預覽。
+
+2. **多重安全防護與資源護城河 (Guardrail Specs)**：
+   - ✅ **防範 Path Traversal 攻擊**：嚴格校驗圖檔讀取絕對路徑，防範非法讀取系統敏感檔案。
+   - ✅ **併發排隊佇列 (`asyncio.Semaphore(3)`)**：限制最多同時 3 筆 RAG 推理，防止本機顯示卡/CPU 負載過高。
+   - ✅ **語意快取 (Semantic Query Cache)**：重複提問直接命中快取，零 Token 與零計算資源消耗。
+   - ✅ **速率防護 (Rate Limiter)**：單一 IP 每分鐘最多 10 次提問，防止惡意爬蟲或刷爆 API 配額。
+
+3. **高質感 Web 前端介面 ([static/index.html](file:///Users/johnkuo/Library/CloudStorage/GoogleDrive-johnyhkuo@gmail.com/我的雲端硬碟/IBM_Flashsystem/Knowledge_DB/static/index.html))**：
+   - 採用極致黑夜微光澤 (Glassmorphism Dark Mode) 設計。
+   - 內建一鍵快捷提問 (Quick Prompt Chips) 與圖片 Lightbox 彈窗預覽。
+
+4. **Wizard 自動化部署與 Cloudflare 設定嚮導 ([wizard_cloud_setup.sh](file:///Users/johnkuo/Library/CloudStorage/GoogleDrive-johnyhkuo@gmail.com/我的雲端硬碟/IBM_Flashsystem/Knowledge_DB/wizard_cloud_setup.sh))**：
+   - 遵照 `/wizard` 規範實現四階段分步式 Bash 嚮導：
+     - **Stage 1**: 自動檢測並確認 Ollama 本地模型狀態。
+     - **Stage 2**: 配置 Web Portal 服務 Port (預設 `8000`)。
+     - **Stage 3**: 協助設定 Cloudflare Tunnel (100% 免費 HTTPS & Zero Trust Access)。
+     - **Stage 4**: 啟動 Web Portal 服務並輸出團隊存取 URL。
+
+---
+
+## 🚀 如何啟動與部署
+
+### 1. 執行 Wizard 一鍵部署嚮導 (推薦)
+```bash
+./wizard_cloud_setup.sh
+```
+
+### 2. 直接啟動本機 Web Portal 服務
+```bash
+.venv/bin/python web_app.py
+```
+啟動後瀏覽器存取 `http://localhost:8000` 即可進行團隊問答！

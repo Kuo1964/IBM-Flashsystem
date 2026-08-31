@@ -93,6 +93,8 @@ def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: 
     
     db_path = config.VECTOR_DB_DIR / "chroma.sqlite3"
     if not db_path.exists():
+        db_path = config.BASE_DIR / "vector_db" / "chroma.sqlite3"
+    if not db_path.exists():
         return []
         
     raw_terms = [query_text] + (expanded_terms or [])
@@ -113,7 +115,7 @@ def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: 
         conn = sqlite3.connect(str(db_path))
         c = conn.cursor()
         
-        important_tokens = [tok for tok in tokens if any(k in tok for k in ["7.68", "240", "nvme", "m.2", "fru", "part", "adapter", "fc", "32", "64", "sas", "drive", "ssd", "canister", "dimm", "03", "ag0", "cmmvc"])]
+        important_tokens = [tok for tok in tokens if any(k in tok for k in ["7.68", "240", "01lj", "02wf", "01pg", "02cl", "03nk", "03jk", "01ym", "01ft", "00ry", "00ar", "00y2", "tpm", "ag0", "ach", "nvme", "m.2", "fru", "part", "adapter", "fc", "32", "64", "sas", "drive", "ssd", "canister", "dimm", "03", "cmmvc", "managegrid"])]
         if not important_tokens:
             important_tokens = list(tokens)[:4]
             

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+vector_db/
+extracted_images/
+.env
+*.log
+output.txt
+raw_data/pdfs/
+raw_data/extracted_images/

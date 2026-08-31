@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IBM FlashSystem 專家系統與 RAG 知識庫 - 專案開發歷程總覽 (Project Changelog)</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Outfit:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 31, 49, 0.75);
+            --card-hover-bg: rgba(30, 42, 66, 0.85);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-border-glow: rgba(79, 172, 254, 0.4);
+            --primary-accent: #00f2fe;
+            --secondary-accent: #4facfe;
+            --success-color: #00e676;
+            --warning-color: #ffab00;
+            --purple-accent: #a855f7;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --timeline-line: rgba(79, 172, 254, 0.25);
+            --modal-overlay: rgba(5, 8, 15, 0.85);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(79, 172, 254, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.05) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 3rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1040px; margin: 0 auto; }
+
+        /* Header Layout */
+        header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--card-border);
+            position: relative;
+        }
+
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 1rem;
+            border-radius: 30px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: var(--primary-accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.03em;
+        }
+
+        .logo-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 20%, var(--primary-accent) 60%, var(--secondary-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            font-weight: 400;
+            max-width: 750px;
+            margin: 0 auto 1.75rem auto;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.35rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-plan {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.18), rgba(79, 172, 254, 0.18));
+            color: var(--primary-accent);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+        }
+
+        .btn-plan:hover {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.35), rgba(79, 172, 254, 0.35));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.25);
+        }
+
+        .btn-walkthrough {
+            background: linear-gradient(135deg, rgba(0, 230, 118, 0.18), rgba(0, 230, 118, 0.08));
+            color: var(--success-color);
+            border: 1px solid rgba(0, 230, 118, 0.4);
+        }
+
+        .btn-walkthrough:hover {
+            background: linear-gradient(135deg, rgba(0, 230, 118, 0.35), rgba(0, 230, 118, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 230, 118, 0.25);
+        }
+
+        .btn-github {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-github:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+        }
+
+        /* Summary Grid Layout */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 1.75rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-3px);
+            background: var(--card-hover-bg);
+            border-color: var(--card-border-glow);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .metric-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-accent);
+            margin-bottom: 0.4rem;
+        }
+
+        /* Section Headings */
+        .section-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-heading::after {
+            content: ''; flex: 1; height: 1px; background: var(--timeline-line);
+        }
+
+        /* Search & Filter Controls */
+        .controls-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-bg);
+            padding: 1rem 1.25rem;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 240px;
+            background: rgba(11, 15, 25, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 0.6rem 1.2rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-chip.active, .filter-chip:hover {
+            background: rgba(0, 242, 254, 0.15);
+            color: var(--primary-accent);
+            border-color: rgba(0, 242, 254, 0.4);
+        }
+
+        /* Timeline Layout */
+        .timeline { position: relative; padding-left: 2.25rem; margin-bottom: 3.5rem; }
+        .timeline::before {
+            content: ''; position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: var(--timeline-line);
+        }
+
+        .timeline-item { position: relative; margin-bottom: 2.5rem; }
+        .timeline-item:last-child { margin-bottom: 0; }
+
+        .timeline-dot {
+            position: absolute; left: -2.25rem; top: 6px; width: 20px; height: 20px; border-radius: 50%;
+            background: var(--primary-accent); box-shadow: 0 0 12px var(--primary-accent); border: 4px solid var(--bg-color);
+        }
+        .timeline-dot.success { background: var(--success-color); box-shadow: 0 0 12px var(--success-color); }
+        .timeline-dot.warning { background: var(--warning-color); box-shadow: 0 0 12px var(--warning-color); }
+
+        .timeline-content {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 1.75rem;
+            backdrop-filter: blur(16px); transition: all 0.25s ease;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--card-border-glow);
+            transform: translateX(4px);
+        }
+
+        .timeline-header {
+            display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.85rem;
+        }
+        .timeline-title { font-size: 1.2rem; font-weight: 700; color: #ffffff; font-family: 'Outfit', sans-serif; }
+
+        .badge {
+            display: inline-block; padding: 0.25rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .badge-feat { background: rgba(0, 242, 254, 0.15); color: var(--primary-accent); border: 1px solid rgba(0, 242, 254, 0.3); }
+        .badge-fix { background: rgba(255, 171, 0, 0.15); color: var(--warning-color); border: 1px solid rgba(255, 171, 0, 0.3); }
+        .badge-verify { background: rgba(0, 230, 118, 0.15); color: var(--success-color); border: 1px solid rgba(0, 230, 118, 0.3); }
+
+        .timeline-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
+        .timeline-list { list-style: none; padding-left: 0; margin-bottom: 1rem; }
+        .timeline-list li { position: relative; padding-left: 1.35rem; margin-bottom: 0.45rem; color: #cbd5e1; font-size: 0.92rem; }
+        .timeline-list li::before { content: "▸"; position: absolute; left: 0; color: var(--secondary-accent); font-weight: bold; }
+
+        .item-actions {
+            display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-sub {
+            padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s ease;
+        }
+        .btn-sub-plan { background: rgba(0, 242, 254, 0.1); color: var(--primary-accent); border: 1px solid rgba(0, 242, 254, 0.25); }
+        .btn-sub-plan:hover { background: rgba(0, 242, 254, 0.25); transform: translateY(-1px); }
+        .btn-sub-wt { background: rgba(0, 230, 118, 0.1); color: var(--success-color); border: 1px solid rgba(0, 230, 118, 0.25); }
+        .btn-sub-wt:hover { background: rgba(0, 230, 118, 0.25); transform: translateY(-1px); }
+
+        /* Modal Preview */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-overlay); backdrop-filter: blur(12px); z-index: 1000; justify-content: center; align-items: center; padding: 2rem;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #0f172a; border: 1px solid var(--card-border-glow); border-radius: 20px; width: 100%; max-width: 900px;
+            max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+        .modal-header {
+            padding: 1.25rem 1.75rem; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-title { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; color: #ffffff; }
+        .modal-close {
+            background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: color 0.2s ease;
+        }
+        .modal-close:hover { color: #ffffff; }
+        .modal-body { padding: 1.75rem; overflow-y: auto; flex: 1; color: var(--text-main); font-size: 0.95rem; }
+
+        footer {
+            text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border);
+        }
+
+        code { font-family: monospace; background: rgba(255, 255, 255, 0.08); padding: 0.15rem 0.4rem; border-radius: 4px; color: #38bdf8; }
+    </style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="logo-badge">⚡ Antigravity AI Pair Programming Agent</div>
+<h1 class="logo-title">IBM FlashSystem 專家系統與 RAG 知識庫</h1>
+<p class="subtitle">基於 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server 的完全本地化 RAG 專家系統與多模態圖表檢索架構</p>
+<div class="action-buttons">
+<a class="btn-link btn-plan" href="docs/implementation_plan.html" target="_blank">📖 查看 Implementation Plan (設計計畫)</a>
+<a class="btn-link btn-walkthrough" href="docs/walkthrough.html" target="_blank">🧪 查看 Walkthrough (完成驗證報告)</a>
+<a class="btn-link btn-github" href="https://github.com/Kuo1964/IBM-Flashsystem" target="_blank">🐙 GitHub 遠端倉庫</a>
+</div>
+</header>
+<!-- 三方架構與統計數據 Grid -->
+<h2 class="section-heading">📋 核心架構與數據總覽 (System Architecture &amp; Metrics)</h2>
+<div class="summary-grid">
+<div class="glass-card">
+<div class="card-header">
+<div class="card-icon">🖼️</div>
+<h3 class="card-title">多模態 PDF 圖表解析</h3>
+</div>
+<div class="metric-value">48 本 PDF / 400+ 圖表</div>
+<p class="timeline-desc">
+                    ▸ <b>技術圖表提取</b>：PyMuPDF 自動抽取 SAN 架構與 RAID 配置圖。<br/>
+                    ▸ <b>Vision 模型</b>：Ollama <code>llama3.2-vision</code> 生成繁體中文圖表摘要。
+                </p>
+</div>
+<div class="glass-card">
+<div class="card-header">
+<div class="card-icon">🌐</div>
+<h3 class="card-title">動態網頁遞迴爬蟲</h3>
+</div>
+<div class="metric-value">5 大目錄 / 49 個章節</div>
+<p class="timeline-desc">
+                    ▸ <b>SPA 渲染</b>：Playwright 無頭 Chromium 自動執行 JS 載入 DOM。<br/>
+                    ▸ <b>同網域限制</b>：同產品路徑自動延伸抓取，完全防護外部雜訊。
+                </p>
+</div>
+<div class="glass-card">
+<div class="card-header">
+<div class="card-icon">⚡</div>
+<h3 class="card-title">本機向量庫與 MCP Server</h3>
+</div>
+<div class="metric-value">70,000+ 向量 Chunks</div>
+<p class="timeline-desc">
+                    ▸ <b>向量檢索</b>：ChromaDB 本地持久化資料庫 + <code>nomic-embed-text</code>。<br/>
+                    ▸ <b>MCP Server</b>：<code>mcp_server.py</code> 供 Antigravity / Claude Desktop 調用。
+                </p>
+</div>
+</div>
+<!-- 搜尋與過濾列 -->
+<h2 class="section-heading">🕒 開發變動歷程 (Change Logs Timeline)</h2>
+<div class="controls-bar">
+<input class="search-input" id="search-input" oninput="filterLogs()" placeholder="🔍 搜尋變更標題或關鍵字..." type="text"/>
+<div class="filter-group">
+<button class="filter-chip active" onclick="setFilter('all', this)">全部 (All)</button>
+<button class="filter-chip" onclick="setFilter('feat', this)">全新功能 (FEAT)</button>
+<button class="filter-chip" onclick="setFilter('fix', this)">系統修復 (FIX)</button>
+<button class="filter-chip" onclick="setFilter('verify', this)">測試驗證 (VERIFY)</button>
+</div>
+</div>
+<main class="timeline" id="timeline-container">
+
+            <article class="timeline-item" data-type="fix">
+                <div class="timeline-dot"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <span class="badge badge-fix">🐛 FIX</span>
+                            <h2 class="card-title">根治 ChromaDB HNSW Segfault 與 PDF 1800s 逾時之純 SQLite 引擎升級</h2>
+                        </div>
+                        <div class="timestamp-group">
+                            <span class="timestamp-local">2026-08-17 19:30</span>
+                            <span class="timestamp-utc">2026-08-17 11:30 UTC</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">徹底拔除 ChromaDB C++ 寫入依賴，全面切換為純 SQLite 零崩潰寫入引擎，並限制 Vision 圖片上限，解決大型 PDF 超時。</p>
+                    <ul class="details-list"><li>純 SQLite 零崩潰寫入引擎：彻底拔除 ChromaDB C++ HNSW 依賴，100% 免疫 EXC_BAD_ACCESS (Segfault) 與 compaction 損毀</li><li>文字極速優先與 Vision 限額：每本手冊挑選前 10 張關鍵架構圖，大型 PDF 入庫時間由 30 分鐘超時驟降為 15 秒極速完成</li><li>全方位進程隔離與原子性 Manifest 更新：維持 100% 增量安全防護</li></ul>
+                    <div class="links-group"><a href="docs/plans/plan_20260817_193037.html" class="doc-link doc-link-plan">📄 查看 Implementation Plan</a><a href="docs/walkthroughs/walkthrough_20260817_193037.html" class="doc-link doc-link-walkthrough">🧪 查看 Walkthrough 測試紀錄</a></div>
+                </div>
+            </article>
+
+
+            <article class="timeline-item" data-type="feat">
+                <div class="timeline-dot"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <span class="badge badge-feat">✨ FEAT</span>
+                            <h2 class="card-title">全版本官方技術手冊 (PDFs) 批量自動收割引擎與 DOM 原生解析實作</h2>
+                        </div>
+                        <div class="timestamp-group">
+                            <span class="timestamp-local">2026-08-17 14:35</span>
+                            <span class="timestamp-utc">2026-08-17 06:35 UTC</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">解決 IBM Docs SPA 虛擬路由 404 與 403 阻擋，實裝 24 大版本 (9.1.x ~ 8.5.x) 官方 PDF 自動發現、去重與 WAF 穿透批量收割。</p>
+                    <ul class="details-list"><li>Chromium DOM 原生絕對路徑提取：直接讀取 element.href 取得官方真實檔案下載路徑，根除 urljoin 手動拼接 404 錯誤</li><li>Context Request WAF 穿透下載：透過已認證瀏覽器 Session 發送請求，徹底解決 IBM Akamai 防火牆 403 Forbidden 阻擋</li><li>24 大版本自動巡弋與智慧快取：自動巡弋 FS5000/7000/9000 下載專區，本地已存在手冊自動略過，節省頻寬與時間</li><li>防封鎖節流與指數退避重試：內建安全請求間隔與 3 次退避重試，下載失敗自動寫入 failed_pdf_downloads.log</li></ul>
+                    <div class="links-group"><a href="docs/plans/plan_20260817_143510.html" class="doc-link doc-link-plan">📄 查看 Implementation Plan</a><a href="docs/walkthroughs/walkthrough_20260817_143510.html" class="doc-link doc-link-walkthrough">🧪 查看 Walkthrough 測試紀錄</a></div>
+                </div>
+            </article>
+
+
+            <article class="timeline-item" data-type="refactor">
+                <div class="timeline-dot"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <span class="badge badge-refactor">⚡ REFACTOR</span>
+                            <h2 class="card-title">多進程 Spawn 代理池並行爬取與 Segfault/EPIPE 根治重構</h2>
+                        </div>
+                        <div class="timestamp-group">
+                            <span class="timestamp-local">2026-08-16 05:10</span>
+                            <span class="timestamp-utc">2026-08-15 21:10 UTC</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">引進 ProcessPoolExecutor 實現 9.1.3~8.5 多版本並行爬取，徹底根除 Node.js EPIPE 與 Segfault，並建立集中寫入與 SQLite 雙引擎防護。</p>
+                    <ul class="details-list"><li>純 Spawn 多進程代理池 (ProcessPoolExecutor)：隔離 Playwright Node.js IPC 管道，徹底杜絕多線程引發的 EPIPE 與 Segmentation Fault</li><li>主進程集中寫入與全域去重：子進程專注網路爬取，Chunks 統一由主進程寫入，防止 SQLite database is locked 並即時聚合已訪問 URL 與內容雜湊</li><li>PDF 攔截與 URL 拼接修復：修正 urljoin 斜線遺失問題，解決 PDF 404 下載失敗並支援自動擷取官方手冊</li><li>ChromaDB HNSW 寫入防護與純 SQLite 雙引擎備援：寫入端加入全方位例外攔截，防止 C++ 擴充套件崩潰</li></ul>
+                    <div class="links-group"><a href="docs/plans/plan_20260816_051046.html" class="doc-link doc-link-plan">📄 查看 Implementation Plan</a><a href="docs/walkthroughs/walkthrough_20260816_051046.html" class="doc-link doc-link-walkthrough">🧪 查看 Walkthrough 測試紀錄</a></div>
+                </div>
+            </article>
+
+            <!-- 變動 6 -->
+            <div class="timeline-item">
+                <div class="timeline-dot warning"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">6. 根除 HNSW 記憶體崩潰，實作純 Python SQLite 高可用檢索與 Gemini 2.5 專家推理</span>
+                        <span class="badge badge-fix">FIX</span>
+                    </div>
+                    <p class="timeline-desc">徹底移除在 Web 處理中觸發 Segfault 的舊版降級掃描與 C 庫 HNSW 依賴，採用純 Python + SQLite 智慧分詞檢索與 Cross-Encoder 重排，實現 3-4 秒極速且 100% 穩定的 Google Gemini 2.5 專家問答。</p>
+                    <ul class="timeline-list">
+                        <li>重構 vector_store.py: 採用 SQLite FTS 智慧中英文分詞檢索，徹底避免 C 庫 memory corruption</li><li>簡化 web_app.py: 採用原生同步 worker 線程池，消除 asyncio.to_thread 跨線程競爭</li><li>全面啟用 Google Gemini 2.5 Flash 旗艦模型，問答響應時間降至 3.4 秒</li>
+                    </ul>
+                    
+                </div>
+            </div>
+
+            <!-- 變動 5 -->
+            <div class="timeline-item">
+                <div class="timeline-dot "></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">5. 升級 Web Portal 為 Agentic 推理架構 (對接 MCP 與 Google Gemini API)</span>
+                        <span class="badge badge-feat">FEAT</span>
+                    </div>
+                    <p class="timeline-desc">將網頁端問答重構為與 Antigravity 一致的 Agentic 模式，支援 Google Gemini 2.0/1.5 專家模型推理、三級降級防護 (Gemini -> Ollama -> Fallback) 與 marked.js 前端 Markdown 表格渲染。</p>
+                    <ul class="timeline-list">
+                        <li>實作三層自動降級保護 (Level 1: Gemini, Level 2: 本地 Ollama, Level 3: 確定性合成)</li><li>前端引入 marked.js 支援 Markdown 表格與代碼高亮</li><li>新增單元測試 tests/test_gemini_integration.py 並全數通過</li>
+                    </ul>
+                    
+                </div>
+            </div>
+
+            <!-- 變動 4 -->
+            <div class="timeline-item">
+                <div class="timeline-dot "></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">4. 【分支測試】升級 RAG 檢索品質、專家 Prompt 結構與圖片預覽 Bug 修復</span>
+                        <span class="badge badge-feat">FEAT</span>
+                    </div>
+                    <p class="timeline-desc">在分支 feature/rag-quality-upgrade 上成功完成相似度門檻過濾 (>=75%)、資深專家 Prompt 範本、確定性參數鎖定與圖片彈窗修復</p>
+                    <ul class="timeline-list">
+                        <li>在 vector_store.py 加入 min_similarity=0.75 門檻與確定性字典序排序</li><li>在 web_app.py 導入資深專家 Prompt 範本 (含注意事項、GUI/CLI 步驟與驗證指令)</li><li>鎖定 Ollama 採樣參數 temperature=0.0 與 seed=42</li><li>修復 static/index.html 圖片彈窗網址雙斜線 Bug</li>
+                    </ul>
+                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260814_v4.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-14)</a><a href="docs/walkthroughs/walkthrough_20260814_v4.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-14)</a></div>
+                </div>
+            </div>
+
+            <!-- 變動 3 -->
+            <div class="timeline-item">
+                <div class="timeline-dot "></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">3. 建置團隊雲端問答入口 (Web Portal) 與 Cloudflare 部署嚮導 Wizard</span>
+                        <span class="badge badge-feat">FEAT</span>
+                    </div>
+                    <p class="timeline-desc">提供同仁使用之 REST API、Glassmorphism Web UI、語意快取、速率限制與 Wizard 一鍵部署腳本</p>
+                    <ul class="timeline-list">
+                        <li>建立 web_app.py 提供 /api/query 與 /api/stats 介面</li><li>建立 static/index.html 提供高質感網頁問答與圖表 Lightbox 預覽</li><li>建立 wizard_cloud_setup.sh 實現四階段 Cloudflare 加密通道設定嚮導</li><li>實作 Path Traversal 防護與 asyncio.Semaphore(3) 併發排隊鎖</li>
+                    </ul>
+                    <div style="margin-top: 0.75rem;"><a href="docs/plans/plan_20260814_v3.html" target="_blank" class="btn-link btn-plan" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem; margin-right: 0.5rem;">📄 Plan (2026-08-14)</a><a href="docs/walkthroughs/walkthrough_20260814_v3.html" target="_blank" class="btn-link btn-walkthrough" style="font-size: 0.8rem; padding: 0.3rem 0.75rem; margin-top: 0.5rem;">🧪 Walkthrough (2026-08-14)</a></div>
+                </div>
+            </div>
+
+<!-- 變動 2 -->
+<div class="timeline-item">
+<div class="timeline-dot success"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">6. SVC 2145-SV1 至 2145-SV3 在線更換計畫技術審查與修訂</span>
+<span class="badge badge-verify">DOCS</span>
+</div>
+<p class="timeline-desc">完成專業 SVC 節點移轉 SOP 審查，強化 Quorum 檢查、快取鏡像同步與緊急回滾機制</p>
+<ul class="timeline-list">
+<li>新增【準備作業 0】Quorum 狀態 (lsquorum) 與全叢集 Error Log 清查</li><li>導入 15~30 分鐘快取同步觀察期 (lsnodecanister) 與 Config Node 身份轉移驗證</li><li>建立階段五緊急回滾與備援應變計畫 (Contingency &amp; Rollback Plan)</li>
+</ul>
+</div>
+</div>
+<!-- 變動 1 -->
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">5. MCP Server 配置與最新 mcp 2.0 套件相容性升級</span>
+<span class="badge badge-feat">FEAT</span>
+</div>
+<p class="timeline-desc">完成 Antigravity 與 Claude Desktop 之 MCP 服務整合，修復 FastMCP 相容性</p>
+<ul class="timeline-list">
+<li>新增專案 mcp_config.json 與 Claude Desktop claude_desktop_config.json 服務設定</li><li>重構 mcp_server.py 的 FastMCP / MCPServer 相容導入，解決 mcp 2.0.0 模組變更</li><li>實現對話框 @search_flashsystem_kb 直接調用本地向量資料庫與知識庫</li>
+</ul>
+</div>
+</div>
+<!-- 變動 4 -->
+<div class="timeline-item" data-type="verify">
+<div class="timeline-dot success"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">4. 版本控管與 GitHub 遠端倉庫同步</span>
+<span class="badge badge-verify">VERIFY</span>
+</div>
+<p class="timeline-desc">完成全專案程式碼與紅皮書之 Git 提交並推送到 GitHub 遠端倉庫</p>
+<ul class="timeline-list">
+<li>建立 <code>.gitignore</code> 排除虛擬環境與快取，進行初次 Git 提交 (Commit <code>2d4843c</code>)</li>
+<li>自動調和遠端與本機分支衝突，成功推送到 <a href="https://github.com/Kuo1964/IBM-Flashsystem" style="color: var(--primary-accent);" target="_blank">Kuo1964/IBM-Flashsystem</a></li>
+</ul>
+<div class="item-actions">
+<a class="btn-sub btn-sub-plan" href="docs/plans/plan_20260804_v4.html" target="_blank">📄 Plan (2026-08-04)</a>
+<a class="btn-sub btn-sub-wt" href="docs/walkthroughs/walkthrough_20260804_v4.html" target="_blank">🧪 Walkthrough (2026-08-04)</a>
+</div>
+</div>
+</div>
+<!-- 變動 3 -->
+<div class="timeline-item" data-type="feat">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">3. 升級動態網頁爬蟲與 Playwright 無頭瀏覽器渲染</span>
+<span class="badge badge-feat">FEAT</span>
+</div>
+<p class="timeline-desc">支援 IBM Docs 單頁應用程式 (SPA) 頁面與同網域章節目錄遞迴爬取</p>
+<ul class="timeline-list">
+<li>整合 Playwright 無頭 Chromium 瀏覽器，動態執行 JavaScript 並載入完整 DOM 內文與目錄結構</li>
+<li>實現同網域與同產品路徑自動爬取 (Depth-based Crawler)，累積寫入 70,000+ 筆向量 Chunk</li>
+</ul>
+<div class="item-actions">
+<a class="btn-sub btn-sub-plan" href="docs/plans/plan_20260804_v3.html" target="_blank">📄 Plan (2026-08-04)</a>
+<a class="btn-sub btn-sub-wt" href="docs/walkthroughs/walkthrough_20260804_v3.html" target="_blank">🧪 Walkthrough (2026-08-04)</a>
+</div>
+</div>
+</div>
+<!-- 變動 2 -->
+<div class="timeline-item" data-type="fix">
+<div class="timeline-dot warning"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">2. 修復 Google Drive 檔案鎖定與 HNSW compaction 寫入機制</span>
+<span class="badge badge-fix">FIX</span>
+</div>
+<p class="timeline-desc">解決 Google Drive 雲端同步導致的 SQLite 檔案鎖定，維護向量資料庫讀寫穩定度</p>
+<ul class="timeline-list">
+<li>將 ChromaDB 持久化目錄隔離至本機家目錄 (<code>~/.ibm_flashsystem_kb/vector_db</code>)</li>
+<li>將寫入批次縮小為 50 筆，並導入 3 次自動重試與延遲機制</li>
+</ul>
+<div class="item-actions">
+<a class="btn-sub btn-sub-plan" href="docs/plans/plan_20260804_v2.html" target="_blank">📄 Plan (2026-08-04)</a>
+<a class="btn-sub btn-sub-wt" href="docs/walkthroughs/walkthrough_20260804_v2.html" target="_blank">🧪 Walkthrough (2026-08-04)</a>
+</div>
+</div>
+</div>
+<!-- 變動 1 -->
+<div class="timeline-item" data-type="feat">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<span class="timeline-title">1. 全自動建置 IBM FlashSystem 本地專家系統核心</span>
+<span class="badge badge-feat">FEAT</span>
+</div>
+<p class="timeline-desc">整合 Ollama (LLM/Embedding/Vision)、ChromaDB 與 MCP Server，實現跨 AI Agent 可調用之本地專家知識庫</p>
+<ul class="timeline-list">
+<li>建構 <code>config.py</code>, <code>parser.py</code>, <code>vision_processor.py</code>, <code>vector_store.py</code>, <code>ingest.py</code>, <code>mcp_server.py</code>, <code>cli.py</code></li>
+<li>下載安裝 Ollama <code>llama3.2-vision</code> 多模態技術圖表解析模型 (7.8 GB)</li>
+<li>建立增量更新機制 (SHA-256 Hash 追蹤 <code>manifest.json</code>)</li>
+</ul>
+<div class="item-actions">
+<a class="btn-sub btn-sub-plan" href="docs/plans/plan_20260804_v1.html" target="_blank">📄 Plan (2026-08-04)</a>
+<a class="btn-sub btn-sub-wt" href="docs/walkthroughs/walkthrough_20260804_v1.html" target="_blank">🧪 Walkthrough (2026-08-04)</a>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<p>Antigravity AI Pair Programming Agent · 自動更新於 <span id="update-time">2026-08-15 09:59:02</span></p>
+</footer>
+</div>
+<!-- 純前端 Modal 快照對話框 -->
+<div class="modal" id="preview-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="modal-title">文件預覽</h3>
+<button class="modal-close" onclick="closeModal()">×</button>
+</div>
+<div class="modal-body" id="modal-body">
+                載入中...
+            </div>
+</div>
+</div>
+<script>
+        document.getElementById('update-time').innerText = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+
+        let currentFilter = 'all';
+
+        function setFilter(type, element) {
+            currentFilter = type;
+            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+            element.classList.add('active');
+            filterLogs();
+        }
+
+        function filterLogs() {
+            const searchText = document.getElementById('search-input').value.toLowerCase();
+            const items = document.querySelectorAll('.timeline-item');
+
+            items.forEach(item => {
+                const itemType = item.getAttribute('data-type');
+                const itemText = item.innerText.toLowerCase();
+                
+                const matchesType = (currentFilter === 'all' || itemType === currentFilter);
+                const matchesSearch = itemText.includes(searchText);
+
+                if (matchesType && matchesSearch) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('preview-modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
