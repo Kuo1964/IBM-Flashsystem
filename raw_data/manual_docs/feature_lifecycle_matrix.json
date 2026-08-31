@@ -1,0 +1,191 @@
+[
+  {
+    "feature_id": "remote_copy_legacy",
+    "feature_name": "Metro Mirror / Global Mirror (Legacy Remote Copy)",
+    "keywords": [
+      "metro mirror",
+      "global mirror",
+      "mkrcrelationship",
+      "mkrcconsistgrp",
+      "startrcconsistgrp",
+      "stoprcconsistgrp",
+      "legacy remote copy",
+      "consistency group replication"
+    ],
+    "introduced_version": "6.1.0",
+    "deprecated_version": "9.1.0",
+    "status_in_9_1": "DEPRECATED_AND_REPLACED",
+    "replacement_feature": "Policy-Based Replication (PBR)",
+    "replacement_description": "在 9.1.0 及更高版本中，傳統基於 Consistency Group 的 Metro Mirror / Global Mirror 已被全面廢除，改為強制採用 Policy-Based Replication (PBR，基於原則的複製)，透過 Volume Group 與 Replication Policy 實現自動化同步/非同步複製。",
+    "legacy_commands": [
+      "mkrcrelationship",
+      "mkrcconsistgrp",
+      "startrcconsistgrp",
+      "stoprcconsistgrp",
+      "chrcconsistgrp"
+    ],
+    "modern_commands": [
+      "mkreplicationpolicy",
+      "chvolumegroup -replicationpolicy",
+      "lsreplicationpolicy",
+      "lsvolumegroup"
+    ],
+    "guidance_summary": "⚠️ 【重大版本架構演進警示】：在 IBM Storage Virtualize 9.1.0+ 中，傳統 Metro Mirror/Global Mirror 關係已廢除，不可再使用 mkrcrelationship。官方標準做法是建立 Volume Group 並套用 mkreplicationpolicy 複製原則。"
+  },
+  {
+    "feature_id": "flashsystem_grid",
+    "feature_name": "FlashSystem Grid (Scale-out Storage Mesh)",
+    "keywords": [
+      "flashsystem grid",
+      "storage grid",
+      "managegrid",
+      "manageflashgrid",
+      "lsgrid",
+      "lsflashgrid",
+      "grid coordinator",
+      "grid member"
+    ],
+    "introduced_version": "8.7.3",
+    "standard_version": "9.1.0",
+    "status_in_9_1": "ACTIVE_STANDARD",
+    "replacement_feature": "FlashSystem Grid (取代傳統 Multiple I/O Groups)",
+    "replacement_description": "8.7.3.0 引入 FlashSystem Grid 雛形 (指令為 manageflashgrid)；9.1.0+ 正式標準化為 managegrid，支援最多 32 台 FlashSystem 跨系統無中斷分區遷移與統一管理。",
+    "legacy_commands": [
+      "manageflashgrid",
+      "lsflashgrid",
+      "lsflashgridmembers"
+    ],
+    "modern_commands": [
+      "managegrid",
+      "lsgrid",
+      "lsgridmembers",
+      "lsgridpartition",
+      "mktruststore"
+    ],
+    "guidance_summary": "FlashSystem Grid 需在 8.7.3+ (9.1.0+ 為標準) 運行，每台系統為 Single I/O Group。9.1.0 使用 managegrid -create / managegrid -join / managegrid -accept。"
+  },
+  {
+    "feature_id": "multiple_iogroups",
+    "feature_name": "Multiple I/O Groups Scale-out (同一叢集多 I/O Group 擴展)",
+    "keywords": [
+      "multiple i/o groups",
+      "multiple io groups",
+      "multiple_io_groups",
+      "add node to iogrp",
+      "chiogrp"
+    ],
+    "introduced_version": "6.1.0",
+    "deprecated_version": "8.7.3",
+    "status_in_9_1": "DEPRECATED_AND_REPLACED",
+    "replacement_feature": "FlashSystem Grid (Scale-out Storage Mesh)",
+    "replacement_description": "在 8.7.3 / 9.1.0+ 中，同一儲存叢集內建立多個 I/O Group 的擴展模式已由 FlashSystem Grid 網格架構全面取代。新系統預設停用 multiple_io_groups 相容模式。",
+    "legacy_commands": [
+      "addnode -iogrp",
+      "movevdisk -iogrp"
+    ],
+    "modern_commands": [
+      "managegrid -create",
+      "managegrid -join"
+    ],
+    "guidance_summary": "⚠️ 【架構演進】：多 I/O 群組模式已由 FlashSystem Grid 取代，系統支援單一 I/O Group 並透過 Grid 進行跨系統橫向擴展。"
+  },
+  {
+    "feature_id": "flashcopy_legacy",
+    "feature_name": "Legacy FlashCopy (傳統磁區對應快照)",
+    "keywords": [
+      "flashcopy mapping",
+      "mkfcmap",
+      "startfcmap",
+      "stopfcmap",
+      "rmfcmap",
+      "legacy flashcopy"
+    ],
+    "introduced_version": "6.1.0",
+    "deprecated_version": "8.6.0",
+    "status_in_9_1": "LEGACY_SECONDARY",
+    "replacement_feature": "Volume Group Snapshot & Safeguarded Copy (受保護快照原則)",
+    "replacement_description": "8.6.0+ 與 9.1.0+ 推薦全面改用 Volume Group Snapshot 與 Safeguarded Copy 原則管理快照，具備不可變性 (Immutability) 與自動化調度。",
+    "legacy_commands": [
+      "mkfcmap",
+      "startfcmap",
+      "stopfcmap",
+      "rmfcmap"
+    ],
+    "modern_commands": [
+      "chvolumegroup -safeguarded",
+      "mksnapshotpolicy",
+      "chvolumegroup -snapshotpolicy"
+    ],
+    "guidance_summary": "雖然 9.1 仍向下相容 mkfcmap 指令，但原廠最佳實踐已由 Volume Group 快照原則與 Safeguarded Copy 取代。"
+  },
+  {
+    "feature_id": "traditional_raid",
+    "feature_name": "Traditional RAID 5/6 (傳統非分散式 RAID)",
+    "keywords": [
+      "raid5",
+      "raid6",
+      "traditional raid",
+      "non-distributed raid"
+    ],
+    "introduced_version": "6.1.0",
+    "deprecated_version": "8.5.0",
+    "status_in_9_1": "DEPRECATED_ON_NVME",
+    "replacement_feature": "Distributed RAID (DRAID 6 / DRAID 1)",
+    "replacement_description": "在 NVMe 全快閃機型 (FS5200/5600/7200/7300/7600/9200/9500/9600) 上，傳統 RAID 5/6 不再支援，全面強制採用 Distributed RAID 6 (DRAID 6) 或 DRAID 1 以獲得極致重建效能。",
+    "legacy_commands": [
+      "mkarray -level raid5",
+      "mkarray -level raid6"
+    ],
+    "modern_commands": [
+      "mkarray -level draid6",
+      "mkarray -level draid1"
+    ],
+    "guidance_summary": "NVMe 全快閃系統全面強制採用 DRAID 6 / DRAID 1，大幅縮短磁碟損壞重建時間。"
+  },
+  {
+    "feature_id": "volume_protection",
+    "feature_name": "Volume Protection (防勒索刪除保護時間)",
+    "keywords": [
+      "volume protection",
+      "vdisk_protection_time",
+      "vdisk_protection_enabled",
+      "chsystem -vdiskprotectiontime"
+    ],
+    "introduced_version": "8.4.2",
+    "deprecated_version": "NONE",
+    "status_in_9_1": "ACTIVE_STANDARD",
+    "replacement_feature": "N/A",
+    "replacement_description": "8.4.2+ 引入全域磁碟保護機制，當磁碟在保護時間內有 I/O 活動時禁止刪除或修改，有效防止意外或勒索軟體惡意破壞。",
+    "legacy_commands": [],
+    "modern_commands": [
+      "chsystem -vdiskprotectionenabled yes -vdiskprotectiontime 15",
+      "lssystem"
+    ],
+    "guidance_summary": "8.4.2 以上版本預設或推薦啟用 Volume Protection，透過 lssystem 查看保護時間。"
+  },
+  {
+    "feature_id": "storage_partition",
+    "feature_name": "Storage Partition (安全多租戶儲存分區)",
+    "keywords": [
+      "storage partition",
+      "mkstoragepartition",
+      "lsstoragepartition",
+      "chstoragepartition",
+      "ownership group"
+    ],
+    "introduced_version": "8.7.0",
+    "deprecated_version": "NONE",
+    "status_in_9_1": "ACTIVE_STANDARD",
+    "replacement_feature": "N/A",
+    "replacement_description": "8.7.0+ 引入多租戶分區隔離，可將主機、磁碟與儲存池綁定至獨立 Partition 進行權限與容量配額管理。",
+    "legacy_commands": [],
+    "modern_commands": [
+      "mkstoragepartition",
+      "lsstoragepartition",
+      "chstoragepartition",
+      "chhost -ownershipgroup",
+      "chvdisk -ownershipgroup"
+    ],
+    "guidance_summary": "8.7.0 及 9.1.0+ 專屬之多租戶硬體與資源隔離架構。"
+  }
+]

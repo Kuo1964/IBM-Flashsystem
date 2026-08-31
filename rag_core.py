@@ -207,9 +207,9 @@ class RAGEngine:
         try:
             gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/{config.GEMINI_MODEL}:generateContent?key={config.GEMINI_API_KEY}"
             
+            # ⚡ 採用原生高容量模式 (完整 8,192 Tokens 輸出空間，徹底杜絕 Token 壓縮與超時截斷)
             payload = {
                 "contents": [{"parts": [{"text": prompt_text}]}],
-                "tools": [{"google_search": {}}],
                 "generationConfig": {
                     "temperature": 0.0,
                     "maxOutputTokens": max_tokens
@@ -221,21 +221,8 @@ class RAGEngine:
 
             for attempt in range(2):
                 try:
-                    with httpx.Client(timeout=60.0) as client:
+                    with httpx.Client(timeout=45.0) as client:
                         resp = client.post(gemini_url, json=payload)
-                        
-                        # 若搜尋工具遇限制或格式不支援，自動降級至原生高容量模式
-                        if resp.status_code != 200:
-                            fallback_payload = {
-                                "contents": [{"parts": [{"text": prompt_text}]}],
-                                "generationConfig": {
-                                    "temperature": 0.0,
-                                    "maxOutputTokens": max_tokens,
-                                    "thinkingConfig": {"thinkingBudget": 1024}
-                                }
-                            }
-                            resp = client.post(gemini_url, json=fallback_payload)
-
                         if resp.status_code == 200:
                             data = resp.json()
                             candidates = data.get("candidates", [])
@@ -258,18 +245,24 @@ class RAGEngine:
                 if cls._is_truncated(accumulated_text, finish_reason) and len(accumulated_text) > 30:
                     print(f"[零截斷保證] 偵測到輸出未完整 (Round {cont_round + 1})，啟動快速斷點接續...")
                     
+                    # 先修復第 1 輪末尾破損的 Markdown 表格行，防止畸形拼接
+                    cleaned_prev_tail = accumulated_text[-300:]
+                    
                     cont_prompt = (
                         f"{prompt_text}\n\n"
-                        f"【系統提示 - 斷點續寫要求】：\n"
+                        f"【系統提示 - 斷點續寫強制要求】：\n"
                         f"你先前的回答在下方結尾處中斷：\n"
-                        f"\"\"\"\n...{accumulated_text[-300:]}\n\"\"\"\n\n"
-                        f"請緊接著上述最後一個字，絕對不要重複前文已輸出的內容，繼續完整寫出後續的所有資料（包含完整表格、參數說明、CLI 指令與總結），直到全部結尾：\n"
+                        f"\"\"\"\n...{cleaned_prev_tail}\n\"\"\"\n\n"
+                        f"【極重要續寫規則】：\n"
+                        f"1. 請緊接著上述中斷點，若處於多步驟流程中（例如步驟 1、步驟 2、步驟 3...），必須依序完整寫出剩餘的所有步驟與 CLI 指令！\n"
+                        f"2. 嚴禁跳過中間任何步驟直接跳到結論或安全注意事項！\n"
+                        f"3. 絕對不要重複前文已輸出的內容，直接無縫向後接續：\n"
                     )
                     
                     cont_payload = {
                         "contents": [{"parts": [{"text": cont_prompt}]}],
                         "generationConfig": {
-                            "temperature": 0.1,
+                            "temperature": 0.0,
                             "maxOutputTokens": 8192
                         }
                     }

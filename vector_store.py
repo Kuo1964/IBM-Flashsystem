@@ -313,6 +313,42 @@ def query_kb(query_text: str, top_k: int = 25, min_similarity: float = 0.0, expa
         rrf_scores[cid] = 200.0 - r_idx # 絕對最高優先級
         chunk_map[cid] = err_chunk
 
+    # 專屬通道 0.5: 功能生命週期與版本廢除演進直通通道 (Feature Lifecycle & Deprecation Router)
+    lifecycle_file = config.RAW_DATA_DIR / "manual_docs" / "feature_lifecycle_matrix.json"
+    if lifecycle_file.exists():
+        try:
+            with open(lifecycle_file, "r", encoding="utf-8") as lf:
+                lifecycle_data = json.load(lf)
+            q_lower_all = (query_text + " " + " ".join(expanded_terms or [])).lower()
+            for item in lifecycle_data:
+                # 檢查關鍵字命中
+                if any(kw in q_lower_all for kw in item.get("keywords", [])):
+                    cid = f"lifecycle_{item.get('feature_id', 'unknown')}"
+                    content = (
+                        f"【IBM 官方功能版本生命週期與架構演進真理規範】\n"
+                        f"• 功能名稱: {item.get('feature_name', '')}\n"
+                        f"• 支援起始版本: {item.get('introduced_version', 'N/A')}\n"
+                        f"• 廢除/取代版本 (Deprecation): {item.get('deprecated_version', 'N/A')}\n"
+                        f"• 9.1.0+ 當前架構狀態: {item.get('status_in_9_1', 'ACTIVE')}\n"
+                        f"• 原廠正式取代技術: {item.get('replacement_feature', 'N/A')}\n"
+                        f"• 演進說明: {item.get('replacement_description', '')}\n"
+                        f"• 官方標準現代指令 (Modern CLI): {', '.join(item.get('modern_commands', []))}\n"
+                        f"• 架構指引規範: {item.get('guidance_summary', '')}"
+                    )
+                    chunk_map[cid] = {
+                        "id": cid,
+                        "content": content,
+                        "metadata": {
+                            "source": "IBM Storage Virtualize Architecture Lifecycle Guide",
+                            "page": 1,
+                            "type": "feature_lifecycle_policy"
+                        },
+                        "similarity_score": 1.0
+                    }
+                    rrf_scores[cid] = 180.0
+        except Exception as e:
+            print(f"[警告] 功能生命週期檢索異常: {e}")
+
     # 軌道 0: 官方 PDF 原廠表格實體直通軌 (100% Grounded Parts Table Router)
     parts_file = config.RAW_DATA_DIR / "manual_docs" / "official_grounded_parts_from_pdf.json"
     if parts_file.exists():
