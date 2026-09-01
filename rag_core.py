@@ -194,6 +194,8 @@ class RAGEngine:
 
         # 5. 官方標準指令白名單自動校正與過濾 (消除模型幻想指令)
         hallucination_replacements = {
+            r"\blserrorlog\b": "lseventlog",
+            r"\blsdate\b": "showtimezone",
             r"\blsreplicationvolumegroup\b": "lsreplicationpolicy",
             r"\blshyperswap\b": "lsvdisk",
             r"\blserrorevent\b": "lseventlog",

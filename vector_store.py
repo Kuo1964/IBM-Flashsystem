@@ -381,6 +381,72 @@ def query_kb(query_text: str, top_k: int = 60, min_similarity: float = 0.0, expa
         except Exception as e:
             print(f"[警告] 功能生命週期檢索異常: {e}")
 
+    # 專屬通道 0.7: 官方 497 筆 CLI 手冊指令精確關聯通道 (Pre-Retrieval Official CLI Index Linking)
+    cli_whitelist_file = config.RAW_DATA_DIR / "manual_docs" / "official_cli_commands_whitelist.json"
+    if cli_whitelist_file.exists():
+        try:
+            with open(cli_whitelist_file, "r", encoding="utf-8") as cwf:
+                cli_whitelist = json.load(cwf)
+            q_lower_all = (query_text + " " + " ".join(expanded_terms or [])).lower()
+            
+            # 定義主題與官方 CLI 指令的精確對應字典
+            THEME_COMMANDS = {
+                "data migration": ["migratevdisk", "addvdiskcopy", "rmvdiskcopy", "splitvdiskcopy", "lsmigrate", "lsvdiskcopy", "lsmdiskgrp"],
+                "migrate": ["migratevdisk", "addvdiskcopy", "rmvdiskcopy", "splitvdiskcopy", "lsmigrate", "lsvdiskcopy"],
+                "ndvm": ["migratevdisk", "addvdiskcopy", "rmvdiskcopy", "splitvdiskcopy", "lsvdisk", "lsiogrp"],
+                "non-disruptive": ["migratevdisk", "addvdiskcopy", "managegrid"],
+                "storage partition": ["mkstoragepartition", "lsstoragepartition", "chstoragepartition", "rmstoragepartition"],
+                "partition migration": ["managegrid", "lsgridpartition", "lsgridmembers", "lsstoragepartition"],
+                "safeguard": ["chvolumegroup", "mksnapshotpolicy", "lsvolumegroup", "lssnapshotpolicy", "restorevolumegroup", "lssystem"],
+                "grid": ["managegrid", "mktruststore", "lsgrid", "lsgridmembers", "lsgridpartition", "lstruststore", "chsystemcertstore"],
+                "pbr": ["mkportset", "cfgportip", "mkpartnership", "mkreplicationpolicy", "chvolumegroup", "lsreplicationpolicy"],
+                "replication": ["mkportset", "cfgportip", "mkpartnership", "mkreplicationpolicy", "chvolumegroup", "lsreplicationpolicy"],
+                "hyperswap": ["chsystem", "mksite", "chnode", "mkipquorum", "lsquorum", "lsvdisk"],
+                "quorum": ["mkipquorum", "chquorum", "lsquorum", "lssystem"],
+                "draid": ["mkmdiskgrp", "mkarray", "lsarray", "lsdrive", "lsmdiskgrp"],
+                "npiv": ["chiogrp", "lsportfc", "lsnode", "lsiogrp"],
+                "canister": ["satask", "lsenclosurecanister", "lsnode", "lseventlog"],
+                "portset": ["mkportset", "rmportset", "chportset", "lsportset", "cfgportip", "addfcportsetmember"],
+                "log": ["lseventlog"],
+                "error": ["lseventlog"],
+                "event": ["lseventlog"],
+                "time": ["showtimezone", "lstimezones", "settimezone"],
+                "ping": ["ping"]
+            }
+            
+            matched_cmds = set()
+            for theme, cmd_list in THEME_COMMANDS.items():
+                if theme in q_lower_all:
+                    for cmd in cmd_list:
+                        if cmd in cli_whitelist:
+                            matched_cmds.add(cmd)
+                            
+            if matched_cmds:
+                cmd_syntax_lines = []
+                for cmd in matched_cmds:
+                    c_info = cli_whitelist[cmd]
+                    cmd_syntax_lines.append(f"• 指令 `{c_info['command']}`: 語法: `{c_info['syntax']}` [出處: {c_info['source']}, 第 {c_info['page']} 頁]")
+                
+                cid = "official_cli_grounding_block"
+                content = (
+                    f"【IBM 官方 CLI 參考手冊指令規範 (100% Grounded CLI Whitelist - 唯一允許引用之指令)】\n"
+                    + "\n".join(cmd_syntax_lines)
+                    + "\n• 【重要規範】：日常監控與錯誤事件查詢唯一官方指令為 `lseventlog`；系統時間查詢為 `showtimezone`；網路測試為 `ping`。嚴禁使用任何未記載之指令！"
+                )
+                chunk_map[cid] = {
+                    "id": cid,
+                    "content": content,
+                    "metadata": {
+                        "source": "IBM Storage Virtualize Command-Line Interface User's Guide (9.1.0)",
+                        "page": 1,
+                        "type": "official_cli_reference"
+                    },
+                    "similarity_score": 1.0
+                }
+                rrf_scores[cid] = 190.0 # 極高優先級
+        except Exception as e:
+            print(f"[警告] 官方 CLI 白名單前置檢索異常: {e}")
+
     # 軌道 0: 官方 PDF 原廠表格實體直通軌 (100% Grounded Parts Table Router)
     parts_file = config.RAW_DATA_DIR / "manual_docs" / "official_grounded_parts_from_pdf.json"
     if parts_file.exists():
