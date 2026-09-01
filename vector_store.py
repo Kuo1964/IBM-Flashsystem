@@ -101,7 +101,7 @@ def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: 
     raw_terms = [query_text] + (expanded_terms or [])
     tokens = set()
     for t in raw_terms:
-        matches = re.findall(r'[A-Za-z0-9\.\#\-]+', t)
+        matches = re.findall(r'[A-Za-z0-9\.\#\-_]+', t)
         for m in matches:
             m_clean = m.lower().strip()
             if len(m_clean) >= 2 and not m_clean.isdigit():
@@ -116,36 +116,68 @@ def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: 
         conn = sqlite3.connect(str(db_path))
         c = conn.cursor()
         
-        important_tokens = [tok for tok in tokens if any(k in tok for k in ["7.68", "240", "01lj", "02wf", "01pg", "02cl", "03nk", "03jk", "01ym", "01ft", "00ry", "00ar", "00y2", "tpm", "ag0", "ach", "nvme", "m.2", "fru", "part", "adapter", "fc", "32", "64", "sas", "drive", "ssd", "canister", "dimm", "03", "cmmvc", "managegrid"])]
-        if not important_tokens:
-            important_tokens = list(tokens)[:4]
-            
+        # 🛡️ 雙軌特徵詞分離：專題功能特徵詞 (Feature Tokens) vs 機型版本特徵詞 (Model/Version Tokens)
+        FEATURE_KEYWORDS = [
+            "safeguard", "safeguarded", "snapshot", "policy", "pbr", "replication",
+            "partition", "grid", "hyperswap", "quorum", "draid", "volume", "volumegroup",
+            "group", "protection", "upgrade", "applysoftware", "canister", "node",
+            "adapter", "fru", "part", "fc", "sas", "nvme", "cmmvc", "managegrid", "mktruststore",
+            "mksnapshotpolicy", "chvolumegroup", "5654", "redp5654"
+        ]
+        
+        feature_tokens = [tok for tok in tokens if any(k in tok for k in FEATURE_KEYWORDS)]
+        model_tokens = [tok for tok in tokens if any(k in tok for k in ["fs", "5000", "5200", "5300", "5600", "7200", "7300", "7600", "9100", "9200", "9500", "9600", "svc", "v8", "8.5", "8.6", "8.7", "9.1"])]
+        other_tokens = [tok for tok in tokens if tok not in feature_tokens and tok not in model_tokens]
+        
         candidate_rows = []
-        for i in range(len(important_tokens), 0, -1):
-            subset = important_tokens[:i]
-            where_conditions = ["string_value LIKE ?" for _ in subset]
-            where_clause = " AND ".join(where_conditions)
-            params = [f"%{tok}%" for tok in subset]
-            
-            sql = f"""
-            SELECT id, string_value 
-            FROM embedding_metadata 
-            WHERE key = 'chroma:document' AND {where_clause}
-            LIMIT {top_k * 3};
-            """
-            c.execute(sql, params)
-            rows = c.fetchall()
-            if rows:
-                for r in rows:
-                    # 自動過濾純目錄導覽連結 Chunk，保留真正含有技術正文的段落
+        
+        # 軌道 1: 專題功能軌優先檢索 (例如 Safeguarded Copy 專書 redp5654, FlashSystem Grid 專題手冊等)
+        if feature_tokens:
+            for i in range(min(3, len(feature_tokens)), 0, -1):
+                subset = feature_tokens[:i]
+                where_clause = " AND ".join(["string_value LIKE ?" for _ in subset])
+                params = [f"%{tok}%" for tok in subset]
+                sql = f"SELECT id, string_value FROM embedding_metadata WHERE key = 'chroma:document' AND {where_clause} LIMIT {top_k * 2};"
+                c.execute(sql, params)
+                for r in c.fetchall():
                     if not is_pure_toc_chunk(r[1]):
-                        candidate_rows.append(r)
+                        candidate_rows.append((r, 1.2)) # 專題加權
                 if len(candidate_rows) >= top_k:
                     break
                     
+        # 軌道 2: 機型與版本軌檢索 (產品規格、安裝手冊等)
+        if model_tokens:
+            for i in range(min(2, len(model_tokens)), 0, -1):
+                subset = model_tokens[:i]
+                where_clause = " AND ".join(["string_value LIKE ?" for _ in subset])
+                params = [f"%{tok}%" for tok in subset]
+                sql = f"SELECT id, string_value FROM embedding_metadata WHERE key = 'chroma:document' AND {where_clause} LIMIT {top_k * 2};"
+                c.execute(sql, params)
+                for r in c.fetchall():
+                    if not is_pure_toc_chunk(r[1]):
+                        candidate_rows.append((r, 1.0))
+                if len(candidate_rows) >= top_k * 2:
+                    break
+                    
+        # 軌道 3: 通用複合檢索保底
+        if not candidate_rows:
+            target_list = (feature_tokens + model_tokens + other_tokens)[:4]
+            if target_list:
+                for i in range(len(target_list), 0, -1):
+                    subset = target_list[:i]
+                    where_clause = " AND ".join(["string_value LIKE ?" for _ in subset])
+                    params = [f"%{tok}%" for tok in subset]
+                    sql = f"SELECT id, string_value FROM embedding_metadata WHERE key = 'chroma:document' AND {where_clause} LIMIT {top_k * 2};"
+                    c.execute(sql, params)
+                    for r in c.fetchall():
+                        if not is_pure_toc_chunk(r[1]):
+                            candidate_rows.append((r, 0.9))
+                    if len(candidate_rows) >= top_k:
+                        break
+                        
         results = []
         seen_ids = set()
-        for cid, doc_text in candidate_rows:
+        for (cid, doc_text), weight in candidate_rows:
             if cid in seen_ids:
                 continue
             seen_ids.add(cid)
@@ -161,7 +193,7 @@ def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: 
                 "id": str(cid),
                 "content": doc_text,
                 "metadata": meta,
-                "similarity_score": 0.95
+                "similarity_score": min(0.99, 0.90 * weight)
             })
             
         conn.close()
@@ -289,10 +321,10 @@ def lookup_error_code_record(query_text: str, expanded_terms: List[str] = None) 
         
     return results
 
-def query_kb(query_text: str, top_k: int = 25, min_similarity: float = 0.0, expanded_terms: List[str] = None) -> List[Dict[str, Any]]:
+def query_kb(query_text: str, top_k: int = 60, min_similarity: float = 0.0, expanded_terms: List[str] = None) -> List[Dict[str, Any]]:
     """
     使用 ChromaDB Vector Search + SQLite Full-Text Lexical Search 雙軌混合檢索 (Hybrid Search)
-    並整合 2,732 筆官方錯誤碼字典資源組通道，透過 RRF 動態融合排序
+    並整合 2,732 筆官方錯誤碼字典與功能生命週期直通通道，透過 RRF 動態融合排序
     """
     collection = get_chroma_collection()
     

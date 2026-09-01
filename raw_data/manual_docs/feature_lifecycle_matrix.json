@@ -187,5 +187,35 @@
       "chvdisk -ownershipgroup"
     ],
     "guidance_summary": "8.7.0 及 9.1.0+ 專屬之多租戶硬體與資源隔離架構。"
+  },
+  {
+    "feature_id": "safeguarded_copy",
+    "feature_name": "Safeguarded Copy (受保護不可變快照防勒索)",
+    "keywords": [
+      "safeguard",
+      "safeguarded",
+      "safeguarded copy",
+      "mksnapshotpolicy",
+      "restorevolumegroup",
+      "5654",
+      "redp5654",
+      "safeguarded snapshot"
+    ],
+    "introduced_version": "8.4.2",
+    "deprecated_version": "NONE",
+    "status_in_9_1": "ACTIVE_STANDARD",
+    "replacement_feature": "Volume Group Snapshot & Safeguarded Copy (REDP-5654 官方實施標準)",
+    "replacement_description": "Safeguarded Copy 是 IBM Storage Virtualize 的核心防勒索技術，透過 Volume Group 與 Snapshot Policy 建立具備時間鎖定與防竄改特性的不可變快照。",
+    "legacy_commands": [
+      "mksafeguardedpolicy"
+    ],
+    "modern_commands": [
+      "chvolumegroup -safeguarded yes",
+      "mksnapshotpolicy",
+      "chvolumegroup -snapshotpolicy",
+      "lsvolumegroup",
+      "restorevolumegroup"
+    ],
+    "guidance_summary": "🛡️ 【Safeguarded Copy 實施規範 (出處: REDP-5654)】：Safeguarded 快照依賴 Volume Group 運作。標準實施步驟為：1. 建立/標記磁區群組 (chvolumegroup -safeguarded yes)；2. 建立快照原則 (mksnapshotpolicy)；3. 套用至磁區群組 (chvolumegroup -snapshotpolicy)；4. 恢復時使用 restorevolumegroup。"
   }
 ]
