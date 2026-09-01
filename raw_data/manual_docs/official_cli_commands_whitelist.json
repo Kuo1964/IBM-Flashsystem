@@ -1,0 +1,2984 @@
+{
+  "system": {
+    "command": "system",
+    "syntax": "system",
+    "page": 27,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chuser": {
+    "command": "chuser",
+    "syntax": "chuser",
+    "page": 33,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsdumps": {
+    "command": "lsdumps",
+    "syntax": "lsdumps",
+    "page": 37,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "cpdumps": {
+    "command": "cpdumps",
+    "syntax": "cpdumps",
+    "page": 37,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "cleardumps": {
+    "command": "cleardumps",
+    "syntax": "cleardumps",
+    "page": 37,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "charray": {
+    "command": "charray",
+    "syntax": "charray",
+    "page": 53,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "charraymember": {
+    "command": "charraymember",
+    "syntax": "charraymember -member member_id -balanced",
+    "page": 54,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "expandarray": {
+    "command": "expandarray",
+    "syntax": "expandarray -totaldrivecount resulting_drive_count",
+    "page": 56,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsarray": {
+    "command": "lsarray",
+    "syntax": "lsarray",
+    "page": 57,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsarrayexpansionprogress": {
+    "command": "lsarrayexpansionprogress",
+    "syntax": "lsarrayexpansionprogress",
+    "page": 60,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsarrayinitprogress": {
+    "command": "lsarrayinitprogress",
+    "syntax": "lsarrayinitprogress",
+    "page": 62,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsarraylba": {
+    "command": "lsarraylba",
+    "syntax": "lsarrayinitprogress",
+    "page": 62,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsdrive": {
+    "command": "lsdrive",
+    "syntax": "lsdrive",
+    "page": 63,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsarraymember": {
+    "command": "lsarraymember",
+    "syntax": "lsarraymember",
+    "page": 64,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsarraymembergoals": {
+    "command": "lsarraymembergoals",
+    "syntax": "lsarraymembergoals",
+    "page": 65,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsarraymemberprogress": {
+    "command": "lsarraymemberprogress",
+    "syntax": "lsarraymemberprogress",
+    "page": 66,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsarrayrecommendation": {
+    "command": "lsarrayrecommendation",
+    "syntax": "lsarrayrecommendation -driveclass drive_class_id_list -drivecount drive_count_list",
+    "page": 67,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsarraysyncprogress": {
+    "command": "lsarraysyncprogress",
+    "syntax": "lsarraysyncprogress",
+    "page": 69,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscompatibledriveclasses": {
+    "command": "lscompatibledriveclasses",
+    "syntax": "lsarraysyncprogress",
+    "page": 69,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lspotentialarraysize": {
+    "command": "lspotentialarraysize",
+    "syntax": "lspotentialarraysize -drivecount 2 - 128 -driveclass drive_class_id -level",
+    "page": 70,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkdistributedarray": {
+    "command": "mkdistributedarray",
+    "syntax": "mkdistributedarray",
+    "page": 71,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsmdisk": {
+    "command": "lsmdisk",
+    "syntax": "recoverarray mdisk_id",
+    "page": 75,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "recoverarray": {
+    "command": "recoverarray",
+    "syntax": "recoverarray mdisk_id",
+    "page": 75,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "recoverarraybysystem": {
+    "command": "recoverarraybysystem",
+    "syntax": "recoverarray mdisk_id",
+    "page": 75,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmarray": {
+    "command": "rmarray",
+    "syntax": "rmarray -mdisk mdisk_id_list",
+    "page": 76,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "catauditlog": {
+    "command": "catauditlog",
+    "syntax": "catauditlog",
+    "page": 77,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "dumpauditlog": {
+    "command": "dumpauditlog",
+    "syntax": "catauditlog",
+    "page": 77,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "svcconfig": {
+    "command": "svcconfig",
+    "syntax": "svcconfig backup",
+    "page": 81,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "backup": {
+    "command": "backup",
+    "syntax": "svcconfig backup",
+    "page": 82,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "clear": {
+    "command": "clear",
+    "syntax": "svcconfig clear",
+    "page": 83,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "cron": {
+    "command": "cron",
+    "syntax": "svcconfig cron",
+    "page": 84,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "recover": {
+    "command": "recover",
+    "syntax": "svcconfig cron",
+    "page": 84,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "restore": {
+    "command": "restore",
+    "syntax": "svcconfig restore",
+    "page": 85,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "cfgcloudstorage": {
+    "command": "cfgcloudstorage",
+    "syntax": "cfgcloudstorage -username -key -storage -srcportid",
+    "page": 87,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "querycloudstoragecandidate": {
+    "command": "querycloudstoragecandidate",
+    "syntax": "querycloudstoragecandidate",
+    "page": 88,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chcloudaccountawss3": {
+    "command": "chcloudaccountawss3",
+    "syntax": "chcloudaccountawss3",
+    "page": 90,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chcloudaccountswift": {
+    "command": "chcloudaccountswift",
+    "syntax": "chcloudaccountswift",
+    "page": 92,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chcloudaccountazure": {
+    "command": "chcloudaccountazure",
+    "syntax": "chcloudaccountazure",
+    "page": 95,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscloudaccount": {
+    "command": "lscloudaccount",
+    "syntax": "lscloudaccount",
+    "page": 97,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscloudaccountusage": {
+    "command": "lscloudaccountusage",
+    "syntax": "lscloudaccountusage",
+    "page": 99,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscloudaccountimportcandidate": {
+    "command": "lscloudaccountimportcandidate",
+    "syntax": "lscloudaccountimportcandidate",
+    "page": 100,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkcloudaccountawss3": {
+    "command": "mkcloudaccountawss3",
+    "syntax": "mkcloudaccountawss3",
+    "page": 101,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkcloudaccountswift": {
+    "command": "mkcloudaccountswift",
+    "syntax": "mkcloudaccountswift",
+    "page": 103,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkcloudaccountazure": {
+    "command": "mkcloudaccountazure",
+    "syntax": "mkcloudaccountazure -name new_name -containerprefix azure_container_prefix",
+    "page": 105,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmcloudaccount": {
+    "command": "rmcloudaccount",
+    "syntax": "rmcloudaccount cloud_account_id",
+    "page": 106,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "testcloudaccount": {
+    "command": "testcloudaccount",
+    "syntax": "testcloudaccount cloud_account_id",
+    "page": 107,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addnode": {
+    "command": "addnode",
+    "syntax": "addnode -panelname panel_name",
+    "page": 109,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addiscsistorageport": {
+    "command": "addiscsistorageport",
+    "syntax": "addiscsistorageport",
+    "page": 112,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chiscsistorageport": {
+    "command": "chiscsistorageport",
+    "syntax": "chbanner",
+    "page": 113,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chbanner": {
+    "command": "chbanner",
+    "syntax": "chbanner",
+    "page": 113,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsystem": {
+    "command": "chsystem",
+    "syntax": "chiogrp",
+    "page": 115,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chiogrp": {
+    "command": "chiogrp",
+    "syntax": "chiogrp",
+    "page": 115,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chiscsiportauth": {
+    "command": "chiscsiportauth",
+    "syntax": "chiscsiportauth -src_ip ip_address",
+    "page": 118,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chnodebattery": {
+    "command": "chnodebattery",
+    "syntax": "chnodebattery",
+    "page": 122,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chnodebootdrive": {
+    "command": "chnodebootdrive",
+    "syntax": "chnodebootdrive",
+    "page": 123,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chnodecanister": {
+    "command": "chnodecanister",
+    "syntax": "chnodecanister",
+    "page": 124,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chnodecanisterhw": {
+    "command": "chnodecanisterhw",
+    "syntax": "chnodecanisterhw",
+    "page": 127,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chquorum": {
+    "command": "chquorum",
+    "syntax": "chquorum",
+    "page": 128,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsquorum": {
+    "command": "lsquorum",
+    "syntax": "chquorum",
+    "page": 128,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsecurity": {
+    "command": "chsecurity",
+    "syntax": "chsecurity",
+    "page": 130,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsite": {
+    "command": "chsite",
+    "syntax": "chsite -name new_ site_name site_id",
+    "page": 138,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsra": {
+    "command": "chsra",
+    "syntax": "chsite -name new_ site_name site_id",
+    "page": 138,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsystemip": {
+    "command": "chsystemip",
+    "syntax": "chsystemip",
+    "page": 146,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsystemlimits": {
+    "command": "chsystemlimits",
+    "syntax": "chsystemlimits",
+    "page": 147,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsystemcert": {
+    "command": "chsystemcert",
+    "syntax": "chsystemcert -mksystemsigned",
+    "page": 148,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsystemethernet": {
+    "command": "chsystemethernet",
+    "syntax": "chsystempatch -patch patch_name -autoupdate yes",
+    "page": 152,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chthrottle": {
+    "command": "chthrottle",
+    "syntax": "chthrottle",
+    "page": 153,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chcompatibilitymode": {
+    "command": "chcompatibilitymode",
+    "syntax": "chthrottle",
+    "page": 153,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "detectiscsistorageportcandidate": {
+    "command": "detectiscsistorageportcandidate",
+    "syntax": "detectiscsistorageportcandidate -srcportid source_port_id",
+    "page": 156,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsiscsistorageportcandidate": {
+    "command": "lsiscsistorageportcandidate",
+    "syntax": "help",
+    "page": 157,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsavailablepatch": {
+    "command": "lsavailablepatch",
+    "syntax": "lsavailablepatch",
+    "page": 158,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lspartnershipcandidate": {
+    "command": "lspartnershipcandidate",
+    "syntax": "lsdiscoverystatus",
+    "page": 159,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystemip": {
+    "command": "lssystemip",
+    "syntax": "lsdiscoverystatus",
+    "page": 159,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystemstats": {
+    "command": "lssystemstats",
+    "syntax": "lsdiscoverystatus",
+    "page": 159,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsdiscoverystatus": {
+    "command": "lsdiscoverystatus",
+    "syntax": "lsdiscoverystatus",
+    "page": 159,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfabric": {
+    "command": "lsfabric",
+    "syntax": "lsfabric",
+    "page": 160,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfabricport": {
+    "command": "lsfabricport",
+    "syntax": "lsfabricport",
+    "page": 162,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsnvmefabric": {
+    "command": "lsnvmefabric",
+    "syntax": "lsnvmefabric",
+    "page": 164,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfcportcandidate": {
+    "command": "lsfcportcandidate",
+    "syntax": "lsfcportcandidate",
+    "page": 165,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsiscsiportauth": {
+    "command": "lsiscsiportauth",
+    "syntax": "lsiscsiportauth",
+    "page": 166,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsiscsistorageport": {
+    "command": "lsiscsistorageport",
+    "syntax": "lsiscsistorageport",
+    "page": 167,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsiogrp": {
+    "command": "lsiogrp",
+    "syntax": "lsiogrp",
+    "page": 171,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsiogrphost": {
+    "command": "lsiogrphost",
+    "syntax": "lsiogrphost iogrp_id",
+    "page": 174,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsiogrpcandidate": {
+    "command": "lsiogrpcandidate",
+    "syntax": "lsiogrphost iogrp_id",
+    "page": 174,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsnodebattery": {
+    "command": "lsnodebattery",
+    "syntax": "lsnodebattery",
+    "page": 176,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsnodecandidate": {
+    "command": "lsnodecandidate",
+    "syntax": "lsnodecandidate",
+    "page": 178,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsenclosure": {
+    "command": "lsenclosure",
+    "syntax": "lsenclosure",
+    "page": 180,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsnodecanisterhw": {
+    "command": "lsnodecanisterhw",
+    "syntax": "lsnodecanisterhw object_id",
+    "page": 181,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsdependentvdisks": {
+    "command": "lsdependentvdisks",
+    "syntax": "lsnodehw |lsnodecanisterhw object_id",
+    "page": 190,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsnodepsu": {
+    "command": "lsnodepsu",
+    "syntax": "lsnodepsu",
+    "page": 192,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lspoolcapacity": {
+    "command": "lspoolcapacity",
+    "syntax": "lspoolcapacity",
+    "page": 198,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsportfc": {
+    "command": "lsportfc",
+    "syntax": "lsportfc",
+    "page": 200,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsportsas": {
+    "command": "lsportsas",
+    "syntax": "lsportsas",
+    "page": 202,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsportstats": {
+    "command": "lsportstats",
+    "syntax": "lsportstats -node node_id_or_name",
+    "page": 203,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsportusb": {
+    "command": "lsportusb",
+    "syntax": "lsportusb",
+    "page": 206,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsroute": {
+    "command": "lsroute",
+    "syntax": "lsroute",
+    "page": 210,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lstimezones": {
+    "command": "lstimezones",
+    "syntax": "lsroute",
+    "page": 210,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssasportcandidate": {
+    "command": "lssasportcandidate",
+    "syntax": "lsroute",
+    "page": 210,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssecurity": {
+    "command": "lssecurity",
+    "syntax": "svcinfo lssecurity",
+    "page": 211,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssite": {
+    "command": "lssite",
+    "syntax": "lssite",
+    "page": 215,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssra": {
+    "command": "lssra",
+    "syntax": "lssra",
+    "page": 216,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystemcapacity": {
+    "command": "lssystemcapacity",
+    "syntax": "lssystemcapacity",
+    "page": 218,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsthrottle": {
+    "command": "lsthrottle",
+    "syntax": "lsthrottle",
+    "page": 219,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystem": {
+    "command": "lssystem",
+    "syntax": "lssystem",
+    "page": 220,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystemlimits": {
+    "command": "lssystemlimits",
+    "syntax": "lssystemlimits",
+    "page": 227,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystemcert": {
+    "command": "lssystemcert",
+    "syntax": "lssystemcert",
+    "page": 228,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystemethernet": {
+    "command": "lssystemethernet",
+    "syntax": "lssystemethernet",
+    "page": 229,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsip": {
+    "command": "lsip",
+    "syntax": "lssystemstats",
+    "page": 230,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lstargetportfc": {
+    "command": "lstargetportfc",
+    "syntax": "lstargetportfc",
+    "page": 234,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscompatibilitymode": {
+    "command": "lscompatibilitymode",
+    "syntax": "lscompatibilitymode",
+    "page": 236,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkquorumapp": {
+    "command": "mkquorumapp",
+    "syntax": "lscompatibilitymode",
+    "page": 236,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkthrottle": {
+    "command": "mkthrottle",
+    "syntax": "mkthrottle -type offload | vdisk | host | hostcluster | mdiskgrp",
+    "page": 237,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "ping": {
+    "command": "ping",
+    "syntax": "ping -srcip4 source_ipv4_address destination_address",
+    "page": 238,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmiscsistorageport": {
+    "command": "rmiscsistorageport",
+    "syntax": "rmiscsistorageport lsiscsistorageport_row_id",
+    "page": 239,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmnodecanister": {
+    "command": "rmnodecanister",
+    "syntax": "rmnodecanister",
+    "page": 242,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmip": {
+    "command": "rmip",
+    "syntax": "rmthrottle throttle_id",
+    "page": 244,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmthrottle": {
+    "command": "rmthrottle",
+    "syntax": "rmthrottle throttle_id",
+    "page": 244,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "setsystemtime": {
+    "command": "setsystemtime",
+    "syntax": "rmthrottle throttle_id",
+    "page": 244,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "setpwdreset": {
+    "command": "setpwdreset",
+    "syntax": "setpwdreset -disable",
+    "page": 245,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "settimezone": {
+    "command": "settimezone",
+    "syntax": "settimezone -timezone timezone_arg",
+    "page": 246,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "showtimezone": {
+    "command": "showtimezone",
+    "syntax": "settimezone -timezone timezone_arg",
+    "page": 246,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "startstats": {
+    "command": "startstats",
+    "syntax": "startstats -interval time_in_minutes",
+    "page": 247,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "stopsystem": {
+    "command": "stopsystem",
+    "syntax": "stopsystem",
+    "page": 249,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "swapnode": {
+    "command": "swapnode",
+    "syntax": "swapnode -replace",
+    "page": 250,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsnode": {
+    "command": "lsnode",
+    "syntax": "lsnode",
+    "page": 251,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chnodeserviceip": {
+    "command": "chnodeserviceip",
+    "syntax": "Setting static service IP",
+    "page": 252,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsnodestatus": {
+    "command": "lsnodestatus",
+    "syntax": "lsnodestatus -node node_id",
+    "page": 253,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "restartservice": {
+    "command": "restartservice",
+    "syntax": "restartservice -service <service_name> -node node_id",
+    "page": 254,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "startsystem": {
+    "command": "startsystem",
+    "syntax": "restartservice -service <service_name> -node node_id",
+    "page": 254,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "detectfabricport": {
+    "command": "detectfabricport",
+    "syntax": "detectfabricport",
+    "page": 256,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "applysoftware": {
+    "command": "applysoftware",
+    "syntax": "Syntax to start and manage an automatic code level update",
+    "page": 257,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lseventlog": {
+    "command": "lseventlog",
+    "syntax": "chdnsserver",
+    "page": 259,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "cheventlog": {
+    "command": "cheventlog",
+    "syntax": "chdnsserver",
+    "page": 259,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chdnsserver": {
+    "command": "chdnsserver",
+    "syntax": "chdnsserver",
+    "page": 259,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsyslogserver": {
+    "command": "chsyslogserver",
+    "syntax": "chsyslogserver",
+    "page": 261,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkdnsserver": {
+    "command": "mkdnsserver",
+    "syntax": "chsyslogserver",
+    "page": 261,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssyslogserver": {
+    "command": "lssyslogserver",
+    "syntax": "cleardumps -prefix directory_or_file_filter nodecanister_name",
+    "page": 262,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "clearerrlog": {
+    "command": "clearerrlog",
+    "syntax": "clearerrlog",
+    "page": 264,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "dumperrlog": {
+    "command": "dumperrlog",
+    "syntax": "clearerrlog",
+    "page": 264,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "finderr": {
+    "command": "finderr",
+    "syntax": "finderr",
+    "page": 265,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscopystatus": {
+    "command": "lscopystatus",
+    "syntax": "lscopystatus",
+    "page": 266,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsdnsserver": {
+    "command": "lsdnsserver",
+    "syntax": "lsdnsserver",
+    "page": 267,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsupdate": {
+    "command": "lsupdate",
+    "syntax": "lssystemsupportcenter",
+    "page": 276,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystemsupportcenter": {
+    "command": "lssystemsupportcenter",
+    "syntax": "lssystemsupportcenter",
+    "page": 276,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mksyslogserver": {
+    "command": "mksyslogserver",
+    "syntax": "mksyslogserver",
+    "page": 280,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mksystemsupportcenter": {
+    "command": "mksystemsupportcenter",
+    "syntax": "mksystemsupportcenter",
+    "page": 281,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmdnsserver": {
+    "command": "rmdnsserver",
+    "syntax": "Note: This command is not supported by FlashSystem 840 AE1.",
+    "page": 283,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmsyslogserver": {
+    "command": "rmsyslogserver",
+    "syntax": "Note: This command is not supported by FlashSystem 840 AE1.",
+    "page": 283,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmsystemsupportcenter": {
+    "command": "rmsystemsupportcenter",
+    "syntax": "rmsystemsupportcenter",
+    "page": 284,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "setlocale": {
+    "command": "setlocale",
+    "syntax": "rmsystemsupportcenter",
+    "page": 284,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "svqueryclock": {
+    "command": "svqueryclock",
+    "syntax": "svqueryclock",
+    "page": 285,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "writesernum": {
+    "command": "writesernum",
+    "syntax": "writesernum -sernum serial_number node_id",
+    "page": 286,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lspatch": {
+    "command": "lspatch",
+    "syntax": "writesernum -sernum serial_number node_id",
+    "page": 286,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystempatches": {
+    "command": "lssystempatches",
+    "syntax": "lssystempatches",
+    "page": 287,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "removepatch": {
+    "command": "removepatch",
+    "syntax": "removepatch -patch patch_name",
+    "page": 288,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "purgepatches": {
+    "command": "purgepatches",
+    "syntax": "removepatch -patch patch_name",
+    "page": 288,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "svc_snap": {
+    "command": "svc_snap",
+    "syntax": "svc_snap",
+    "page": 289,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chcontroller": {
+    "command": "chcontroller",
+    "syntax": "chcontroller",
+    "page": 291,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscontroller": {
+    "command": "lscontroller",
+    "syntax": "lscontroller",
+    "page": 292,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscontrollerports": {
+    "command": "lscontrollerports",
+    "syntax": "lscontrollerports",
+    "page": 295,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "applydrivesoftware": {
+    "command": "applydrivesoftware",
+    "syntax": "applydrivesoftware",
+    "page": 297,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsdriveupgradeprogress": {
+    "command": "lsdriveupgradeprogress",
+    "syntax": "lsdriveupgradeprogress",
+    "page": 298,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chdrive": {
+    "command": "chdrive",
+    "syntax": "chdrive -use",
+    "page": 299,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsdriveclass": {
+    "command": "lsdriveclass",
+    "syntax": "lsdriveclass",
+    "page": 304,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsdrivelba": {
+    "command": "lsdrivelba",
+    "syntax": "lsdrivelba -mdisklba lba -mdisk mdisk_id",
+    "page": 306,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsdriveprogress": {
+    "command": "lsdriveprogress",
+    "syntax": "lsdriveprogress",
+    "page": 307,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "triggerdrivedump": {
+    "command": "triggerdrivedump",
+    "syntax": "triggerdrivedump drive_id",
+    "page": 309,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "cfgcloudcallhome": {
+    "command": "cfgcloudcallhome",
+    "syntax": "cfgcloudcallhome -username -key -ip -ibmcustomer -ibmcountry",
+    "page": 311,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chcloudcallhome": {
+    "command": "chcloudcallhome",
+    "syntax": "chcloudcallhome -enable",
+    "page": 312,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chemail": {
+    "command": "chemail",
+    "syntax": "chemail",
+    "page": 314,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chemailserver": {
+    "command": "chemailserver",
+    "syntax": "chemailserver",
+    "page": 316,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsemailserver": {
+    "command": "lsemailserver",
+    "syntax": "lsemailserver",
+    "page": 317,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chemailuser": {
+    "command": "chemailuser",
+    "syntax": "chemailuser",
+    "page": 318,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chproxy": {
+    "command": "chproxy",
+    "syntax": "chproxy",
+    "page": 319,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsnmpserver": {
+    "command": "chsnmpserver",
+    "syntax": "This diagram is for SNMPv2.",
+    "page": 320,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssnmpserver": {
+    "command": "lssnmpserver",
+    "syntax": "lssnmpserver",
+    "page": 322,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscloudcallhome": {
+    "command": "lscloudcallhome",
+    "syntax": "lscloudcallhome",
+    "page": 323,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsemailuser": {
+    "command": "lsemailuser",
+    "syntax": "lsemailuser",
+    "page": 325,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsproxy": {
+    "command": "lsproxy",
+    "syntax": "lsproxy",
+    "page": 326,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkemailserver": {
+    "command": "mkemailserver",
+    "syntax": "mkemailserver",
+    "page": 328,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkemailuser": {
+    "command": "mkemailuser",
+    "syntax": "mkemailuser",
+    "page": 329,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkproxy": {
+    "command": "mkproxy",
+    "syntax": "mkproxy -url proxy_url -port port_number",
+    "page": 331,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mksnmpserver": {
+    "command": "mksnmpserver",
+    "syntax": "This diagram is for SNMPv2.",
+    "page": 332,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmemailserver": {
+    "command": "rmemailserver",
+    "syntax": "rmemailserver email_server_name",
+    "page": 334,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "startemail": {
+    "command": "startemail",
+    "syntax": "rmemailserver email_server_name",
+    "page": 334,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmemailuser": {
+    "command": "rmemailuser",
+    "syntax": "rmemailuser user_name",
+    "page": 335,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmproxy": {
+    "command": "rmproxy",
+    "syntax": "rmemailuser user_name",
+    "page": 335,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmsnmpserver": {
+    "command": "rmsnmpserver",
+    "syntax": "rmemailuser user_name",
+    "page": 335,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "sendcloudcallhome": {
+    "command": "sendcloudcallhome",
+    "syntax": "sendcloudcallhome -connectiontest",
+    "page": 336,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "sendinventoryemail": {
+    "command": "sendinventoryemail",
+    "syntax": "sendinventoryemail",
+    "page": 337,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "stopemail": {
+    "command": "stopemail",
+    "syntax": "stopemail",
+    "page": 338,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "testemail": {
+    "command": "testemail",
+    "syntax": "testemail user_name",
+    "page": 339,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "testsnmpserver": {
+    "command": "testsnmpserver",
+    "syntax": "testemail user_name",
+    "page": 339,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addcontrolenclosure": {
+    "command": "addcontrolenclosure",
+    "syntax": "addcontrolenclosure -iogrp io_grp_id_or_name -sernum enclosure_serial_number",
+    "page": 341,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chenclosure": {
+    "command": "chenclosure",
+    "syntax": "addcontrolenclosure -iogrp io_grp_id_or_name -sernum enclosure_serial_number",
+    "page": 342,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chenclosurecanister": {
+    "command": "chenclosurecanister",
+    "syntax": "chenclosurecanister",
+    "page": 344,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chenclosuredisplaypanel": {
+    "command": "chenclosuredisplaypanel",
+    "syntax": "chenclosuredisplaypanel",
+    "page": 345,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chenclosurefanmodule": {
+    "command": "chenclosurefanmodule",
+    "syntax": "chenclosurefanmodule identify yes",
+    "page": 346,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chenclosuresem": {
+    "command": "chenclosuresem",
+    "syntax": "chenclosurefanmodule identify yes",
+    "page": 346,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chenclosureslot": {
+    "command": "chenclosureslot",
+    "syntax": "chenclosureslot",
+    "page": 347,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chvpd": {
+    "command": "chvpd",
+    "syntax": "lsenclosure",
+    "page": 349,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsenclosurebattery": {
+    "command": "lsenclosurebattery",
+    "syntax": "lsenclosurebattery",
+    "page": 351,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscontrolenclosurecandidate": {
+    "command": "lscontrolenclosurecandidate",
+    "syntax": "lscontrolenclosurecandidate",
+    "page": 355,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsenclosurecanister": {
+    "command": "lsenclosurecanister",
+    "syntax": "lscontrolenclosurecandidate",
+    "page": 355,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsenclosuredisplaypanel": {
+    "command": "lsenclosuredisplaypanel",
+    "syntax": "lsenclosuredisplaypanel -displaypanel displaypanel_id",
+    "page": 359,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsenclosurefanmodule": {
+    "command": "lsenclosurefanmodule",
+    "syntax": "lsenclosurefanmodule",
+    "page": 360,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsenclosurepsu": {
+    "command": "lsenclosurepsu",
+    "syntax": "lsenclosurepsu",
+    "page": 361,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsenclosuresem": {
+    "command": "lsenclosuresem",
+    "syntax": "lsenclosuresem",
+    "page": 362,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsenclosureslot": {
+    "command": "lsenclosureslot",
+    "syntax": "lsenclosureslot",
+    "page": 364,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsenclosurestats": {
+    "command": "lsenclosurestats",
+    "syntax": "lsenclosurestats",
+    "page": 366,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssasfabric": {
+    "command": "lssasfabric",
+    "syntax": "lssasfabric",
+    "page": 367,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "resetleds": {
+    "command": "resetleds",
+    "syntax": "resetleds",
+    "page": 368,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "triggerenclosuredump": {
+    "command": "triggerenclosuredump",
+    "syntax": "triggerenclosuredump",
+    "page": 369,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chencryption": {
+    "command": "chencryption",
+    "syntax": "chencryption",
+    "page": 371,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chkeyserver": {
+    "command": "chkeyserver",
+    "syntax": "chkeyserver -ip ip_address_or_domain_name",
+    "page": 374,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chkeyserverisklm": {
+    "command": "chkeyserverisklm",
+    "syntax": "chkeyserverisklm",
+    "page": 375,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chkeyserverciphertrustmanager": {
+    "command": "chkeyserverciphertrustmanager",
+    "syntax": "chkeyserverciphertrustmanager",
+    "page": 376,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsencryption": {
+    "command": "lsencryption",
+    "syntax": "lsencryption",
+    "page": 377,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lskeyserver": {
+    "command": "lskeyserver",
+    "syntax": "lskeyserver",
+    "page": 379,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lskeyserverisklm": {
+    "command": "lskeyserverisklm",
+    "syntax": "lskeyserverisklm",
+    "page": 380,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lskeyserverciphertrustmanager": {
+    "command": "lskeyserverciphertrustmanager",
+    "syntax": "lskeyserverciphertrustmanager",
+    "page": 381,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkkeyserver": {
+    "command": "mkkeyserver",
+    "syntax": "mkkeyserver -ip ip_address_or_domain_name",
+    "page": 382,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmkeyserver": {
+    "command": "rmkeyserver",
+    "syntax": "rmkeyserver object_id",
+    "page": 383,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "testkeyserver": {
+    "command": "testkeyserver",
+    "syntax": "rmkeyserver object_id",
+    "page": 383,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chvolumegroupreplication": {
+    "command": "chvolumegroupreplication",
+    "syntax": "chvolumegroupreplication",
+    "page": 385,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsreplicationpolicy": {
+    "command": "lsreplicationpolicy",
+    "syntax": "lsreplicationpolicy",
+    "page": 386,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumegroupreplication": {
+    "command": "lsvolumegroupreplication",
+    "syntax": "lsvolumegroupreplication",
+    "page": 387,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkreplicationpolicy": {
+    "command": "mkreplicationpolicy",
+    "syntax": "mkreplicationpolicy-namereplication_policy_name-topology",
+    "page": 395,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmreplicationpolicy": {
+    "command": "rmreplicationpolicy",
+    "syntax": "rmreplicationpolicy replication_policy_name",
+    "page": 396,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "activatefeature": {
+    "command": "activatefeature",
+    "syntax": "activatefeature",
+    "page": 399,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chlicense": {
+    "command": "chlicense",
+    "syntax": "chlicense -flash capacity_TB",
+    "page": 400,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "deactivatefeature": {
+    "command": "deactivatefeature",
+    "syntax": "deactivatefeature feature_id",
+    "page": 401,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfeature": {
+    "command": "lsfeature",
+    "syntax": "deactivatefeature feature_id",
+    "page": 401,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lslicense": {
+    "command": "lslicense",
+    "syntax": "lslicense",
+    "page": 403,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfcportsetmember": {
+    "command": "lsfcportsetmember",
+    "syntax": "lsfcportsetmember",
+    "page": 405,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addfcportsetmember": {
+    "command": "addfcportsetmember",
+    "syntax": "addfcportsetmember -portset portset_name | portset_id -fcioportid  fc_io_port_id",
+    "page": 406,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmfcportsetmember": {
+    "command": "rmfcportsetmember",
+    "syntax": "addfcportsetmember -portset portset_name | portset_id -fcioportid  fc_io_port_id",
+    "page": 406,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chfcconsistgrp": {
+    "command": "chfcconsistgrp",
+    "syntax": "chfcconsistgrp",
+    "page": 409,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chfcmap": {
+    "command": "chfcmap",
+    "syntax": "chfcconsistgrp",
+    "page": 409,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfcconsistgrp": {
+    "command": "lsfcconsistgrp",
+    "syntax": "lsfcconsistgrp",
+    "page": 411,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfcmap": {
+    "command": "lsfcmap",
+    "syntax": "lsfcmap",
+    "page": 413,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfcmapcandidate": {
+    "command": "lsfcmapcandidate",
+    "syntax": "lsfcmapcandidate",
+    "page": 416,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfcmapprogress": {
+    "command": "lsfcmapprogress",
+    "syntax": "lsfcmapcandidate",
+    "page": 416,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfcmapdependentmaps": {
+    "command": "lsfcmapdependentmaps",
+    "syntax": "lsfcmapdependentmaps fc_id",
+    "page": 417,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsrmvdiskdependentmaps": {
+    "command": "lsrmvdiskdependentmaps",
+    "syntax": "lsfcmapdependentmaps fc_id",
+    "page": 417,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkfcconsistgrp": {
+    "command": "mkfcconsistgrp",
+    "syntax": "mkfcconsistgrp",
+    "page": 418,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkfcmap": {
+    "command": "mkfcmap",
+    "syntax": "mkfcmap -source src_vdisk_id",
+    "page": 419,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "prestartfcconsistgrp": {
+    "command": "prestartfcconsistgrp",
+    "syntax": "prestartfcconsistgrp",
+    "page": 421,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "prestartfcmap": {
+    "command": "prestartfcmap",
+    "syntax": "prestartfcmap",
+    "page": 422,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmfcconsistgrp": {
+    "command": "rmfcconsistgrp",
+    "syntax": "rmfcconsistgrp",
+    "page": 423,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmfcmap": {
+    "command": "rmfcmap",
+    "syntax": "rmfcmap",
+    "page": 424,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "startfcconsistgrp": {
+    "command": "startfcconsistgrp",
+    "syntax": "startfcconsistgrp",
+    "page": 425,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "startfcmap": {
+    "command": "startfcmap",
+    "syntax": "startfcmap",
+    "page": 426,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "stopfcconsistgrp": {
+    "command": "stopfcconsistgrp",
+    "syntax": "stopfcconsistgrp",
+    "page": 427,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "stopfcmap": {
+    "command": "stopfcmap",
+    "syntax": "stopfcmap",
+    "page": 428,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "managegrid": {
+    "command": "managegrid",
+    "syntax": "managegrid -create -name grid_name",
+    "page": 431,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsgrid": {
+    "command": "lsgrid",
+    "syntax": "lsgrid",
+    "page": 432,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsgridmembers": {
+    "command": "lsgridmembers",
+    "syntax": "lsgridmembers",
+    "page": 433,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsgridpartition": {
+    "command": "lsgridpartition",
+    "syntax": "lsgridpartition",
+    "page": 434,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsgridsystem": {
+    "command": "lsgridsystem",
+    "syntax": "lsgridpartition",
+    "page": 434,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssysteminfo": {
+    "command": "lssysteminfo",
+    "syntax": "lssysteminfo",
+    "page": 435,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addhostclustermember": {
+    "command": "addhostclustermember",
+    "syntax": "addhostclustermember -host host_id_list",
+    "page": 437,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addhostiogrp": {
+    "command": "addhostiogrp",
+    "syntax": "addhostiogrp -iogrp iogrp_list",
+    "page": 438,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addhostport": {
+    "command": "addhostport",
+    "syntax": "addhostiogrp -iogrp iogrp_list",
+    "page": 438,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chhost": {
+    "command": "chhost",
+    "syntax": "chhost",
+    "page": 441,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lshost": {
+    "command": "lshost",
+    "syntax": "lshost",
+    "page": 448,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lshostports": {
+    "command": "lshostports",
+    "syntax": "lshostports",
+    "page": 452,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lshostcluster": {
+    "command": "lshostcluster",
+    "syntax": "lshostcluster",
+    "page": 453,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lshostclustermember": {
+    "command": "lshostclustermember",
+    "syntax": "lshostclustermember hostcluster_id",
+    "page": 454,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lshostclustervolumemap": {
+    "command": "lshostclustervolumemap",
+    "syntax": "lshostclustervolumemap hostcluster_id",
+    "page": 455,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lshostiogrp": {
+    "command": "lshostiogrp",
+    "syntax": "lshostiogrp host_id",
+    "page": 456,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lshostiplogin": {
+    "command": "lshostiplogin",
+    "syntax": "svcinfo lshostiplogin id",
+    "page": 457,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsiscsiauth": {
+    "command": "lsiscsiauth",
+    "syntax": "lsiscsiauth",
+    "page": 458,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkhost": {
+    "command": "mkhost",
+    "syntax": "mkhost",
+    "page": 460,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkhostcluster": {
+    "command": "mkhostcluster",
+    "syntax": "mkhostcluster",
+    "page": 464,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkvolumehostclustermap": {
+    "command": "mkvolumehostclustermap",
+    "syntax": "mkvolumehostclustermap",
+    "page": 465,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmhost": {
+    "command": "rmhost",
+    "syntax": "rmhost",
+    "page": 466,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmhostcluster": {
+    "command": "rmhostcluster",
+    "syntax": "rmhostcluster",
+    "page": 467,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmhostclustermember": {
+    "command": "rmhostclustermember",
+    "syntax": "rmhostclustermember -host host_id_list",
+    "page": 468,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvolumehostclustermap": {
+    "command": "rmvolumehostclustermap",
+    "syntax": "rmvolumehostclustermap -hostcluster hostcluster_id",
+    "page": 469,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmhostiogrp": {
+    "command": "rmhostiogrp",
+    "syntax": "rmhostiogrp -iogrp iogrp_list",
+    "page": 470,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmhostport": {
+    "command": "rmhostport",
+    "syntax": "rmhostport -saswwpn wwpn_list",
+    "page": 471,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "cancellivedump": {
+    "command": "cancellivedump",
+    "syntax": "cancellivedump node_name",
+    "page": 473,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lslivedump": {
+    "command": "lslivedump",
+    "syntax": "cancellivedump node_name",
+    "page": 473,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "preplivedump": {
+    "command": "preplivedump",
+    "syntax": "preplivedump node_name",
+    "page": 474,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "triggerlivedump": {
+    "command": "triggerlivedump",
+    "syntax": "preplivedump node_name",
+    "page": 474,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addmdisk": {
+    "command": "addmdisk",
+    "syntax": "addmdisk -mdisk mdisk_id_list",
+    "page": 477,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chmdisk": {
+    "command": "chmdisk",
+    "syntax": "chmdisk",
+    "page": 478,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "detectmdisk": {
+    "command": "detectmdisk",
+    "syntax": "detectmdisk -scope scope_id",
+    "page": 480,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "dumpallmdiskbadblocks": {
+    "command": "dumpallmdiskbadblocks",
+    "syntax": "dumpallmdiskbadblocks",
+    "page": 481,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "dumpmdiskbadblocks": {
+    "command": "dumpmdiskbadblocks",
+    "syntax": "dumpmdiskbadblocks object_id",
+    "page": 482,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "includemdisk": {
+    "command": "includemdisk",
+    "syntax": "includemdisk mdisk_id",
+    "page": 483,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lslocaldisk": {
+    "command": "lslocaldisk",
+    "syntax": "lslocaldisk",
+    "page": 484,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsmdisklba": {
+    "command": "lsmdisklba",
+    "syntax": "lsmdisklba -vdisklba vdisklba",
+    "page": 493,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsmdiskcandidate": {
+    "command": "lsmdiskcandidate",
+    "syntax": "lsmdiskcandidate",
+    "page": 494,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsmdiskextent": {
+    "command": "lsmdiskextent",
+    "syntax": "lsmdiskextent mdisk_name",
+    "page": 495,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsmdiskmember": {
+    "command": "lsmdiskmember",
+    "syntax": "lsmdiskmember mdisk_id/vdisk_id",
+    "page": 496,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsmigrate": {
+    "command": "lsmigrate",
+    "syntax": "lsmigrate",
+    "page": 499,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "migrateexts": {
+    "command": "migrateexts",
+    "syntax": "lsmigrate",
+    "page": 499,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "migratetoimage": {
+    "command": "migratetoimage",
+    "syntax": "migratetoimage",
+    "page": 501,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "migratevdisk": {
+    "command": "migratevdisk",
+    "syntax": "migratevdisk -mdiskgrp mdisk_group_id",
+    "page": 503,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsauthmultifactorverify": {
+    "command": "lsauthmultifactorverify",
+    "syntax": "lsauthmultifactorverify",
+    "page": 505,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chauthmultifactorverify": {
+    "command": "chauthmultifactorverify",
+    "syntax": "chauthmultifactorverify",
+    "page": 506,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsauthmultifactorduo": {
+    "command": "lsauthmultifactorduo",
+    "syntax": "lsauthmultifactorduo",
+    "page": 507,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chauthmultifactorduo": {
+    "command": "chauthmultifactorduo",
+    "syntax": "chauthmultifactorduo",
+    "page": 508,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chip": {
+    "command": "chip",
+    "syntax": "chip",
+    "page": 511,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkip": {
+    "command": "mkip",
+    "syntax": "mkip",
+    "page": 513,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chpartition": {
+    "command": "chpartition",
+    "syntax": "chpartition",
+    "page": 517,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lspartition": {
+    "command": "lspartition",
+    "syntax": "lspartition",
+    "page": 521,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkpartition": {
+    "command": "mkpartition",
+    "syntax": "mkpartition -name partition_name",
+    "page": 527,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmpartition": {
+    "command": "rmpartition",
+    "syntax": "rmpartition",
+    "page": 528,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvcenter": {
+    "command": "rmvcenter",
+    "syntax": "mergepartition -targetpartition target_partition_id",
+    "page": 529,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mergepartition": {
+    "command": "mergepartition",
+    "syntax": "mergepartition -targetpartition target_partition_id",
+    "page": 529,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chpartnership": {
+    "command": "chpartnership",
+    "syntax": "chpartnership",
+    "page": 531,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lspartnership": {
+    "command": "lspartnership",
+    "syntax": "lspartnership",
+    "page": 534,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkfcpartnership": {
+    "command": "mkfcpartnership",
+    "syntax": "lspartnershipcandidate",
+    "page": 537,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkippartnership": {
+    "command": "mkippartnership",
+    "syntax": "mkippartnership",
+    "page": 538,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmpartnership": {
+    "command": "rmpartnership",
+    "syntax": "rmpartnership remote_cluster_id",
+    "page": 540,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chportethernet": {
+    "command": "chportethernet",
+    "syntax": "chportethernet",
+    "page": 543,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chportset": {
+    "command": "chportset",
+    "syntax": "chportset",
+    "page": 544,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsportethernet": {
+    "command": "lsportethernet",
+    "syntax": "lsportethernet",
+    "page": 545,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsportset": {
+    "command": "lsportset",
+    "syntax": "lsportset",
+    "page": 548,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkportset": {
+    "command": "mkportset",
+    "syntax": "mkportset",
+    "page": 550,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmportset": {
+    "command": "rmportset",
+    "syntax": "-rmportset portset_name | portset_id",
+    "page": 551,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chprovisioningpolicy": {
+    "command": "chprovisioningpolicy",
+    "syntax": "chprovisioningpolicy -name new_name policy_name | policy_id",
+    "page": 553,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsprovisioningpolicy": {
+    "command": "lsprovisioningpolicy",
+    "syntax": "chprovisioningpolicy -name new_name policy_name | policy_id",
+    "page": 553,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkprovisioningpolicy": {
+    "command": "mkprovisioningpolicy",
+    "syntax": "mkprovisioningpolicy",
+    "page": 554,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmprovisioningpolicy": {
+    "command": "rmprovisioningpolicy",
+    "syntax": "rmprovisioningpolicy policy_id | policy_name",
+    "page": 555,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsafeguardedpolicy": {
+    "command": "chsafeguardedpolicy",
+    "syntax": "chsafeguardedpolicy -name new_safeguarded_policy_name",
+    "page": 559,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssafeguardedpolicy": {
+    "command": "lssafeguardedpolicy",
+    "syntax": "chsafeguardedpolicy -name new_safeguarded_policy_name",
+    "page": 559,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssafeguardedschedule": {
+    "command": "lssafeguardedschedule",
+    "syntax": "lssafeguardedschedule",
+    "page": 560,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mksafeguardedpolicy": {
+    "command": "mksafeguardedpolicy",
+    "syntax": "mksafeguardedpolicy",
+    "page": 562,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmsafeguardedpolicy": {
+    "command": "rmsafeguardedpolicy",
+    "syntax": "rmsafeguardedpolicy",
+    "page": 563,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "host": {
+    "command": "host",
+    "syntax": "sainfo host -ip_or_name ip_address",
+    "page": 565,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsbootdrive": {
+    "command": "lsbootdrive",
+    "syntax": "sainfo host -ip_or_name ip_address",
+    "page": 565,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscmdstatus": {
+    "command": "lscmdstatus",
+    "syntax": "sainfo lscmdstatus",
+    "page": 567,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfcportfeature": {
+    "command": "lsfcportfeature",
+    "syntax": "sainfo lsfcportfeature",
+    "page": 568,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfiles": {
+    "command": "lsfiles",
+    "syntax": "sainfo lsfiles",
+    "page": 569,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lshardware": {
+    "command": "lshardware",
+    "syntax": "sainfo lshardware",
+    "page": 570,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsnodediscoverysubnet": {
+    "command": "lsnodediscoverysubnet",
+    "syntax": "sainfo lsnodediscoverysubnet",
+    "page": 571,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsservicenodes": {
+    "command": "lsservicenodes",
+    "syntax": "sainfo lsservicenodes",
+    "page": 573,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsservicerecommendation": {
+    "command": "lsservicerecommendation",
+    "syntax": "sainfo lsservicerecommendation",
+    "page": 574,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsservicestatus": {
+    "command": "lsservicestatus",
+    "syntax": "sainfo lsservicestatus",
+    "page": 575,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "traceroute": {
+    "command": "traceroute",
+    "syntax": "sainfo traceroute -ip_or_name ip_address",
+    "page": 582,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addnodediscoverysubnet": {
+    "command": "addnodediscoverysubnet",
+    "syntax": "satask addnodediscoverysubnet",
+    "page": 587,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chbootdrive": {
+    "command": "chbootdrive",
+    "syntax": "satask addnodediscoverysubnet",
+    "page": 587,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chfcportfeature": {
+    "command": "chfcportfeature",
+    "syntax": "satask chfcportfeature -feature fdmi_discovery",
+    "page": 588,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chnodeled": {
+    "command": "chnodeled",
+    "syntax": "satask chnodeled -on",
+    "page": 589,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chnodeusb": {
+    "command": "chnodeusb",
+    "syntax": "satask chnodeled -on",
+    "page": 589,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chserviceip": {
+    "command": "chserviceip",
+    "syntax": "chserviceip",
+    "page": 592,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chwwnn": {
+    "command": "chwwnn",
+    "syntax": "satask chwwnn -wwnnsuffix wwnn_suffix",
+    "page": 593,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "cpfiles": {
+    "command": "cpfiles",
+    "syntax": "satask  cpfiles -prefix directory",
+    "page": 595,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "leavecluster": {
+    "command": "leavecluster",
+    "syntax": "satask leavecluster -force",
+    "page": 600,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "locksuperuser": {
+    "command": "locksuperuser",
+    "syntax": "satask locksuperuser",
+    "page": 601,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "metadata": {
+    "command": "metadata",
+    "syntax": "satask metadata -rebuildcluster",
+    "page": 602,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkcluster": {
+    "command": "mkcluster",
+    "syntax": "satask mkcluster -clusterip -ipv4_ip",
+    "page": 603,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "overridequorum": {
+    "command": "overridequorum",
+    "syntax": "satask overridequorum -force",
+    "page": 604,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "resetpassword": {
+    "command": "resetpassword",
+    "syntax": "satask resetpassword -password 'cleartext_password'",
+    "page": 606,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmnodediscoverysubnet": {
+    "command": "rmnodediscoverysubnet",
+    "syntax": "satask rmnodediscoverysubnet -id subnet_id",
+    "page": 607,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "setpacedccu": {
+    "command": "setpacedccu",
+    "syntax": "satask setpacedccu",
+    "page": 609,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "settempsshkey": {
+    "command": "settempsshkey",
+    "syntax": "satask setpacedccu",
+    "page": 609,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "startservice": {
+    "command": "startservice",
+    "syntax": "satask startservice",
+    "page": 611,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "stopnode": {
+    "command": "stopnode",
+    "syntax": "satask stopnode -poweroff",
+    "page": 612,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "stopservice": {
+    "command": "stopservice",
+    "syntax": "satask stopnode -poweroff",
+    "page": 612,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "supportupload": {
+    "command": "supportupload",
+    "syntax": "satask supportupload",
+    "page": 613,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "t3recovery": {
+    "command": "t3recovery",
+    "syntax": "satask t3recovery -prepare",
+    "page": 615,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "unlocksuperuser": {
+    "command": "unlocksuperuser",
+    "syntax": "satask t3recovery -prepare",
+    "page": 615,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "initnode": {
+    "command": "initnode",
+    "syntax": "initnode -sip service_ip -gw gateway_ip -mask mask -netdev",
+    "page": 622,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsauthsinglesignon": {
+    "command": "lsauthsinglesignon",
+    "syntax": "lsauthsinglesignon",
+    "page": 627,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chauthsinglesignon": {
+    "command": "chauthsinglesignon",
+    "syntax": "chauthsinglesignon",
+    "page": 628,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addsnapshot": {
+    "command": "addsnapshot",
+    "syntax": "Add snapshot to a volumegroup",
+    "page": 633,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsnapshot": {
+    "command": "chsnapshot",
+    "syntax": "chsnapshot",
+    "page": 636,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsanomalydetection": {
+    "command": "lsanomalydetection",
+    "syntax": "lsanomalydetection",
+    "page": 637,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumegrouppopulation": {
+    "command": "lsvolumegrouppopulation",
+    "syntax": "lsanomalydetection",
+    "page": 637,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumepopulation": {
+    "command": "lsvolumepopulation",
+    "syntax": "lsvolumepopulation",
+    "page": 639,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumegroupsnapshot": {
+    "command": "lsvolumegroupsnapshot",
+    "syntax": "lsvolumegroupsnapshot",
+    "page": 640,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumesnapshot": {
+    "command": "lsvolumesnapshot",
+    "syntax": "lsvolumesnapshot",
+    "page": 642,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "refreshfromsnapshot": {
+    "command": "refreshfromsnapshot",
+    "syntax": "refreshfromsnapshot",
+    "page": 644,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "restorefromsnapshot": {
+    "command": "restorefromsnapshot",
+    "syntax": "restorefromsnapshot -resyncrestoredvolumes",
+    "page": 645,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmsnapshot": {
+    "command": "rmsnapshot",
+    "syntax": "rmsnapshot -snapshotid id",
+    "page": 646,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addsnapshotpolicyschedule": {
+    "command": "addsnapshotpolicyschedule",
+    "syntax": "addsnapshotpolicyschedule -type localsnapshot",
+    "page": 649,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsnapshotpolicy": {
+    "command": "chsnapshotpolicy",
+    "syntax": "chsnapshotpolicy -name new_snapshot_policy_name snapshot_policy_name",
+    "page": 650,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chvolumegroupsnapshotpolicy": {
+    "command": "chvolumegroupsnapshotpolicy",
+    "syntax": "chsnapshotpolicy -name new_snapshot_policy_name snapshot_policy_name",
+    "page": 650,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssnapshotpolicy": {
+    "command": "lssnapshotpolicy",
+    "syntax": "lssnapshotpolicy snapshot_policy_id | snapshot_policy_name",
+    "page": 651,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssnapshotschedule": {
+    "command": "lssnapshotschedule",
+    "syntax": "lssnapshotschedule -schedule <schedule_id> snapshot_policy_id | snapshot_policy_name",
+    "page": 652,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumegroupsnapshotpolicy": {
+    "command": "lsvolumegroupsnapshotpolicy",
+    "syntax": "lsvolumegroupsnapshotpolicy volume_group_id | volume_group_name",
+    "page": 653,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mksnapshotpolicy": {
+    "command": "mksnapshotpolicy",
+    "syntax": "mksnapshotpolicy",
+    "page": 654,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmsnapshotpolicy": {
+    "command": "rmsnapshotpolicy",
+    "syntax": "rmsnapshotpolicy",
+    "page": 655,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumegroupsnapshotschedule": {
+    "command": "lsvolumegroupsnapshotschedule",
+    "syntax": "lsvolumegroupsnapshotschedule volume_group_id",
+    "page": 656,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chmdiskgrp": {
+    "command": "chmdiskgrp",
+    "syntax": "chmdiskgrp",
+    "page": 659,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsfreeextents": {
+    "command": "lsfreeextents",
+    "syntax": "lsfreeextents mdisk_id",
+    "page": 662,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsmdiskgrp": {
+    "command": "lsmdiskgrp",
+    "syntax": "lsfreeextents mdisk_id",
+    "page": 662,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkmdiskgrp": {
+    "command": "mkmdiskgrp",
+    "syntax": "mkmdiskgrp",
+    "page": 667,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmmdisk": {
+    "command": "rmmdisk",
+    "syntax": "rmmdisk -mdisk mdisk_id_list",
+    "page": 673,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmmdiskgrp": {
+    "command": "rmmdiskgrp",
+    "syntax": "rmmdiskgrp",
+    "page": 674,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chsystemcertstore": {
+    "command": "chsystemcertstore",
+    "syntax": "chsystemcertstore",
+    "page": 677,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssystemcertstore": {
+    "command": "lssystemcertstore",
+    "syntax": "lssystemcertstore",
+    "page": 679,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mksystemcertstore": {
+    "command": "mksystemcertstore",
+    "syntax": "mksystemcertstore",
+    "page": 681,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmsystemcertstore": {
+    "command": "rmsystemcertstore",
+    "syntax": "rmsystemcertstore id",
+    "page": 683,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chtruststore": {
+    "command": "chtruststore",
+    "syntax": "chtruststore",
+    "page": 685,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lstruststore": {
+    "command": "lstruststore",
+    "syntax": "lstruststore id",
+    "page": 686,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mktruststore": {
+    "command": "mktruststore",
+    "syntax": "mktruststore -file file_path",
+    "page": 687,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmtruststore": {
+    "command": "rmtruststore",
+    "syntax": "rmtruststore object_id",
+    "page": 688,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chtwopersonintegrityrequest": {
+    "command": "chtwopersonintegrityrequest",
+    "syntax": "svctask chtwopersonintegrityrequest -cancel -approve",
+    "page": 689,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lstwopersonintegrityrequest": {
+    "command": "lstwopersonintegrityrequest",
+    "syntax": "lstwopersonintegrityrequest request_id",
+    "page": 690,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mktwopersonintegrityrequest": {
+    "command": "mktwopersonintegrityrequest",
+    "syntax": "svctask mktwopersonintegrityrequest -minutesrequested 'minutes'",
+    "page": 691,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chauthservice": {
+    "command": "chauthservice",
+    "syntax": "chauthservice",
+    "page": 693,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chcurrentuser": {
+    "command": "chcurrentuser",
+    "syntax": "chcurrentuser",
+    "page": 695,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chldap": {
+    "command": "chldap",
+    "syntax": "chldap",
+    "page": 696,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chldapserver": {
+    "command": "chldapserver",
+    "syntax": "chldapserver -ip ip_address_or_domain_name",
+    "page": 700,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chownershipgroup": {
+    "command": "chownershipgroup",
+    "syntax": "chuser",
+    "page": 702,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chusergrp": {
+    "command": "chusergrp",
+    "syntax": "chusergrp -role role_id",
+    "page": 704,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lscurrentuser": {
+    "command": "lscurrentuser",
+    "syntax": "lscurrentuser",
+    "page": 705,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsldap": {
+    "command": "lsldap",
+    "syntax": "lsldap",
+    "page": 706,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsldapserver": {
+    "command": "lsldapserver",
+    "syntax": "lsldapserver",
+    "page": 707,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsownershipgroup": {
+    "command": "lsownershipgroup",
+    "syntax": "lsuser",
+    "page": 709,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsuser": {
+    "command": "lsuser",
+    "syntax": "lsuser",
+    "page": 709,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsusergrp": {
+    "command": "lsusergrp",
+    "syntax": "lsusergrp",
+    "page": 710,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkldapserver": {
+    "command": "mkldapserver",
+    "syntax": "mkldapserver -ip ip_address_or_domain_name",
+    "page": 712,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkownershipgroup": {
+    "command": "mkownershipgroup",
+    "syntax": "svctask mkownershipgroup",
+    "page": 713,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkuser": {
+    "command": "mkuser",
+    "syntax": "mkuser -name user_name",
+    "page": 714,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkusergrp": {
+    "command": "mkusergrp",
+    "syntax": "mkusergrp -name group_name -role role_id",
+    "page": 715,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmldapserver": {
+    "command": "rmldapserver",
+    "syntax": "rmldapserver ldap_server_id",
+    "page": 717,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmownershipgroup": {
+    "command": "rmownershipgroup",
+    "syntax": "rmldapserver ldap_server_id",
+    "page": 717,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmuser": {
+    "command": "rmuser",
+    "syntax": "rmuser user_id",
+    "page": 718,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmusergrp": {
+    "command": "rmusergrp",
+    "syntax": "rmuser user_id",
+    "page": 718,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "testldapserver": {
+    "command": "testldapserver",
+    "syntax": "testldapserver",
+    "page": 719,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chvcenter": {
+    "command": "chvcenter",
+    "syntax": "chvcenter",
+    "page": 721,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvcenter": {
+    "command": "lsvcenter",
+    "syntax": "svcinfo lsvcenter",
+    "page": 722,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkvcenter": {
+    "command": "mkvcenter",
+    "syntax": "mkvcenter -type vcenter_type -partition partition_id",
+    "page": 723,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addvolumecopy": {
+    "command": "addvolumecopy",
+    "syntax": "addvolumecopy -pool storage_pool_id",
+    "page": 725,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addvdiskcopy": {
+    "command": "addvdiskcopy",
+    "syntax": "addvdiskcopy",
+    "page": 726,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "addvdiskaccess": {
+    "command": "addvdiskaccess",
+    "syntax": "addvdiskaccess -iogrp  iogrp_id_list",
+    "page": 735,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "analyzevdisk": {
+    "command": "analyzevdisk",
+    "syntax": "analyzevdisk",
+    "page": 736,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "analyzevdiskbysystem": {
+    "command": "analyzevdiskbysystem",
+    "syntax": "analyzevdiskbysystem",
+    "page": 737,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "backupvolume": {
+    "command": "backupvolume",
+    "syntax": "backupvolume",
+    "page": 738,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "backupvolumegroup": {
+    "command": "backupvolumegroup",
+    "syntax": "backupvolume",
+    "page": 738,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chvdisk": {
+    "command": "chvdisk",
+    "syntax": "chvdisk",
+    "page": 740,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "movevdisk": {
+    "command": "movevdisk",
+    "syntax": "movevdisk",
+    "page": 744,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chvolume": {
+    "command": "chvolume",
+    "syntax": "chvolume",
+    "page": 746,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chvolumegroup": {
+    "command": "chvolumegroup",
+    "syntax": "chvolumegroup",
+    "page": 748,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "converttoclone": {
+    "command": "converttoclone",
+    "syntax": "converttoclone -volumegroup volumegroup_name_or_id",
+    "page": 751,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "expandvdisksize": {
+    "command": "expandvdisksize",
+    "syntax": "expandvdisksize -size disk_size",
+    "page": 752,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lshostvdiskmap": {
+    "command": "lshostvdiskmap",
+    "syntax": "lshostvdiskmap",
+    "page": 755,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsmetadatavdisk": {
+    "command": "lsmetadatavdisk",
+    "syntax": "lsmetadatavdisk",
+    "page": 756,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsrepairvdiskcopyprogress": {
+    "command": "lsrepairvdiskcopyprogress",
+    "syntax": "lsrepairvdiskcopyprogress",
+    "page": 758,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lssevdiskcopy": {
+    "command": "lssevdiskcopy",
+    "syntax": "lssevdiskcopy",
+    "page": 759,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdisk": {
+    "command": "lsvdisk",
+    "syntax": "lsvdisk",
+    "page": 762,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskaccess": {
+    "command": "lsvdiskaccess",
+    "syntax": "lsvdiskaccess",
+    "page": 769,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskanalysis": {
+    "command": "lsvdiskanalysis",
+    "syntax": "lsvdiskanalysis",
+    "page": 770,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskanalysisprogress": {
+    "command": "lsvdiskanalysisprogress",
+    "syntax": "lsvdiskanalysisprogress",
+    "page": 771,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskcopy": {
+    "command": "lsvdiskcopy",
+    "syntax": "lsvdiskcopy",
+    "page": 772,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskdependentmaps": {
+    "command": "lsvdiskdependentmaps",
+    "syntax": "lsvdiskdependentmaps vdisk_id",
+    "page": 775,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskextent": {
+    "command": "lsvdiskextent",
+    "syntax": "lsvdiskextent",
+    "page": 776,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskfcmapcopies": {
+    "command": "lsvdiskfcmapcopies",
+    "syntax": "lsvdiskfcmapcopies vdisk_name",
+    "page": 777,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskfcmappings": {
+    "command": "lsvdiskfcmappings",
+    "syntax": "lsvdiskfcmapcopies vdisk_name",
+    "page": 777,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskhostmap": {
+    "command": "lsvdiskhostmap",
+    "syntax": "lsvdiskhostmap vdisk_id",
+    "page": 778,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdisklba": {
+    "command": "lsvdisklba",
+    "syntax": "lsvdisklba -mdisklba mdisklba -mdisk mdisk_id",
+    "page": 779,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskmember": {
+    "command": "lsvdiskmember",
+    "syntax": "lsvdiskmember",
+    "page": 780,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdiskprogress": {
+    "command": "lsvdiskprogress",
+    "syntax": "lsvdiskprogress",
+    "page": 781,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdisksyncprogress": {
+    "command": "lsvdisksyncprogress",
+    "syntax": "lsvdisksyncprogress",
+    "page": 782,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumebackup": {
+    "command": "lsvolumebackup",
+    "syntax": "lsvolumebackup",
+    "page": 783,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumebackupgeneration": {
+    "command": "lsvolumebackupgeneration",
+    "syntax": "lsvolumebackupgeneration -volume volume_name",
+    "page": 784,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumebackupprogress": {
+    "command": "lsvolumebackupprogress",
+    "syntax": "lsvolumebackupprogress",
+    "page": 785,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumegroup": {
+    "command": "lsvolumegroup",
+    "syntax": "lsvolumegroup",
+    "page": 786,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvolumerestoreprogress": {
+    "command": "lsvolumerestoreprogress",
+    "syntax": "lsvolumerestoreprogress",
+    "page": 789,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkmetadatavdisk": {
+    "command": "mkmetadatavdisk",
+    "syntax": "mkmetadatavdisk -mdiskgrp mdiskgrp_id",
+    "page": 790,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkvdisk": {
+    "command": "mkvdisk",
+    "syntax": "Note: The first syntax diagram depicts the creation of a sequential or striped mode volume. The",
+    "page": 791,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkvolume": {
+    "command": "mkvolume",
+    "syntax": "Note: The first syntax diagram depicts the creation of a sequential or striped mode volume. The",
+    "page": 791,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkimagevolume": {
+    "command": "mkimagevolume",
+    "syntax": "Note: The first syntax diagram depicts the creation of a sequential or striped mode volume. The",
+    "page": 791,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkvdiskhostmap": {
+    "command": "mkvdiskhostmap",
+    "syntax": "mkvdiskhostmap",
+    "page": 801,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkvolumegroup": {
+    "command": "mkvolumegroup",
+    "syntax": "Make a basic volume group",
+    "page": 813,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "recovervdisk": {
+    "command": "recovervdisk",
+    "syntax": "recovervdisk",
+    "page": 823,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "recovervdiskbysystem": {
+    "command": "recovervdiskbysystem",
+    "syntax": "recovervdiskbyiogrp io_group_name",
+    "page": 824,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "recovervdiskbyiogrp": {
+    "command": "recovervdiskbyiogrp",
+    "syntax": "recovervdiskbyiogrp io_group_name",
+    "page": 824,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "repairvdiskcopy": {
+    "command": "repairvdiskcopy",
+    "syntax": "repairvdiskcopy -medium",
+    "page": 827,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "restorevolume": {
+    "command": "restorevolume",
+    "syntax": "restorevolume",
+    "page": 828,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmmetadatavdisk": {
+    "command": "rmmetadatavdisk",
+    "syntax": "rmmetadatavdisk",
+    "page": 829,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvdisk": {
+    "command": "rmvdisk",
+    "syntax": "rmvdisk",
+    "page": 830,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvdiskcopy": {
+    "command": "rmvdiskcopy",
+    "syntax": "rmvdiskcopy -copy copy_id",
+    "page": 832,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvolumecopy": {
+    "command": "rmvolumecopy",
+    "syntax": "rmvdiskcopy -copy copy_id",
+    "page": 832,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvdiskaccess": {
+    "command": "rmvdiskaccess",
+    "syntax": "rmvdiskaccess  -iogrp  iogrp_id_list",
+    "page": 833,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvdiskhostmap": {
+    "command": "rmvdiskhostmap",
+    "syntax": "rmvdiskhostmap -host host_id",
+    "page": 834,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvolume": {
+    "command": "rmvolume",
+    "syntax": "rmvolume",
+    "page": 835,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvolumegroup": {
+    "command": "rmvolumegroup",
+    "syntax": "rmvolumegroup",
+    "page": 838,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmvolumebackupgeneration": {
+    "command": "rmvolumebackupgeneration",
+    "syntax": "rmvolumebackupgeneration",
+    "page": 839,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "shrinkvdisksize": {
+    "command": "shrinkvdisksize",
+    "syntax": "shrinkvdisksize",
+    "page": 840,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "splitvdiskcopy": {
+    "command": "splitvdiskcopy",
+    "syntax": "splitvdiskcopy -copy id",
+    "page": 842,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "lsvdisktiers": {
+    "command": "lsvdisktiers",
+    "syntax": "lsvdisktiers id",
+    "page": 843,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mkarray": {
+    "command": "mkarray",
+    "syntax": "mkarray",
+    "page": 1074,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "cli": {
+    "command": "cli",
+    "syntax": "cli",
+    "page": 1078,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "superuser_locking": {
+    "command": "superuser_locking",
+    "syntax": "superuser_locking",
+    "page": 1087,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmauth": {
+    "command": "rmauth",
+    "syntax": "rmauth",
+    "page": 1108,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "rmnode": {
+    "command": "rmnode",
+    "syntax": "rmnode",
+    "page": 1135,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "expandvolume": {
+    "command": "expandvolume",
+    "syntax": "expandvolume",
+    "page": 1156,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "chrcrelationship": {
+    "command": "chrcrelationship",
+    "syntax": "chrcrelationship",
+    "page": 1159,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  },
+  "mk3siteconfig": {
+    "command": "mk3siteconfig",
+    "syntax": "mk3siteconfig",
+    "page": 1160,
+    "source": "9.1.0_svc_bkmap_cliguidebk.pdf"
+  }
+}

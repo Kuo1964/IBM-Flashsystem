@@ -182,20 +182,28 @@ class RAGEngine:
             text += "**"
 
         # 3. 檢查並修復末尾未閉合表格行或孤立表格標題
-        lines = text.split("\n")
-        while lines and lines[-1].strip().startswith("|") and ("---" in lines[-1] or "參數" in lines[-1] or "說明" in lines[-1]):
-            # 若末尾只剩空表格標題行或分隔線，直接清理以保持排版整潔
-            prev_tables = [l for l in lines[-3:] if l.strip().startswith("|")]
-            if len(prev_tables) <= 2:
-                lines.pop()
-            else:
-                break
+        # 4. 消除偽造的長度異常之假預期輸出列（例如連續重複欄位名稱死循環）
+        sanitized_lines = []
+        for l in text.split("\n"):
+            if ("total_replication" in l and l.count("total_replication") >= 3) or \
+               ("replication_volume_group" in l and l.count("replication_volume_group") >= 3) or \
+               (len(l) > 200 and "total_" in l and l.count("_") > 20):
+                continue
+            sanitized_lines.append(l)
+        text = "\n".join(sanitized_lines)
 
-        if lines:
-            last_line = lines[-1]
-            if last_line.strip().startswith("|") and not last_line.strip().endswith("|"):
-                lines[-1] = last_line + " |"
-        text = "\n".join(lines)
+        # 5. 官方標準指令白名單自動校正與過濾 (消除模型幻想指令)
+        hallucination_replacements = {
+            r"\blsreplicationvolumegroup\b": "lsreplicationpolicy",
+            r"\blshyperswap\b": "lsvdisk",
+            r"\blserrorevent\b": "lseventlog",
+            r"\blsrcremotesystem\b": "lspartnership",
+            r"\blsquorumserver\b": "lsquorum",
+            r"\blsfru\b": "lsdrive",
+            r"\blscanister\b": "lsenclosurecanister",
+        }
+        for fake_cmd, real_cmd in hallucination_replacements.items():
+            text = re.sub(fake_cmd, real_cmd, text, flags=re.IGNORECASE)
 
         return text
 
