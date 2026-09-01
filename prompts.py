@@ -44,19 +44,12 @@ ANTIGRAVITY_MASTER_SYSTEM_PROMPT = """你是一位精通 IBM Storage Virtualize 
    - 針對【零件料號 / FRU / Feature Code】：📦 零件料號與代碼清單 (Part Number & FRU Table) ➔ 💡 線上確認方式 (CLI) ➔ ⚠️ 更換安全規範 (CRU/FRU)。
    - 針對【機匣圖解 / 硬體外觀 / 槽位】：提供結構化插槽說明與精確的 **ASCII 後視機構佈局圖**。
 
-   - 針對【架構設計 / 橫向擴展 Grid / 雙站點 HA / 遷移規劃】問題，結構化展開：
+   - 針對【架構設計 / 橫向擴展 Grid / 雙站點 HA / 遷移規劃 / 多步驟建置】問題：
      * 🏛️ 一、 架構拓撲與核心概念 (角色劃分如 Coordinator/Member、站點規劃、版本相容性與拓撲邊界)
      * 🌐 二、 網路通訊、安全憑證與互信要求 (Service IP 連通性、TCP Port、TLS Truststore 憑證交換)
-     * 💻 三、 Step-by-Step CLI 設定流程與核心指令 (置頂 bash 腳本、完整參數說明表)
+     * 💻 三、 Step-by-Step CLI 設定流程與核心指令 (必須將前置檢查、步驟 1、步驟 2、步驟 3、步驟 4、步驟 5 從頭到尾全部依序寫出完整可執行的 Bash 代碼區塊與參數註解，嚴禁省略或跳步！)
      * 🔍 四、 狀態驗證、監控與常用維護指令 (驗證指令與健康度確認)
-   - 針對【CLI 指令】問題：
-     * 💻 必須在最開頭置頂標準代碼塊 (```bash)
-     * ⚙️ 核心參數詳細說明表
-     * ⚠️ 安全注意事項與風險警告
-     * 🔍 執行後狀態驗證指令
-   - 針對【硬體規格】問題：
-     * 📊 Markdown 參數矩陣對比表
-     * 💡 限制與原廠最佳實踐
+     * ⚠️ 五、 安全注意事項與風險警告 (操作風險、散熱時限、日常維護如 managegrid -leave)
 """
 
 
@@ -72,17 +65,42 @@ def build_antigravity_master_prompt(query_text: str, context_str: str, intent: s
 
 
 
-def build_architecture_section_prompt(query_text: str, context_str: str, section_title: str, section_focus: str) -> str:
-    """Tier 4: 大型架構與遷移指南分章節 Prompt (純動態引導，100% 零特定專有名詞硬編碼)"""
+def build_architecture_section_prompt(query_text: str, context_str: str, section_idx: int) -> str:
+    """Tier 4: 大型架構與遷移指南分章節獨立生成 Prompt (每個片段享有獨立滿額 8192 Token 空間)"""
+    if section_idx == 1:
+        sec_title = "🏛️ 第一部分：架構拓撲、核心概念與網路憑證要求"
+        sec_instruction = (
+            "請專注撰寫以下兩大核心章節（請勿撰寫後續的具體 CLI 設定步驟與驗證）：\n"
+            "1. 🏛️ 一、 架構拓撲與核心概念 (明確角色如 Coordinator/Member、站點規劃、版本相容性如 9.1.0/8.7.3、Single I/O Group 邊界)\n"
+            "2. 🌐 二、 網路通訊、安全憑證與互信要求 (Service IP 互通性、TLS 憑證交換機制、mktruststore 原理)\n"
+            "請輸出極其詳盡的原廠架構深度說明，並在段落末標註來源標籤。"
+        )
+    elif section_idx == 2:
+        sec_title = "💻 第二部分：Step-by-Step CLI 設定流程與從頭到尾 100% 完整指令"
+        sec_instruction = (
+            "【極重要 - 全流程步驟完整性鐵律】：\n"
+            "請專注撰寫【💻 三、 Step-by-Step CLI 設定流程與核心指令】。\n"
+            "你必須將所有步驟從頭到尾（前置檢查 ➔ 步驟 1 ➔ 步驟 2 ➔ 步驟 3 ➔ 步驟 4 ➔ 步驟 5）全部依序完整寫出！\n"
+            "每個步驟必須包含清晰的執行主機標籤（例如【在 FS5600-A Coordinator 上執行】或【在 FS5600-B Member 上執行】）、"
+            "標準的 Bash 程式碼區塊 (```bash ... ```) 以及關鍵參數行內解析。\n"
+            "嚴禁省略任何步驟！嚴禁跳過步驟 2、3、4！嚴禁輸出未完成的代碼區塊！"
+        )
+    else:
+        sec_title = "🔍 第三部分：狀態驗證、健康度監控與安全注意事項"
+        sec_instruction = (
+            "請專注撰寫以下兩大收尾章節（請勿重複前文已寫過的建置步驟）：\n"
+            "1. 🔍 四、 狀態驗證、監控與常用維護指令 (包含 lsgrid, lsgridmembers, lsgridpartition 等驗證指令與健康狀態確認)\n"
+            "2. ⚠️ 五、 安全注意事項、風險警告與日常維護 (包含操作風險、散熱限制、退出網格 managegrid -leave 指令等)\n"
+            "請輸出完整、嚴謹的原廠級維運指引。"
+        )
+
     return (
-        f"{SERVICE_DESK_SYSTEM_PROMPT}\n\n"
+        f"{ANTIGRAVITY_MASTER_SYSTEM_PROMPT}\n\n"
         f"【參考技術資料 (Context)】：\n{context_str}\n"
-        f"【使用者總體提問】：\n{query_text}\n\n"
-        f"【當前專注撰寫章節】：{section_title}\n"
-        f"【本章節撰寫深度要求】：\n{section_focus}\n\n"
-        f"【撰寫指引】：請嚴格依據【參考技術資料】針對【{section_title}】進行深度、極致詳盡且結構嚴謹的撰寫，輸出具體技術細節、CLI 完整指令與參數、以及官方頁碼引述。\n"
-        f"注意：請直接輸出本章節標題與內文，不需贅述無關內容。\n\n"
-        f"【本章節專家內容】：\n"
+        f"【工程師/客戶總體提問】：\n{query_text}\n\n"
+        f"【當前專注生成區塊】：{sec_title}\n"
+        f"【撰寫指引與深度要求】：\n{sec_instruction}\n\n"
+        f"【本章節專家內容輸出】：\n"
     )
 
 

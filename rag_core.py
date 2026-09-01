@@ -163,10 +163,13 @@ class RAGEngine:
     def _heal_markdown_tags(cls, text: str) -> str:
         """
         Markdown 語法與表格自動癒合器 (Auto-Healing)
-        自動偵測並閉合未完結的代碼塊 (```)、粗體標籤 (**) 與表格邊框 (|)，確保前端 100% 正常渲染
+        自動偵測並閉合未完結的代碼塊 (```)、粗體標籤 (**) 與表格邊框 (|)，並消除重複減號死循環
         """
         if not text:
             return ""
+        
+        # 0. 徹底消除大模型可能陷入的連續減號 (Hyphen Repetition Loop)
+        text = re.sub(r"-{10,}", "---\n", text)
         
         # 1. 檢查並修復代碼塊 ``` 閉合
         code_fence_count = text.count("```")
@@ -509,13 +512,42 @@ class RAGEngine:
         intent = cls.classify_intent(q_raw)
         print(f"[客服分流] 使用者提問: '{q_raw}' ➔ 意圖分類: {intent}")
 
-        # Level 1: 優先嘗試 Google Gemini 專家大模型 (統一採用 Antigravity Master 模組)
+        # 判斷是否為大型多步驟建置/部署流程 (需要萬字完整展开)
+        is_multi_step_deployment = (
+            intent == "tier4_architecture" or 
+            any(kw in q_raw.lower() for kw in ["建立", "设定", "設定", "部署", "迁移", "遷移", "步骤", "步驟", "每一步", "流程", "sop", "規劃", "规划", "grid", "pbr", "hyperswap", "safeguarded"])
+        )
+
+        # Level 1: 優先嘗試 Google Gemini 專家大模型 (支援 Tier 4 分章節流水線獨立生成)
         if config.GEMINI_API_KEY and config.LLM_PROVIDER == "gemini":
-            master_prompt = prompts.build_antigravity_master_prompt(q_raw, context_str, intent=intent)
-            answer_text = cls._call_gemini_api(master_prompt, max_tokens=8192)
-            if answer_text:
-                tier_label = "架構設計與規格諮詢" if intent in ["tier2_spec", "tier4_architecture"] else ("CLI 指令服務" if intent == "tier1_cli" else "故障排查診斷")
-                used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 統一專家大腦 - {tier_label}]"
+            if is_multi_step_deployment:
+                print(f"[架構流水線] 偵測到多步驟建置/架構部署問題，啟動分章節獨立生成 (3 段 x 8,192 Tokens)...")
+                try:
+                    sec1_p = prompts.build_architecture_section_prompt(q_raw, context_str, 1)
+                    sec2_p = prompts.build_architecture_section_prompt(q_raw, context_str, 2)
+                    sec3_p = prompts.build_architecture_section_prompt(q_raw, context_str, 3)
+                    
+                    sec1_text = cls._call_gemini_api(sec1_p, max_tokens=8192)
+                    sec2_text = cls._call_gemini_api(sec2_p, max_tokens=8192)
+                    sec3_text = cls._call_gemini_api(sec3_p, max_tokens=8192)
+                    
+                    if sec1_text and sec2_text and sec3_text:
+                        combined_sections = [
+                            f"您好，身為 IBM Storage Virtualize 與 FlashSystem 全系列儲存架構的首席資深技術架構師與首席技術顧問，我將依據原廠規範為您提供最權威、完整且零省略的實施指引：\n\n{sec1_text}",
+                            sec2_text,
+                            sec3_text
+                        ]
+                        answer_text = "\n\n---\n\n".join(combined_sections)
+                        used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 統一專家大腦 - 分章節流水線萬字實施指南]"
+                except Exception as se:
+                    print(f"[警告] 分章節流水線生成異常，降級至單段模式: {se}")
+
+            if not answer_text:
+                master_prompt = prompts.build_antigravity_master_prompt(q_raw, context_str, intent=intent)
+                answer_text = cls._call_gemini_api(master_prompt, max_tokens=8192)
+                if answer_text:
+                    tier_label = "架構設計與規格諮詢" if intent in ["tier2_spec", "tier4_architecture"] else ("CLI 指令服務" if intent == "tier1_cli" else "故障排查診斷")
+                    used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 統一專家大腦 - {tier_label}]"
 
         # Level 2: 若未配置 Gemini 或調用失敗，降級至本地 Ollama
         if not answer_text:
