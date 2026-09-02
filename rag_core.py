@@ -546,18 +546,24 @@ class RAGEngine:
             any(kw in q_raw.lower() for kw in ["建立", "设定", "設定", "部署", "迁移", "遷移", "步骤", "步驟", "每一步", "流程", "sop", "規劃", "规划", "grid", "pbr", "hyperswap", "safeguarded"])
         )
 
-        # Level 1: 優先嘗試 Google Gemini 專家大模型 (支援 Tier 4 分章節流水線獨立生成)
+        # Level 1: 優先嘗試 Google Gemini 專家大模型 (支援 Tier 4 分章節流水線平行併發生成)
         if config.GEMINI_API_KEY and config.LLM_PROVIDER == "gemini":
             if is_multi_step_deployment:
-                print(f"[架構流水線] 偵測到多步驟建置/架構部署問題，啟動分章節獨立生成 (3 段 x 8,192 Tokens)...")
+                print(f"[架構流水線] 偵測到多步驟建置/架構部署問題，啟動分章節 3 執行緒平行併發生成 (3 x 8,192 Tokens)...")
                 try:
                     sec1_p = prompts.build_architecture_section_prompt(q_raw, context_str, 1)
                     sec2_p = prompts.build_architecture_section_prompt(q_raw, context_str, 2)
                     sec3_p = prompts.build_architecture_section_prompt(q_raw, context_str, 3)
                     
-                    sec1_text = cls._call_gemini_api(sec1_p, max_tokens=8192)
-                    sec2_text = cls._call_gemini_api(sec2_p, max_tokens=8192)
-                    sec3_text = cls._call_gemini_api(sec3_p, max_tokens=8192)
+                    from concurrent.futures import ThreadPoolExecutor
+                    with ThreadPoolExecutor(max_workers=3) as executor:
+                        fut1 = executor.submit(cls._call_gemini_api, sec1_p, 8192)
+                        fut2 = executor.submit(cls._call_gemini_api, sec2_p, 8192)
+                        fut3 = executor.submit(cls._call_gemini_api, sec3_p, 8192)
+                        
+                        sec1_text = fut1.result()
+                        sec2_text = fut2.result()
+                        sec3_text = fut3.result()
                     
                     if sec1_text and sec2_text and sec3_text:
                         combined_sections = [
@@ -566,9 +572,9 @@ class RAGEngine:
                             sec3_text
                         ]
                         answer_text = "\n\n---\n\n".join(combined_sections)
-                        used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 統一專家大腦 - 分章節流水線萬字實施指南]"
+                        used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 統一專家大腦 - 分章節流水線平行萬字實施指南]"
                 except Exception as se:
-                    print(f"[警告] 分章節流水線生成異常，降級至單段模式: {se}")
+                    print(f"[警告] 分章節流水線平行生成異常，降級至單段模式: {se}")
 
             if not answer_text:
                 master_prompt = prompts.build_antigravity_master_prompt(q_raw, context_str, intent=intent)

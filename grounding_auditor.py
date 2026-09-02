@@ -82,8 +82,9 @@ class GroundingAuditor:
         }
 
     def extract_commands(self, text: str) -> List[str]:
-        """從 Markdown 文本中提取所有被當作指令調用的單詞"""
+        """從 Markdown 文本中提取所有被當作指令調用的單詞 (精準排除輸出屬性欄位)"""
         commands = set()
+        valid_cmd_prefixes = ("ls", "mk", "ch", "rm", "start", "stop", "manage", "apply", "import", "migrate", "restore", "ping", "show", "expand", "split", "recover", "trigger", "validate", "add", "set")
         
         # 1. 提取 ```bash 代碼塊中的指令首詞
         code_blocks = re.findall(r'```(?:bash|sh|cli)?\n(.*?)```', text, re.DOTALL)
@@ -97,17 +98,17 @@ class GroundingAuditor:
                     first = tokens[0].lower()
                     if first in ["satask", "sainfo"] and len(tokens) > 1:
                         commands.add(f"{first} {tokens[1].lower()}")
-                    elif re.match(r'^[a-zA-Z][a-zA-Z0-9_\-]+$', first):
-                        # 排除非命令回傳欄位
-                        if first not in ["active", "capacity", "status", "id", "name", "node", "port", "wwpn", "code_level", "type", "use", "sync", "time", "timezone", "topology", "site", "role", "drive_type", "raid_type"]:
+                    elif first.startswith(valid_cmd_prefixes) or first in self.known_hallucination_map or first in self.cli_whitelist:
+                        # 排除非命令欄位 (如 status, type 等)
+                        if first not in ["status", "name", "type", "mode", "state", "size"]:
                             commands.add(first)
 
         # 2. 提取行內 backtick 中的潛在指令
         inline_codes = re.findall(r'`([a-zA-Z][a-zA-Z0-9_\-]+(?:\s+[a-zA-Z0-9_\-]+)?)`', text)
         for code in inline_codes:
             first = code.split()[0].lower()
-            if any(first.startswith(pfx) for pfx in ["ls", "mk", "ch", "rm", "start", "stop", "manage", "apply", "import", "migrate", "restore"]):
-                if first not in ["status", "name", "type", "mode"]:
+            if first.startswith(valid_cmd_prefixes) or first in self.known_hallucination_map:
+                if first not in ["status", "name", "type", "mode", "state", "size"]:
                     commands.add(first)
                 
         return sorted(list(commands))

@@ -65,7 +65,7 @@ class UniversalAmbiguityDetector:
                 }
             }
             
-            with httpx.Client(timeout=30.0) as client:
+            with httpx.Client(timeout=15.0) as client:
                 resp = client.post(gemini_url, json=payload)
                 if resp.status_code == 200:
                     data = resp.json()
