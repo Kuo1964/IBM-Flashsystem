@@ -630,6 +630,37 @@ class RAGEngine:
 
         answer_text = re.sub(r"!\[(.*?)\]\((.*?)\)", _normalize_img_url, answer_text)
 
+        # 6. 🛡️ 後向官方手冊真理審計與反思糾錯閉環 (Grounding Audit & Self-Correction)
+        try:
+            from grounding_auditor import GroundingAuditor
+            auditor = GroundingAuditor()
+            audit_res = auditor.audit_response(q_raw, answer_text)
+
+            if not audit_res["passed"]:
+                print(f"[真理審計] 發現 {len(audit_res['hallucinations'])} 處未授權/幻想指令，啟動反思糾錯重塑...")
+                for h in audit_res["hallucinations"]:
+                    print(f"   • 違規項目: {h.get('invalid_command')} -> 官方對應: {h.get('real_command', 'N/A')}")
+                    
+                critique_prompt = (
+                    f"【🚨 官方手冊真理審計嚴重警示與糾錯指令】\n"
+                    f"您先前的回答中使用了未記載於 IBM 官方 9.1.0 CLI Guide 的非標準/幻想指令：\n"
+                    + "\n".join(audit_res["corrections"]) + "\n\n"
+                    f"【修正要求】：\n"
+                    f"1. 嚴格禁止使用上述錯誤指令。\n"
+                    f"2. 必須 100% 依據上方【官方技術參考資料】中真實記載的標準 CLI 語法重新輸出（例如外部儲存 Image Mode 接入必須使用 mkvdisk -image，分區查詢使用 lsgridpartition 等）。\n"
+                    f"3. 保持結構完整，將前置檢查、步驟 1 至步驟 5 完整展開。\n\n"
+                    f"【官方技術參考資料】：\n{context_str}\n\n"
+                    f"【原始提問】：{q_raw}\n"
+                    f"請立即輸出修正後、100% 官方真實的完整解答："
+                )
+                refined_answer = cls._call_gemini_api(critique_prompt, max_tokens=8192)
+                if refined_answer and len(refined_answer) > 50:
+                    answer_text = cls._heal_markdown_tags(refined_answer)
+                    answer_text = re.sub(r"!\[(.*?)\]\((.*?)\)", _normalize_img_url, answer_text)
+                    print(f"[真理審計] ✅ 反思糾錯完成，已重塑為 100% 原廠真實指令！")
+        except Exception as e:
+            print(f"[真理審計異常] {e}")
+
         duration = round(time.time() - start_time, 2)
 
 
