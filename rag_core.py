@@ -518,6 +518,24 @@ class RAGEngine:
         answer_text = ""
         used_provider = "none"
 
+        # 3.5 🛡️ 通用架構矛盾與需求歧義動態評估 (Universal Clash Evaluator)
+        try:
+            from universal_ambiguity_detector import UniversalAmbiguityDetector
+            clash_info = UniversalAmbiguityDetector.evaluate_clash(q_raw)
+            if clash_info.get("has_clash"):
+                print(f"[矛盾診斷] 🚨 偵測到架構矛盾/歧義: 【{clash_info.get('clash_type')}】 - {clash_info.get('clash_summary')}")
+                clash_block = (
+                    f"【⚠️ IBM 原廠架構師矛盾診斷與雙軌分流指引 (最高優先級)】\n"
+                    f"• 矛盾類型: {clash_info.get('clash_type')}\n"
+                    f"• 衝突焦點: {clash_info.get('clash_summary')}\n"
+                    f"• 原廠架構真相: {clash_info.get('detailed_explanation')}\n"
+                    f"• 官方依據: {', '.join(clash_info.get('official_sources', ['IBM Storage Virtualize Architecture Guide']))}\n"
+                    f"• 【強制輸出要求】：請在回覆開頭以 ⚠️ 【IBM 儲存架構師概念釐清與矛盾警示】 明確指出此衝突，並分別為使用者完整展開【情境 A】與【情境 B】的官方標準 SOP 與正確 CLI 指令！\n"
+                )
+                context_str = clash_block + "\n\n" + context_str
+        except Exception as ce:
+            print(f"[警告] 通用矛盾診斷異常: {ce}")
+
         # 4. 4 階客服意圖智慧分類 (供狀態展示與日誌追蹤)
         intent = cls.classify_intent(q_raw)
         print(f"[客服分流] 使用者提問: '{q_raw}' ➔ 意圖分類: {intent}")
