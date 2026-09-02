@@ -122,82 +122,93 @@ def lexical_search_kb(query_text: str, expanded_terms: List[str] = None, top_k: 
             "partition", "grid", "hyperswap", "quorum", "draid", "volume", "volumegroup",
             "group", "protection", "upgrade", "applysoftware", "canister", "node",
             "adapter", "fru", "part", "fc", "sas", "nvme", "cmmvc", "managegrid", "mktruststore",
-            "mksnapshotpolicy", "chvolumegroup", "5654", "redp5654"
+            "mksnapshotpolicy", "chvolumegroup", "5654", "redp5654", "ndvm", "mobility", "migratevdisk",
+            "movevdisk", "8542", "sg248542", "drp"
         ]
         
-        feature_tokens = [tok for tok in tokens if any(k in tok for k in FEATURE_KEYWORDS)]
-        model_tokens = [tok for tok in tokens if any(k in tok for k in ["fs", "5000", "5200", "5300", "5600", "7200", "7300", "7600", "9100", "9200", "9500", "9600", "svc", "v8", "8.5", "8.6", "8.7", "9.1"])]
-        other_tokens = [tok for tok in tokens if tok not in feature_tokens and tok not in model_tokens]
+        # 排除使用者自訂實例參數 (如 pool0, pool1, vol0 等)，避免關鍵字硬性綁死
+        cleaned_tokens = [tok for tok in tokens if not re.match(r'^(pool\d+|vol\d+|lun\d+|host\d+|tenant\d+)$', tok)]
         
+        feature_tokens = [tok for tok in cleaned_tokens if any(k in tok for k in FEATURE_KEYWORDS)]
+        model_tokens = [tok for tok in cleaned_tokens if any(k in tok for k in ["fs", "5000", "5200", "5300", "5600", "7200", "7300", "7600", "9100", "9200", "9500", "9600", "svc", "v8", "8.5", "8.6", "8.7", "9.1"])]
+        
+        # 優先構建高效 FTS 全文檢索表達式
+        fts_queries = []
+        if any(k in " ".join(tokens) for k in ["ndvm", "mobility", "movevdisk", "8542"]):
+            fts_queries.append('("NDVM" OR "Volume mobility" OR "between I/O groups" OR "movevdisk" OR "8542")')
+        if any(k in " ".join(tokens) for k in ["safeguard", "5654"]):
+            fts_queries.append('("Safeguarded Copy" OR "5654" OR "mksnapshotpolicy")')
+        if any(k in " ".join(tokens) for k in ["grid", "managegrid"]):
+            fts_queries.append('("FlashSystem Grid" OR "managegrid" OR "mktruststore")')
+        if any(k in " ".join(tokens) for k in ["pbr", "policy-based"]):
+            fts_queries.append('("Policy-Based Replication" OR "mkreplicationpolicy")')
+            
+        # 若有專題 FTS 查詢，優先執行
         candidate_rows = []
-        
-        # 軌道 1: 專題功能軌優先檢索 (例如 Safeguarded Copy 專書 redp5654, FlashSystem Grid 專題手冊等)
-        if feature_tokens:
-            for i in range(min(3, len(feature_tokens)), 0, -1):
-                subset = feature_tokens[:i]
-                where_clause = " AND ".join(["string_value LIKE ?" for _ in subset])
-                params = [f"%{tok}%" for tok in subset]
-                sql = f"SELECT id, string_value FROM embedding_metadata WHERE key = 'chroma:document' AND {where_clause} LIMIT {top_k * 2};"
-                c.execute(sql, params)
+        for fts_q in fts_queries:
+            sql = """
+            SELECT f.rowid, m_doc.string_value, m_src.string_value, m_url.string_value, m_pg.int_value
+            FROM embedding_fulltext_search f
+            JOIN embedding_metadata m_doc ON f.rowid = m_doc.id AND m_doc.key = 'chroma:document'
+            LEFT JOIN embedding_metadata m_src ON f.rowid = m_src.id AND m_src.key = 'source'
+            LEFT JOIN embedding_metadata m_url ON f.rowid = m_url.id AND m_url.key = 'url'
+            LEFT JOIN embedding_metadata m_pg ON f.rowid = m_pg.id AND m_pg.key = 'page'
+            WHERE f.embedding_fulltext_search MATCH ?
+            LIMIT ?
+            """
+            try:
+                c.execute(sql, (fts_q, top_k))
                 for r in c.fetchall():
                     if not is_pure_toc_chunk(r[1]):
-                        candidate_rows.append((r, 1.2)) # 專題加權
-                if len(candidate_rows) >= top_k:
-                    break
-                    
-        # 軌道 2: 機型與版本軌檢索 (產品規格、安裝手冊等)
-        if model_tokens:
-            for i in range(min(2, len(model_tokens)), 0, -1):
-                subset = model_tokens[:i]
-                where_clause = " AND ".join(["string_value LIKE ?" for _ in subset])
-                params = [f"%{tok}%" for tok in subset]
-                sql = f"SELECT id, string_value FROM embedding_metadata WHERE key = 'chroma:document' AND {where_clause} LIMIT {top_k * 2};"
-                c.execute(sql, params)
-                for r in c.fetchall():
-                    if not is_pure_toc_chunk(r[1]):
-                        candidate_rows.append((r, 1.0))
-                if len(candidate_rows) >= top_k * 2:
-                    break
-                    
-        # 軌道 3: 通用複合檢索保底
-        if not candidate_rows:
-            target_list = (feature_tokens + model_tokens + other_tokens)[:4]
-            if target_list:
-                for i in range(len(target_list), 0, -1):
-                    subset = target_list[:i]
-                    where_clause = " AND ".join(["string_value LIKE ?" for _ in subset])
-                    params = [f"%{tok}%" for tok in subset]
-                    sql = f"SELECT id, string_value FROM embedding_metadata WHERE key = 'chroma:document' AND {where_clause} LIMIT {top_k * 2};"
-                    c.execute(sql, params)
+                        candidate_rows.append((r[0], r[1], r[2] or r[3] or "IBM Storage Virtualize", r[4] or 1, 1.5))
+            except Exception as fe:
+                print(f"[警告] FTS 專題檢索異常: {fe}")
+                
+        # 通用 FTS 詞彙檢索補齊
+        if len(candidate_rows) < top_k:
+            fts_term = " OR ".join(feature_tokens[:4]) if feature_tokens else " OR ".join(cleaned_tokens[:3])
+            if fts_term:
+                sql = """
+                SELECT f.rowid, m_doc.string_value, m_src.string_value, m_url.string_value, m_pg.int_value
+                FROM embedding_fulltext_search f
+                JOIN embedding_metadata m_doc ON f.rowid = m_doc.id AND m_doc.key = 'chroma:document'
+                LEFT JOIN embedding_metadata m_src ON f.rowid = m_src.id AND m_src.key = 'source'
+                LEFT JOIN embedding_metadata m_url ON f.rowid = m_url.id AND m_url.key = 'url'
+                LEFT JOIN embedding_metadata m_pg ON f.rowid = m_pg.id AND m_pg.key = 'page'
+                WHERE f.embedding_fulltext_search MATCH ?
+                LIMIT ?
+                """
+                try:
+                    c.execute(sql, (fts_term, top_k * 2))
                     for r in c.fetchall():
                         if not is_pure_toc_chunk(r[1]):
-                            candidate_rows.append((r, 0.9))
-                    if len(candidate_rows) >= top_k:
-                        break
-                        
+                            candidate_rows.append((r[0], r[1], r[2] or r[3] or "IBM Storage Virtualize", r[4] or 1, 1.0))
+                except Exception:
+                    pass
+                    
         results = []
         seen_ids = set()
-        for (cid, doc_text), weight in candidate_rows:
+        for cid, doc_text, src_val, pg_val, weight in candidate_rows:
             if cid in seen_ids:
                 continue
             seen_ids.add(cid)
             
-            c.execute("SELECT key, string_value, int_value FROM embedding_metadata WHERE id = ?", (cid,))
-            meta_rows = c.fetchall()
-            meta = {}
-            for k, s_val, i_val in meta_rows:
-                if k == 'chroma:document': continue
-                meta[k] = s_val if s_val is not None else i_val
-                
+            meta = {
+                "source": src_val,
+                "page": pg_val,
+                "type": "official_doc"
+            }
             results.append({
                 "id": str(cid),
                 "content": doc_text,
                 "metadata": meta,
-                "similarity_score": min(0.99, 0.90 * weight)
+                "similarity_score": min(0.99, 0.85 * weight)
             })
-            
+            if len(results) >= top_k:
+                break
+                
         conn.close()
-        return results[:top_k]
+        return results
     except Exception as e:
         print(f"[警告] 全文關鍵字檢索異常: {e}")
         return []

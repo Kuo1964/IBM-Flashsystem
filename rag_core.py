@@ -567,9 +567,9 @@ class RAGEngine:
                     
                     if sec1_text and sec2_text and sec3_text:
                         combined_sections = [
-                            f"您好，身為 IBM Storage Virtualize 與 FlashSystem 全系列儲存架構的首席資深技術架構師與首席技術顧問，我將依據原廠規範為您提供最權威、完整且零省略的實施指引：\n\n{sec1_text}",
-                            sec2_text,
-                            sec3_text
+                            sec1_text.strip(),
+                            sec2_text.strip(),
+                            sec3_text.strip()
                         ]
                         answer_text = "\n\n---\n\n".join(combined_sections)
                         used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 統一專家大腦 - 分章節流水線平行萬字實施指南]"
@@ -654,14 +654,17 @@ class RAGEngine:
 
         answer_text = re.sub(r"!\[(.*?)\]\((.*?)\)", _normalize_img_url, answer_text)
 
-        # 6. 🛡️ 後向官方手冊真理審計與反思糾錯閉環 (Grounding Audit & Self-Correction)
+        # 6. 🛡️ 雙向真理審計與往復求證自癒閉環 (Iterative Grounding Audit & Self-Correction, Max 2 輪)
         try:
             from grounding_auditor import GroundingAuditor
             auditor = GroundingAuditor()
-            audit_res = auditor.audit_response(q_raw, answer_text)
-
-            if not audit_res["passed"]:
-                print(f"[真理審計] 發現 {len(audit_res['hallucinations'])} 處未授權/幻想指令，啟動反思糾錯重塑...")
+            
+            for refine_round in range(2):
+                audit_res = auditor.audit_response(q_raw, answer_text)
+                if audit_res["passed"]:
+                    break
+                    
+                print(f"[真理審計 - 輪次 {refine_round + 1}] 發現 {len(audit_res['hallucinations'])} 處未授權/幻想指令，啟動往復求證重塑...")
                 for h in audit_res["hallucinations"]:
                     print(f"   • 違規項目: {h.get('invalid_command')} -> 官方對應: {h.get('real_command', 'N/A')}")
                     
@@ -672,18 +675,23 @@ class RAGEngine:
                     f"【修正要求】：\n"
                     f"1. 嚴格禁止使用上述錯誤指令。\n"
                     f"2. 必須 100% 依據上方【官方技術參考資料】中真實記載的標準 CLI 語法重新輸出（例如外部儲存 Image Mode 接入必須使用 mkvdisk -image，分區查詢使用 lsgridpartition 等）。\n"
-                    f"3. 保持結構完整，將前置檢查、步驟 1 至步驟 5 完整展開。\n\n"
+                    f"3. 直擊核心，零客套寒暄，直接輸出修正後的技術步驟，嚴禁任何自我介紹或「您好，身為...」的廢話開頭。\n"
+                    f"4. 保持結構完整，將前置檢查、步驟 1 至步驟 5 完整展開。\n\n"
                     f"【官方技術參考資料】：\n{context_str}\n\n"
                     f"【原始提問】：{q_raw}\n"
                     f"請立即輸出修正後、100% 官方真實的完整解答："
                 )
-                refined_answer = cls._call_gemini_api(critique_prompt, max_tokens=8192)
+                refined_answer = cls._call_gemini_api(critique_prompt, max_tokens=4096)
                 if refined_answer and len(refined_answer) > 50:
                     answer_text = cls._heal_markdown_tags(refined_answer)
                     answer_text = re.sub(r"!\[(.*?)\]\((.*?)\)", _normalize_img_url, answer_text)
-                    print(f"[真理審計] ✅ 反思糾錯完成，已重塑為 100% 原廠真實指令！")
+                    print(f"[真理審計 - 輪次 {refine_round + 1}] ✅ 往復求證重塑完成！")
         except Exception as e:
             print(f"[真理審計異常] {e}")
+
+        # 7. 🧹 徹底剔除任何開頭冗長的廢話寒暄 (直擊技術核心)
+        answer_text = re.sub(r'^(?:您好[，,！!\s]*)?(?:身為\s*IBM\s*Storage\s*Virtualize[^\n]*\n*)+', '', answer_text, flags=re.IGNORECASE).strip()
+        answer_text = re.sub(r'^(?:您好[，,！!\s]*)?(?:我是\s*IBM\s*Storage\s*Virtualize[^\n]*\n*)+', '', answer_text, flags=re.IGNORECASE).strip()
 
         duration = round(time.time() - start_time, 2)
 
