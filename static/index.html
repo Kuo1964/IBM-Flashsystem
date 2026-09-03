@@ -1319,6 +1319,184 @@
             stream.scrollTop = stream.scrollHeight;
         }
 
+        // ==========================================
+        // 🛡️ Auto-Provisioning 使用者認證與歷史會話管理
+        // ==========================================
+        let currentUser = null;
+        let authToken = localStorage.getItem('flashsystem_auth_token');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchStats();
+            marked.setOptions({ gfm: true, breaks: true });
+            checkUserAuth();
+        });
+
+        async function checkUserAuth() {
+            if (!authToken) {
+                showAuthModal();
+                return;
+            }
+            try {
+                const res = await fetch('/api/auth/me', {
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    currentUser = data.user;
+                    updateUserUI();
+                    loadUserSessions();
+                } else {
+                    showAuthModal();
+                }
+            } catch (e) {
+                showAuthModal();
+            }
+        }
+
+        function showAuthModal() {
+            document.getElementById('portalPinModal').style.display = 'flex';
+        }
+
+        async function submitUserAuth(e) {
+            e.preventDefault();
+            const username = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            const errorDiv = document.getElementById('pinAuthError');
+            errorDiv.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (res.ok && data.token) {
+                    authToken = data.token;
+                    currentUser = data.user;
+                    localStorage.setItem('flashsystem_auth_token', authToken);
+                    document.getElementById('portalPinModal').style.display = 'none';
+                    updateUserUI();
+                    loadUserSessions();
+                } else {
+                    errorDiv.innerText = data.detail || '登入失敗，請檢查工號與密碼';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errorDiv.innerText = '網路連線異常，請稍後再試';
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        function updateUserUI() {
+            if (!currentUser) return;
+            const userProfile = document.getElementById('userProfileCard');
+            if (userProfile) {
+                userProfile.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.8rem; background: rgba(0,242,254,0.06); border: 1px solid rgba(0,242,254,0.2); border-radius: 10px; margin-bottom: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden;">
+                            <div style="width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #00f2fe, #4facfe); color: #000; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                                ${currentUser.username.substring(0, 2).toUpperCase()}
+                            </div>
+                            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                <div style="font-size: 0.8rem; font-weight: 700; color: #fff;">${escapeHtml(currentUser.username)}</div>
+                                <div style="font-size: 0.65rem; color: #00f2fe; text-transform: uppercase;">${currentUser.role}</div>
+                            </div>
+                        </div>
+                        <button onclick="logoutUser()" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #94a3b8; border-radius: 6px; padding: 0.2rem 0.4rem; font-size: 0.65rem; cursor: pointer;">
+                            登出
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('flashsystem_auth_token');
+            authToken = null;
+            currentUser = null;
+            location.reload();
+        }
+
+        async function loadUserSessions() {
+            if (!authToken) return;
+            try {
+                const res = await fetch('/api/sessions', {
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    renderSessionList(data.sessions || []);
+                }
+            } catch (e) {
+                console.warn('載入歷史會話失敗', e);
+            }
+        }
+
+        function renderSessionList(sessions) {
+            const listElem = document.getElementById('historySessionsList');
+            if (!listElem) return;
+            if (sessions.length === 0) {
+                listElem.innerHTML = '<div style="color: #64748b; font-size: 0.75rem; text-align: center; padding: 1rem 0;">暫無歷史提問紀錄</div>';
+                return;
+            }
+            listElem.innerHTML = sessions.map(s => `
+                <div class="history-item ${s.session_id === currentSessionId ? 'active' : ''}" onclick="loadSessionHistory('${s.session_id}')" style="padding: 0.6rem 0.75rem; margin-bottom: 0.4rem; border-radius: 8px; cursor: pointer; background: ${s.session_id === currentSessionId ? 'rgba(0,242,254,0.15)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${s.session_id === currentSessionId ? 'rgba(0,242,254,0.4)' : 'rgba(255,255,255,0.05)'}; transition: all 0.2s;">
+                    <div style="font-size: 0.8rem; font-weight: 600; color: #f8fafc; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        💬 ${escapeHtml(s.title)}
+                    </div>
+                    <div style="font-size: 0.65rem; color: #64748b; margin-top: 2px;">
+                        ${s.message_count} 則對話 · ${new Date(s.updated_at).toLocaleDateString()}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadSessionHistory(sessionId) {
+            if (!authToken) return;
+            currentSessionId = sessionId;
+            messageHistory = [];
+            const stream = document.getElementById('chatStream');
+            stream.innerHTML = '<div style="text-align: center; color: #00f2fe; padding: 2rem;">🔄 正在載入歷史對話...</div>';
+
+            try {
+                const res = await fetch(`/api/sessions/${sessionId}/messages`, {
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    stream.innerHTML = '';
+                    (data.messages || []).forEach(m => {
+                        appendUserMessage(m.query);
+                        appendAgentResponse({
+                            answer: m.answer,
+                            sources: m.sources,
+                            execution_time_seconds: m.response_time
+                        });
+                    });
+                    loadUserSessions();
+                }
+            } catch (e) {
+                stream.innerHTML = '<div style="text-align: center; color: #ff5252; padding: 2rem;">⚠️ 載入對話失敗</div>';
+            }
+        }
+
+        function startNewSession() {
+            currentSessionId = 'sess_' + Date.now();
+            messageHistory = [];
+            const stream = document.getElementById('chatStream');
+            stream.innerHTML = `
+                <div class="msg-row agent">
+                    <div class="avatar agent">🤖</div>
+                    <div class="bubble">
+                        <p>您好！我是 <strong>IBM FlashSystem / SVC 全系列企業級技術客服專家大腦</strong>。</p>
+                        <p>已為您開啟全新對話！您可以向我詢問任何 FlashSystem 運維 CLI、架構設計或故障排查問題。</p>
+                    </div>
+                </div>
+            `;
+            loadUserSessions();
+        }
+
         function escapeHtml(string) {
             return String(string).replace(/[&<>"'`=\/]/g, function (s) {
                 return {
@@ -1329,30 +1507,38 @@
         }
     </script>
 
-    <!-- 🛡️ 團隊安全 PIN 碼解鎖對話框 (PIN Access Guard Modal) -->
+    <!-- 🛡️ 工程師個人登入與 Auto-Provisioning 對話框 -->
     <div id="portalPinModal" style="display: none; position: fixed; inset: 0; background: rgba(8,12,22,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999; align-items: center; justify-content: center; padding: 1rem;">
         <div style="background: rgba(18,26,44,0.95); border: 1px solid rgba(0,242,254,0.3); border-radius: 16px; padding: 2rem; max-width: 380px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.6); text-align: center;">
             <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(0,242,254,0.15); border: 1px solid rgba(0,242,254,0.4); color: #00f2fe; display: flex; align-items: center; justify-content: center; font-size: 20px; margin: 0 auto 1rem;">
-                🔒
+                👤
             </div>
-            <h3 style="color: #f8fafc; font-size: 18px; font-weight: 700; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">團隊安全通行驗證</h3>
+            <h3 style="color: #f8fafc; font-size: 18px; font-weight: 700; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">儲存維運工程師登入</h3>
             <p style="color: #94a3b8; font-size: 12px; line-height: 1.5; margin-bottom: 1.5rem;">
-                請輸入團隊專屬存取 PIN 碼以解鎖 IBM FlashSystem / SVC 專家系統問答權限（預設: 8888）。
+                輸入您的工號/姓名與密碼即可登入。<br><span style="color: #00f2fe;">✨ 首次登入將自動為您建立專屬帳號與歷史空間！</span>
             </p>
-            <form onsubmit="submitPinAuth(event)">
+            <form onsubmit="submitUserAuth(event)">
+                <input 
+                    type="text" 
+                    id="usernameInput" 
+                    placeholder="請輸入工號或姓名 (如 John / E1008)" 
+                    maxlength="30"
+                    style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.75rem 1rem; color: #fff; font-size: 14px; outline: none; margin-bottom: 0.75rem;"
+                    required
+                >
                 <input 
                     type="password" 
-                    id="pinCodeInput" 
-                    placeholder="請輸入 4 位數 PIN 碼" 
-                    maxlength="10"
-                    style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.75rem 1rem; color: #fff; text-align: center; font-size: 18px; letter-spacing: 4px; font-family: monospace; outline: none; margin-bottom: 1rem;"
+                    id="passwordInput" 
+                    placeholder="請輸入密碼 (首次自訂，後續以此登入)" 
+                    maxlength="30"
+                    style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.75rem 1rem; color: #fff; font-size: 14px; outline: none; margin-bottom: 1.25rem;"
                     required
                 >
                 <button 
                     type="submit" 
                     style="width: 100%; background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); color: #080c16; font-weight: 700; border: none; border-radius: 10px; padding: 0.75rem; font-size: 14px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(0,242,254,0.3);"
                 >
-                    解鎖存取權限
+                    進入專家系統
                 </button>
                 <div id="pinAuthError" style="display: none; color: #ff5252; font-size: 12px; margin-top: 0.75rem;"></div>
             </form>

@@ -210,19 +210,32 @@ class RAGEngine:
         return text
 
     @classmethod
-    def _call_gemini_api(cls, prompt_text: str, max_tokens: int = 8192) -> str:
+    def _call_gemini_api(cls, prompt_text: str, max_tokens: int = 8192, chat_history: List[Dict[str, str]] = None) -> str:
         """
-        調用 Google Gemini API (支援 Google Search Grounding 原生即時聯網查證)
-        具備極限 8192 Token 輸出、多輪精準斷點接續 (Auto-Continuation Loop) 與零截斷保證
+        調用 Google Gemini API (支援 Smart Context Isolation 多輪防失焦架構)
+        - 單輪 RAG 隔離：歷史訊息僅包含純文字問答摘要，絕不累加前題手冊
+        - 當前最新訊息：注入最新檢索出的官方參考資料與系統提示詞
         """
         if not config.GEMINI_API_KEY:
             return ""
         try:
             gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/{config.GEMINI_MODEL}:generateContent?key={config.GEMINI_API_KEY}"
             
-            # ⚡ 採用原生高容量模式 (完整 8,192 Tokens 輸出空間，徹底杜絕 Token 壓縮與超時截斷)
+            # 組裝多輪 Contents 結構 (嚴格執行單輪 RAG 隔離)
+            contents = []
+            if chat_history:
+                # 僅取最近 2 輪純文字問答
+                for msg in chat_history[-4:]:
+                    role = "user" if msg.get("role") in ["user", "human"] else "model"
+                    text_content = msg.get("content", "").strip()
+                    if text_content:
+                        contents.append({"role": role, "parts": [{"text": text_content}]})
+            
+            # 當前最新請求 (包含系統指令、最新 RAG 手冊與當前提問)
+            contents.append({"role": "user", "parts": [{"text": prompt_text}]})
+
             payload = {
-                "contents": [{"parts": [{"text": prompt_text}]}],
+                "contents": contents,
                 "generationConfig": {
                     "temperature": 0.0,
                     "maxOutputTokens": max_tokens
