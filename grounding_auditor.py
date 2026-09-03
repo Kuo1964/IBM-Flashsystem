@@ -35,7 +35,7 @@ class GroundingAuditor:
             "movevolume", "cfgportip", "mkportset", "chportset", "rmportset", "lsportset",
             "addfcportsetmember", "mkreplicationpolicy", "lsreplicationpolicy", "chvolumegroup",
             "lsiogrp", "chiogrp", "lsquorum", "chquorum", "mkipquorum", "mksite", "lsmdiskgrp",
-            "lsmdisk", "lsarray", "lsdrive", "lsnode", "lsenclosurecanister"
+            "lsmdisk", "lsarray", "lsdrive", "lsnode", "lsenclosurecanister", "lsportip", "lsportethernet", "chportethernet"
         }
 
         # 2. 核心已知非官方幻想指令 ➔ 官方真理指令精確對照映射表

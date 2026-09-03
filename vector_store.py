@@ -357,15 +357,16 @@ def antigravity_code_search(query_text: str, expanded_terms: List[str] = None) -
     
     all_str = query_text + " " + " ".join(expanded_terms or [])
     
-    # 排除常見已知機型編號，避免將 FS7200 / 5200 / 5010 等誤判為錯誤碼
-    KNOWN_MODELS = {
+    # 排除常見已知機型編號與網路/配置通用數值，避免將 FS7200 / MTU 1500 / 9000 等誤判為錯誤碼
+    KNOWN_MODELS_AND_SYSTEM_VALUES = {
         "5000", "5010", "5015", "5020", "5030", "5035", "5040", "5045", "5100", "5200", "5300", "5600",
-        "7000", "7200", "7300", "7600", "9000", "9100", "9200", "9500", "9600", "2076", "2072"
+        "7000", "7200", "7300", "7600", "9000", "9100", "9200", "9500", "9600", "2076", "2072",
+        "1500", "1000", "1024", "2048", "4096", "8000", "8080", "8888", "8443", "9216"
     }
     
-    # 1. 抓取可能的候選代碼 (6 位數 Event ID、3~4 位數 Error Code)
+    # 1. 抓取候選代碼 (6 位數 Event ID、3~4 位數 Error Code)
     raw_numbers = re.findall(r'(0\d{5}|[1-9]\d{2,3})', all_str)
-    candidate_codes = [n for n in raw_numbers if n not in KNOWN_MODELS]
+    candidate_codes = [n for n in raw_numbers if n not in KNOWN_MODELS_AND_SYSTEM_VALUES]
     
     if not candidate_codes:
         return []
