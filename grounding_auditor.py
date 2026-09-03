@@ -25,10 +25,17 @@ class GroundingAuditor:
             with open(self.whitelist_file, "r", encoding="utf-8") as f:
                 self.cli_whitelist = json.load(f)
                 
-        # 官方特許常用標準工具
+        # 官方特許常用標準工具與複製/遷移指令白名單
         self.builtin_utils = {
             "ping", "showtimezone", "lstimezones", "applysoftware", "svcupgradepack",
-            "satask", "sainfo"
+            "satask", "sainfo", "mkpartnership", "chpartnership", "rmpartnership", "lspartnership",
+            "mkrcrelationship", "chrcrelationship", "rmrcrelationship", "lsrcrelationship",
+            "startrcrelationship", "stoprcrelationship", "mkvdisk", "chvdisk", "rmvdisk", "lsvdisk",
+            "addvolumecopy", "rmvolumecopy", "migratevdisk", "lsvdiskmigrate", "lsvdiskcopy",
+            "movevolume", "cfgportip", "mkportset", "chportset", "rmportset", "lsportset",
+            "addfcportsetmember", "mkreplicationpolicy", "lsreplicationpolicy", "chvolumegroup",
+            "lsiogrp", "chiogrp", "lsquorum", "chquorum", "mkipquorum", "mksite", "lsmdiskgrp",
+            "lsmdisk", "lsarray", "lsdrive", "lsnode", "lsenclosurecanister"
         }
 
         # 2. 核心已知非官方幻想指令 ➔ 官方真理指令精確對照映射表
@@ -64,6 +71,11 @@ class GroundingAuditor:
                 "reason": "IBM Storage Virtualize 官方唯一錯誤與事件查詢指令為 lseventlog",
                 "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 269 頁"
             },
+            "lserrorevent": {
+                "real_command": "lseventlog",
+                "reason": "IBM Storage Virtualize 官方唯一錯誤與事件查詢指令為 lseventlog",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 269 頁"
+            },
             "lsdate": {
                 "real_command": "showtimezone",
                 "reason": "系統時間查詢官方指令為 showtimezone 或 lstimezones",
@@ -78,6 +90,51 @@ class GroundingAuditor:
                 "real_command": "lsreplicationpolicy / lsvolumegroup",
                 "reason": "複製原則與磁區群組查詢指令為 lsreplicationpolicy 與 lsvolumegroup",
                 "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 386, 786 頁"
+            },
+            "chnodeip": {
+                "real_command": "chportethernet -mtu <1500|9000> <port_id>",
+                "reason": "chnodeip 為早期版本已廢棄 (Deprecated) 指令，IBM Storage Virtualize 9.1.0 官方修改乙太網路埠 MTU 與屬性之唯一標準指令為 chportethernet，IP 配置為 cfgportip",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 543 頁"
+            },
+            "lsrcremotesystem": {
+                "real_command": "lspartnership",
+                "reason": "遠端夥伴系統查詢唯一官方指令為 lspartnership",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 344 頁"
+            },
+            "lsquorumserver": {
+                "real_command": "lsquorum",
+                "reason": "Quorum 與仲裁狀態查詢唯一官方指令為 lsquorum",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 762 頁"
+            },
+            "lsfru": {
+                "real_command": "lsenclosurecanister / lsdrive / lsnode",
+                "reason": "機箱、機匣與硬碟零件狀態查詢官方標準指令為 lsenclosurecanister, lsdrive, lsnode",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 221 頁"
+            },
+            "lscanister": {
+                "real_command": "lsenclosurecanister",
+                "reason": "機匣狀態查詢標準指令為 lsenclosurecanister",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 221 頁"
+            },
+            "chnodesshkey": {
+                "real_command": "chauthservice / chsystemcertstore",
+                "reason": "SSH 金鑰與互信機制統一納入系統認證服務與 Truststore 管理",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 523 頁"
+            },
+            "svcupgradepack": {
+                "real_command": "applysoftware",
+                "reason": "系統韌體與軟體升級統一由 applysoftware 執行",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 189 頁"
+            },
+            "lscluster": {
+                "real_command": "lssystem",
+                "reason": "叢集總體屬性與名稱查詢唯一標準指令為 lssystem",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 398 頁"
+            },
+            "chsystemip": {
+                "real_command": "cfgportip / satask chserviceip",
+                "reason": "系統管理 IP 與服務 IP 分別由 cfgportip 與 satask chserviceip 管理",
+                "pdf_ref": "9.1.0_svc_bkmap_cliguidebk.pdf 第 512 頁"
             }
         }
 
@@ -110,6 +167,11 @@ class GroundingAuditor:
             if first.startswith(valid_cmd_prefixes) or first in self.known_hallucination_map:
                 if first not in ["status", "name", "type", "mode", "state", "size"]:
                     commands.add(first)
+                    
+        # 3. 全文關鍵字掃描：精確捕捉已知幻想/廢棄指令 (無論是否有代碼塊或反引號)
+        for bad_cmd in self.known_hallucination_map.keys():
+            if re.search(rf'\b{re.escape(bad_cmd)}\b', text, re.IGNORECASE):
+                commands.add(bad_cmd.lower())
                 
         return sorted(list(commands))
 

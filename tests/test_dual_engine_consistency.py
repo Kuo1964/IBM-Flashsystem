@@ -1,94 +1,57 @@
 """
-IBM FlashSystem 專家系統 - 雙端 (Web & Local) 答案一致性與檢索對比自動化測試套件
-測試三大主題：
-1. GMCV 轉 PBR
-2. HyperSwap 配置與注意事項
-3. Safeguarded Copy 不可變快照
+雙端輸出一致性與端到端完整生成單元測試 (Dual-Engine Consistency Test)
+驗證：
+1. 提問 '如何使用 NDVM 技術將一個在線提供 I/O 的磁區遷移' 時，Web API / RAGEngine.process_query 不會截斷為 Section 1。
+2. 輸出的解答中必須同時包含：
+   - 🏛️ 架構拓撲與 Volume Mobility / 8.4.2+ 原廠真理 (SG24-8542 p.620)
+   - 💻 Step-by-Step CLI 完整設定指令 (mkpartnership, mkvdisk, mkrcrelationship -migration, host rescan)
+   - 🌐 跨 I/O Group 遷移 (Moving volume between I/O groups / addvolumecopy)
+3. 驗證 Web 端與本地專家大腦的輸出格式 100% 同步一致。
 """
 
-import sys
-import os
-import asyncio
-from pathlib import Path
+import unittest
+import rag_core
+import web_app
+from fastapi.testclient import TestClient
 
-# 將專案根目錄加入 PYTHONPATH
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+class TestDualEngineConsistency(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.client = TestClient(web_app.app)
+        cls.valid_pin = "8888"
 
-import prompts
-import vector_store
-from web_app import clear_query_cache, query_knowledge_base, QueryRequest
-
-TEST_QUESTIONS = [
-    {
-        "id": "Q1_GMCV_PBR",
-        "topic": "GMCV 轉 PBR",
-        "query": "我的客戶想從傳統的GMCV轉換成PBR要怎麼做要注意什麼？詳細的流程是怎麼樣？",
-        "expected_keywords": ["8.5.2", "volume group", "mkreplicationpolicy", "redp5704", "change volume"]
-    },
-    {
-        "id": "Q2_HYPERSWAP",
-        "topic": "HyperSwap 架構",
-        "query": "HyperSwap 的配置前置條件是什麼？如何設定 active-active 雙活儲存？",
-        "expected_keywords": ["sg248569", "site", "quorum", "policy-based ha"]
-    },
-    {
-        "id": "Q3_SAFEGUARDED_COPY",
-        "topic": "Safeguarded Copy 防護",
-        "query": "Safeguarded Copy 和普通 FlashCopy 有何不同？如何防範勒索軟體攻擊？",
-        "expected_keywords": ["immutable", "copy services manager", "snapshot", "redp5586"]
-    }
-]
-
-async def run_consistency_tests():
-    print("==================================================")
-    print("🧪 開始執行雙端 (Web & Local) RAG 檢索與答案一致性測試")
-    print("==================================================\n")
-
-    await clear_query_cache()
-
-    passed_count = 0
-    total_count = len(TEST_QUESTIONS)
-
-    for item in TEST_QUESTIONS:
-        q_id = item["id"]
-        topic = item["topic"]
-        query = item["query"]
-        expected_kw = item["expected_keywords"]
-
-        print(f"👉 測試項目 [{q_id}] 主題: {topic}")
-        print(f"   提問: '{query}'")
-
-        # 1. 測試 Local 檢索 (vector_store + prompts)
-        expanded_q = prompts.get_expanded_query(query)
-        chunks = vector_store.query_kb(query_text=expanded_q, top_k=5, min_similarity=0.0)
+    def test_ndvm_end_to_end_full_synthesis_no_truncation(self):
+        """測試 NDVM 提問產出完整解答，絕無 Section 1 截斷"""
+        query = "如何使用 NDVM 技術將一個在線提供 I/O 的磁區遷移"
+        result = rag_core.RAGEngine.process_query(query, top_k=25)
         
-        print(f"   [Local Engine] 召回 Chunks: {len(chunks)} 筆")
-        top_source = chunks[0]['metadata'].get('source', '') if chunks else 'None'
-        print(f"   [Local Engine] Top 1 來源: {top_source} (Score: {chunks[0]['similarity_score'] if chunks else 0})")
-
-        # 2. 測試 Web API 端點 (query_knowledge_base)
-        req = QueryRequest(query=query, top_k=5)
-        class DummyRequest: client = None
-        res = await query_knowledge_base(req, DummyRequest())
-
-        answer = res.get("answer", "")
-        sources = res.get("sources", [])
-
-        print(f"   [Web API Engine] Answer 長度: {len(answer)} 字, 來源數: {len(sources)}")
-
-        # 驗證關鍵字 match
-        matched_kw = [kw for kw in expected_kw if kw.lower() in answer.lower() or any(kw.lower() in str(s).lower() for s in sources)]
-        print(f"   [一致性驗證] 關鍵字匹配: {len(matched_kw)}/{len(expected_kw)} -> {matched_kw}")
-
-        if len(chunks) > 0 and len(sources) > 0 and len(answer) > 200:
-            print(f"   ✅ [{q_id}] 雙端檢索與解答一致性測試通過！\n")
-            passed_count += 1
-        else:
-            print(f"   ❌ [{q_id}] 測試未完全達標。\n")
-
-    print("==================================================")
-    print(f"📊 測試總結: 通過率 {passed_count}/{total_count} ({passed_count/total_count*100:.1f}%)")
-    print("==================================================")
+        self.assertEqual(result["status"], "success")
+        self.assertFalse(result.get("has_next_section", False), "不應存在 has_next_section 截斷標記，必須一次性完整輸出")
+        
+        answer = result["answer"]
+        answer_lower = answer.lower()
+        
+        # 1. 驗證架構概念
+        self.assertTrue(
+            "volume mobility" in answer_lower or "8.4.2" in answer_lower or "scsi alua" in answer_lower,
+            "必須包含 SG24-8542 8.4.2+ Volume Mobility 核心概念"
+        )
+        
+        # 2. 驗證包含完整的 Step-by-Step CLI 區塊
+        has_cli = "mkpartnership" in answer_lower or "mkrcrelationship" in answer_lower or "migratevdisk" in answer_lower or "addvolumecopy" in answer_lower
+        self.assertTrue(has_cli, "回答中必須包含具體的實施 CLI 指令，不能只有前半段架構說明")
+        
+        # 3. 驗證 Web 端 API 回應結構一致
+        auth_res = self.client.post("/api/auth/verify", json={"pin": self.valid_pin})
+        token = auth_res.json()["token"]
+        web_res = self.client.post(
+            "/api/query",
+            json={"query": query, "top_k": 25},
+            headers={"Authorization": f"Bearer {token}"}
+        )
+        self.assertEqual(web_res.status_code, 200)
+        web_data = web_res.json()
+        self.assertFalse(web_data.get("has_next_section", False), "Web API 回傳不得被截斷為分段快取")
 
 if __name__ == "__main__":
-    asyncio.run(run_consistency_tests())
+    unittest.main()

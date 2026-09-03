@@ -23,16 +23,30 @@ class OllamaEmbeddingFunction(chromadb.EmbeddingFunction):
             embeddings.append(response.json()["embedding"])
         return embeddings
 
+from chromadb.config import Settings
+
+_CHROMA_CLIENT = None
+_CHROMA_COLLECTION = None
+
 def get_chroma_collection():
-    """取得或建立 ChromaDB 集合"""
-    client = chromadb.PersistentClient(path=str(config.VECTOR_DB_DIR))
+    """取得或建立 ChromaDB 集合 (安全單例模式，徹底杜絕重複建立 Client 誘發 C++ HNSW 記憶體崩潰與佇列衝突)"""
+    global _CHROMA_CLIENT, _CHROMA_COLLECTION
+    if _CHROMA_COLLECTION is not None:
+        return _CHROMA_COLLECTION
+
+    if _CHROMA_CLIENT is None:
+        _CHROMA_CLIENT = chromadb.PersistentClient(
+            path=str(config.VECTOR_DB_DIR),
+            settings=Settings(anonymized_telemetry=False, allow_reset=False)
+        )
+
     embedding_fn = OllamaEmbeddingFunction()
-    collection = client.get_or_create_collection(
+    _CHROMA_COLLECTION = _CHROMA_CLIENT.get_or_create_collection(
         name="ibm_flashsystem_kb",
         embedding_function=embedding_fn,
         metadata={"hnsw:space": "cosine"}
     )
-    return collection
+    return _CHROMA_COLLECTION
 
 def add_chunks_to_db(chunks: List[Dict[str, Any]]):
     """將文字 Chunk 寫入知識庫 (正統 ChromaDB API)"""
@@ -332,6 +346,96 @@ def lookup_error_code_record(query_text: str, expanded_terms: List[str] = None) 
         
     return results
 
+def antigravity_code_search(query_text: str, expanded_terms: List[str] = None) -> List[Dict[str, Any]]:
+    """
+    Antigravity 精確代碼穿透檢索器 (Exact Code Penetration Search)
+    專門解決 3~4 位數硬體錯誤碼 (Error ID 如 1059, 1089, 1105) 與 6 位數事件代碼 (Event ID 如 070842)
+    在長句自然語言中被機型高頻詞 (flashsystem, 7200 等) 稀釋的根本問題。
+    """
+    import sqlite3
+    import re
+    
+    all_str = query_text + " " + " ".join(expanded_terms or [])
+    
+    # 排除常見已知機型編號，避免將 FS7200 / 5200 / 5010 等誤判為錯誤碼
+    KNOWN_MODELS = {
+        "5000", "5010", "5015", "5020", "5030", "5035", "5040", "5045", "5100", "5200", "5300", "5600",
+        "7000", "7200", "7300", "7600", "9000", "9100", "9200", "9500", "9600", "2076", "2072"
+    }
+    
+    # 1. 抓取可能的候選代碼 (6 位數 Event ID、3~4 位數 Error Code)
+    raw_numbers = re.findall(r'(0\d{5}|[1-9]\d{2,3})', all_str)
+    candidate_codes = [n for n in raw_numbers if n not in KNOWN_MODELS]
+    
+    if not candidate_codes:
+        return []
+        
+    db_path = config.VECTOR_DB_DIR / "chroma.sqlite3"
+    if not db_path.exists():
+        db_path = config.BASE_DIR / "vector_db" / "chroma.sqlite3"
+    if not db_path.exists():
+        return []
+        
+    results = []
+    seen_ids = set()
+    
+    try:
+        conn = sqlite3.connect(str(db_path))
+        c = conn.cursor()
+        
+        for code in candidate_codes[:2]:
+            sql = """
+            SELECT f.rowid, m_doc.string_value, m_src.string_value, m_url.string_value, m_pg.int_value
+            FROM embedding_fulltext_search f
+            JOIN embedding_metadata m_doc ON f.rowid = m_doc.id AND m_doc.key = 'chroma:document'
+            LEFT JOIN embedding_metadata m_src ON f.rowid = m_src.id AND m_src.key = 'source'
+            LEFT JOIN embedding_metadata m_url ON f.rowid = m_url.id AND m_url.key = 'url'
+            LEFT JOIN embedding_metadata m_pg ON f.rowid = m_pg.id AND m_pg.key = 'page'
+            WHERE f.embedding_fulltext_search MATCH ?
+            LIMIT 100
+            """
+            c.execute(sql, (code,))
+            rows = c.fetchall()
+            
+            for rid, doc_text, src_val, url_val, pg_val in rows:
+                if rid in seen_ids:
+                    continue
+                if is_pure_toc_chunk(doc_text):
+                    continue
+                    
+                matched_line = None
+                for line in doc_text.split("\n"):
+                    l_str = line.strip()
+                    if re.search(rf'(?:\|\s*{code}\s*\||\b{code}\b)', l_str) and not l_str.startswith("- ["):
+                        matched_line = l_str
+                        break
+                        
+                if matched_line:
+                    seen_ids.add(rid)
+                    print(f"[代碼穿透檢索] 偵測到核心代碼 '{code}' ➔ 精確命中原廠事件對照記錄: {matched_line[:60]}")
+                    results.append({
+                        "id": f"exact_code_event_{code}_{rid}",
+                        "content": f"【IBM 官方原廠事件代碼與錯誤碼權威對照表】\n{doc_text}",
+                        "metadata": {
+                            "source": src_val or url_val or "IBM Storage Virtualize Error Code Table",
+                            "page": pg_val or 1,
+                            "type": "official_event_table",
+                            "code": code
+                        },
+                        "similarity_score": 1.0
+                    })
+                    if len(results) >= 3:
+                        break
+                        
+            if results:
+                break
+                
+        conn.close()
+    except Exception as e:
+        print(f"[警告] 代碼穿透檢索異常: {e}")
+        
+    return results
+
 def query_kb(query_text: str, top_k: int = 60, min_similarity: float = 0.0, expanded_terms: List[str] = None) -> List[Dict[str, Any]]:
     """
     使用 ChromaDB Vector Search + SQLite Full-Text Lexical Search 雙軌混合檢索 (Hybrid Search)
@@ -355,6 +459,13 @@ def query_kb(query_text: str, top_k: int = 60, min_similarity: float = 0.0, expa
         cid = err_chunk["id"]
         rrf_scores[cid] = 200.0 - r_idx # 絕對最高優先級
         chunk_map[cid] = err_chunk
+
+    # 專屬通道 0.2: Antigravity 精確代碼穿透檢索直通車 (3~4 位錯誤碼、6 位 Event ID)
+    antigravity_chunks = antigravity_code_search(query_text, expanded_terms)
+    for r_idx, ag_chunk in enumerate(antigravity_chunks):
+        cid = ag_chunk["id"]
+        rrf_scores[cid] = 190.0 - r_idx # 僅次於 CMMVC 字典的絕對最高優先級
+        chunk_map[cid] = ag_chunk
 
     # 專屬通道 0.5: 功能生命週期與版本廢除演進直通通道 (Feature Lifecycle & Deprecation Router)
     lifecycle_file = config.RAW_DATA_DIR / "manual_docs" / "feature_lifecycle_matrix.json"
@@ -404,7 +515,9 @@ def query_kb(query_text: str, top_k: int = 60, min_similarity: float = 0.0, expa
             THEME_COMMANDS = {
                 "data migration": ["migratevdisk", "addvdiskcopy", "rmvdiskcopy", "splitvdiskcopy", "lsmigrate", "lsvdiskcopy", "lsmdiskgrp"],
                 "migrate": ["migratevdisk", "addvdiskcopy", "rmvdiskcopy", "splitvdiskcopy", "lsmigrate", "lsvdiskcopy"],
-                "ndvm": ["migratevdisk", "addvdiskcopy", "rmvdiskcopy", "splitvdiskcopy", "lsvdisk", "lsiogrp"],
+                "ndvm": ["migratevdisk", "addvdiskcopy", "rmvdiskcopy", "splitvdiskcopy", "lsvdisk", "lsiogrp", "chiogrp", "chvdisk"],
+                "volume mobility": ["addvdiskcopy", "migratevdisk", "lsvdisk", "mkpartnership", "lsiogrp"],
+                "moving a volume": ["chvdisk", "lsiogrp", "lsvdisk"],
                 "non-disruptive": ["migratevdisk", "addvdiskcopy", "managegrid"],
                 "storage partition": ["mkstoragepartition", "lsstoragepartition", "chstoragepartition", "rmstoragepartition"],
                 "partition migration": ["managegrid", "lsgridpartition", "lsgridmembers", "lsstoragepartition"],
@@ -421,6 +534,9 @@ def query_kb(query_text: str, top_k: int = 60, min_similarity: float = 0.0, expa
                 "log": ["lseventlog"],
                 "error": ["lseventlog"],
                 "event": ["lseventlog"],
+                "mtu": ["chportethernet", "cfgportip", "lsportethernet", "lsportip"],
+                "jumbo frame": ["chportethernet", "lsportethernet"],
+                "ethernet port": ["chportethernet", "cfgportip", "lsportethernet", "lsportip"],
                 "time": ["showtimezone", "lstimezones", "settimezone"],
                 "ping": ["ping"]
             }
@@ -457,6 +573,59 @@ def query_kb(query_text: str, top_k: int = 60, min_similarity: float = 0.0, expa
                 rrf_scores[cid] = 190.0 # 極高優先級
         except Exception as e:
             print(f"[警告] 官方 CLI 白名單前置檢索異常: {e}")
+
+    # 專屬通道 0.8: NDVM & Volume Mobility 跨系統/跨 I/O Group 無中斷遷移原廠真理直通軌 (SG248542 p.620 + 9.1.0 Web)
+    q_lower_check = (query_text + " " + " ".join(expanded_terms or [])).lower()
+    if any(k in q_lower_check for k in ["ndvm", "volume mobility", "non-disruptive volume", "無中斷磁區遷移", "在線提供 i/o", "在線遷移", "moving a volume between i/o groups", "moving volume between i/o groups"]):
+        try:
+            coll = get_chroma_collection()
+            # 1. 主動召回 SG24-8542 第 620~622 頁
+            sg_res = coll.get(
+                where={"source": "sg248542"},
+                limit=5000,
+                include=["metadatas", "documents"]
+            )
+            for idx, (m, doc_text) in enumerate(zip(sg_res.get("metadatas", []), sg_res.get("documents", []))):
+                pg = m.get("page")
+                if pg in [620, 621, 622]:
+                    cid = f"sg248542_ndvm_p{pg}_{idx}"
+                    chunk_map[cid] = {
+                        "id": cid,
+                        "content": doc_text,
+                        "metadata": {
+                            "source": "sg248542.pdf",
+                            "page": pg,
+                            "type": "pdf",
+                            "topic": "Volume Mobility & Non-Disruptive System Migration (SG248542 Sec 7.5)"
+                        },
+                        "similarity_score": 1.0
+                    }
+                    rrf_scores[cid] = 195.0 # 極高加權
+            
+            # 2. 主動召回 moving-volume-between-io-groups 官方網頁
+            web_res = coll.get(
+                where={"url": "https://www.ibm.com/docs/en/flashsystem-7x00/9.1.0?topic=migration-moving-volume-between-io-groups"},
+                limit=40,
+                include=["metadatas", "documents"]
+            )
+            for idx, (m, doc_text) in enumerate(zip(web_res.get("metadatas", []), web_res.get("documents", []))):
+                if not is_pure_toc_chunk(doc_text) and len(doc_text.strip()) > 80:
+                    cid = f"web_moving_volume_iogrp_{idx}"
+                    chunk_map[cid] = {
+                        "id": cid,
+                        "content": doc_text,
+                        "metadata": {
+                            "source": "IBM Documentation (9.1.0): Moving a volume between I/O groups",
+                            "url": "https://www.ibm.com/docs/en/flashsystem-7x00/9.1.0?topic=migration-moving-volume-between-io-groups",
+                            "page": 1,
+                            "type": "web"
+                        },
+                        "similarity_score": 1.0
+                    }
+                    rrf_scores[cid] = 192.0
+            print(f"[NDVM 專屬軌道] 已成功精確直通注入 SG24-8542 p.620~622 與 Moving Volume between I/O Groups 原廠核心 Chunks！")
+        except Exception as e:
+            print(f"[警告] NDVM 原廠真理直通軌檢索異常: {e}")
 
     # 軌道 0: 官方 PDF 原廠表格實體直通軌 (100% Grounded Parts Table Router)
     parts_file = config.RAW_DATA_DIR / "manual_docs" / "official_grounded_parts_from_pdf.json"
@@ -533,35 +702,44 @@ def query_kb(query_text: str, top_k: int = 60, min_similarity: float = 0.0, expa
         except Exception as e:
             print(f"[警告] 官方表格檢索異常: {e}")
 
-    # 軌道 1: SQLite 高效關鍵字倒排檢索軌 (Lexical Search)
-    lexical_chunks = lexical_search_kb(query_text=query_text, top_k=top_k)
+    # 軌道 1: SQLite 高效關鍵字倒排檢索軌 (Lexical Search - 精準覆蓋官方 CLI 指令與術語)
+    lexical_chunks = lexical_search_kb(query_text=query_text, expanded_terms=expanded_terms, top_k=top_k)
     for rank, item in enumerate(lexical_chunks):
         cid = item["id"]
         rrf_score = 1.0 / (15.0 + rank + 1)
         rrf_scores[cid] = rrf_scores.get(cid, 0.0) + rrf_score
         chunk_map[cid] = item
 
-    # 軌道 2: 向量密集語意檢索軌 (Dense Vector Search)
-    for q_idx, q in enumerate(queries):
-        res = None
-        for n_res in [top_k, 15, 8, 5]:
-            try:
-                res = collection.query(
-                    query_texts=[q],
-                    n_results=n_res
-                )
-                if res and res.get('ids') and len(res['ids'][0]) > 0:
-                    break
-            except Exception as e:
+    # 軌道 2: 向量密集語意檢索軌 (Dense Vector Search - 專注自然語言長句語意，內建異常安全熔斷)
+    try:
+        # 向量檢索專注於自然語言主問題的語意相似度
+        v_res = collection.query(
+            query_texts=[query_text],
+            n_results=min(top_k, 15)
+        )
+    except Exception as ve:
+        print(f"[安全熔斷] 向量底層庫檢索安全旁路保護觸發: {ve}，全面由 SQLite 倒排與官方字典雙軌保障！")
+        v_res = None
+
+    if v_res and v_res.get('ids') and len(v_res['ids'][0]) > 0:
+        q_ids = v_res['ids'][0]
+        q_docs = v_res['documents'][0]
+        q_metas = v_res['metadatas'][0]
+        q_dists = v_res['distances'][0] if 'distances' in v_res and v_res['distances'] else [0.0] * len(q_ids)
+        
+        for rank, (cid, doc, meta, dist) in enumerate(zip(q_ids, q_docs, q_metas, q_dists)):
+            if is_pure_toc_chunk(doc):
                 continue
-                
-        if not res or not res.get('ids') or len(res['ids'][0]) == 0:
-            continue
-            
-        q_ids = res['ids'][0]
-        q_docs = res['documents'][0]
-        q_metas = res['metadatas'][0]
-        q_dists = res['distances'][0] if 'distances' in res and res['distances'] else [0.0] * len(q_ids)
+            if dist <= 2.0:
+                rrf_score = 1.0 / (60.0 + rank + 1)
+                rrf_scores[cid] = rrf_scores.get(cid, 0.0) + rrf_score
+                if cid not in chunk_map:
+                    chunk_map[cid] = {
+                        "id": cid,
+                        "content": doc,
+                        "metadata": meta,
+                        "similarity_score": round(1.0 - (dist / 2.0), 4)
+                    }
         
         for rank, (cid, doc, meta, dist) in enumerate(zip(q_ids, q_docs, q_metas, q_dists)):
             # 自動過濾純目錄導覽超連結清單，防止 LLM Context 噪聲

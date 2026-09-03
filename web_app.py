@@ -48,6 +48,13 @@ CACHE_TTL = 3600  # 快取有效時間 (秒)
 USER_RATE_LIMITS: Dict[str, List[float]] = {}
 MAX_REQUESTS_PER_MINUTE = 60
 
+# 🛡️ 團隊專屬 PIN 碼授權管理 (PIN Access Guard)
+PORTAL_PIN = os.getenv("PORTAL_PIN", "8888")
+VALID_AUTH_TOKENS: set = set()
+
+class PinVerifyRequest(BaseModel):
+    pin: str
+
 class MessageItem(BaseModel):
     role: str  # "user" | "assistant"
     content: str
@@ -57,6 +64,14 @@ class QueryRequest(BaseModel):
     top_k: int = 25
     session_id: Optional[str] = None
     messages: Optional[List[MessageItem]] = None
+
+class SectionQueryRequest(BaseModel):
+    cache_id: str
+    section_index: int
+    session_id: Optional[str] = None
+
+# 按需章節生成上下文快取字典 (有效避免重複查詢向量庫與超大 Context 網路往返)
+SECTION_CONTEXT_CACHE: Dict[str, Dict[str, Any]] = {}
 
 # 客服會話記憶體儲存庫 (Session Storage)
 SESSIONS: Dict[str, Dict[str, Any]] = {}
@@ -83,6 +98,39 @@ def check_rate_limit(client_ip: str):
         )
     timestamps.append(now)
     USER_RATE_LIMITS[client_ip] = timestamps
+
+def verify_pin_token(request: Request) -> bool:
+    """
+    驗證請求標頭或參數中的 PIN 授權 Token
+    支援 Authorization: Bearer <token> 或 X-Portal-Pin: <pin>
+    """
+    # 支援本地開發環境豁免 (可選)
+    auth_header = request.headers.get("authorization", "")
+    portal_pin_header = request.headers.get("x-portal-pin", "")
+    
+    token = ""
+    if auth_header.startswith("Bearer "):
+        token = auth_header.replace("Bearer ", "").strip()
+    elif portal_pin_header:
+        token = portal_pin_header.strip()
+        
+    if token == PORTAL_PIN or token in VALID_AUTH_TOKENS:
+        return True
+        
+    # 若 Token 未通過，回傳 HTTP 401
+    raise HTTPException(
+        status_code=401,
+        detail="未授權存取！請先輸入正確的團隊 PIN 碼解鎖專家系統問答權限。"
+    )
+
+@app.post("/api/auth/verify")
+async def verify_pin(req: PinVerifyRequest):
+    """驗證 PIN 碼並發放 Session Token"""
+    if req.pin == PORTAL_PIN:
+        token = f"fs_token_{int(time.time())}_{os.urandom(4).hex()}"
+        VALID_AUTH_TOKENS.add(token)
+        return {"status": "ok", "token": token, "message": "PIN 碼驗證成功"}
+    raise HTTPException(status_code=401, detail="PIN 碼不正確，請重新輸入")
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_portal_ui():
@@ -124,11 +172,83 @@ async def get_kb_statistics():
     }
 
 
+from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
+import json
+
+@app.post("/api/query/stream")
+async def query_knowledge_base_stream(req: QueryRequest, request: Request):
+    """
+    RAG Agentic SSE 串流問答端點：即時推送思考狀態 (thinking) 與分塊打字內容 (content)
+    """
+    verify_pin_token(request)
+    client_ip = get_real_client_ip(request)
+    check_rate_limit(client_ip)
+
+    query_text = req.query.strip()
+    if not query_text:
+        raise HTTPException(status_code=400, detail="提問內容不能為空")
+
+    chat_history = []
+    if req.messages:
+        chat_history = [{"role": m.role, "content": m.content} for m in req.messages]
+    elif req.session_id and req.session_id in SESSIONS:
+        chat_history = SESSIONS[req.session_id].get("messages", [])
+
+    async def event_generator():
+        # 1. 即時推送思考階段
+        yield f"event: thinking\ndata: {json.dumps({'stage': 'intent', 'text': '🧠 正在分析提問意圖與術語擴展...'}, ensure_ascii=False)}\n\n"
+        await asyncio.sleep(0.2)
+        
+        yield f"event: thinking\ndata: {json.dumps({'stage': 'retrieval', 'text': '📚 正在檢索 ChromaDB 官方知識庫 (782k chunks) 與原廠 Redbooks...'}, ensure_ascii=False)}\n\n"
+        await asyncio.sleep(0.3)
+        
+        yield f"event: thinking\ndata: {json.dumps({'stage': 'grounding', 'text': '🛡️ 正在執行 Grounding 原廠真理錨定與 CLI 語法審計...'}, ensure_ascii=False)}\n\n"
+        
+        # 2. 呼叫中央 RAG 推理核心
+        result = await asyncio.to_thread(rag_core.process_query, query_text, req.top_k, chat_history)
+        answer_text = result.get("answer", "")
+        sources = result.get("sources", [])
+        
+        # 推送來源標籤與圖片
+        yield f"event: citations\ndata: {json.dumps({'sources': sources[:8]}, ensure_ascii=False)}\n\n"
+        
+        # 3. 分塊即時打字推送
+        lines = answer_text.split("\n")
+        for line in lines:
+            yield f"event: content\ndata: {json.dumps({'chunk': line + chr(10)}, ensure_ascii=False)}\n\n"
+            await asyncio.sleep(0.04)
+            
+        # 4. 推送完成信號與後續章節
+        done_payload = {
+            "status": "complete",
+            "execution_time_seconds": result.get("execution_time_seconds", 0),
+            "has_next_section": result.get("has_next_section", False),
+            "cache_id": result.get("cache_id")
+        }
+        yield f"event: done\ndata: {json.dumps(done_payload, ensure_ascii=False)}\n\n"
+
+        # 紀錄 Session
+        if req.session_id:
+            if req.session_id not in SESSIONS:
+                SESSIONS[req.session_id] = {
+                    "id": req.session_id,
+                    "title": query_text[:30],
+                    "created_at": time.time(),
+                    "messages": []
+                }
+            sess = SESSIONS[req.session_id]
+            sess["messages"].append({"role": "user", "content": query_text})
+            sess["messages"].append({"role": "assistant", "content": answer_text})
+            sess["messages"] = sess["messages"][-20:]
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+
 @app.post("/api/query")
 async def query_knowledge_base(req: QueryRequest, request: Request):
     """
     RAG 企業級客服問答端點 (支援 4-Tier 意圖分流、Session 隔離與多輪追問重寫)
     """
+    verify_pin_token(request)
     client_ip = get_real_client_ip(request)
     check_rate_limit(client_ip)
 
@@ -178,6 +298,50 @@ async def query_knowledge_base(req: QueryRequest, request: Request):
         sess["messages"].append({"role": "assistant", "content": result.get("answer", "")})
         # 限制記憶體保留最近 20 則訊息
         sess["messages"] = sess["messages"][-20:]
+
+    # 若具備後續章節，將其檢索上下文暫存入快取，供前端按需拉取，並避免將巨量 context 送給前端
+    if result.get("has_next_section"):
+        cache_id = f"sec_{int(time.time() * 1000)}"
+        SECTION_CONTEXT_CACHE[cache_id] = {
+            "query": query_text,
+            "context_str": result.get("context_str", ""),
+            "created_at": time.time()
+        }
+        result["cache_id"] = cache_id
+    
+    # 移除內部傳輸用的巨型 context_str，節省網路頻寬
+    result.pop("context_str", None)
+
+    return result
+
+
+@app.post("/api/query/section")
+async def query_architecture_section(req: SectionQueryRequest, request: Request):
+    """
+    按需漸進式章節生成端點 (供前端按鈕非同步請求第 2 章或第 3 章)
+    徹底避免 3 執行緒重複呼叫並防止 Cloudflare 100 秒超時
+    """
+    client_ip = get_real_client_ip(request)
+    check_rate_limit(client_ip)
+
+    if req.cache_id not in SECTION_CONTEXT_CACHE:
+        raise HTTPException(status_code=404, detail="該提問的章節上下文已過期或不存在，請重新於下方輸入框提問。")
+
+    cached_data = SECTION_CONTEXT_CACHE[req.cache_id]
+    query_text = cached_data["query"]
+    context_str = cached_data["context_str"]
+
+    # 執行單一章節獨立生成 (享受滿額 8192 Token 空間)
+    result = await rag_core.async_generate_architecture_section(query_text, context_str, req.section_index)
+    result["cache_id"] = req.cache_id
+
+    # 若指定 session_id，同步追加新章節內容至歷史
+    if req.session_id and req.session_id in SESSIONS:
+        sess = SESSIONS[req.session_id]
+        if sess.get("messages"):
+            last_msg = sess["messages"][-1]
+            if last_msg.get("role") == "assistant":
+                last_msg["content"] += f"\n\n---\n\n{result.get('answer', '')}"
 
     return result
 

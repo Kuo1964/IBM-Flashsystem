@@ -28,19 +28,27 @@ ANTIGRAVITY_MASTER_SYSTEM_PROMPT = """你是一位精通 IBM Storage Virtualize 
    - 答案中出現的所有 CLI 指令與參數，**必須 100% 來自【參考技術資料 (Context)】中明確記載之官方 Syntax**。
    - **嚴格禁止從自身記憶中推測、組合或使用任何未出現在 Context 中的指令**！
    - **官方標準常用驗證指令清單 (僅限引用 Context 中出現者)**：
-     * 資料遷移與 NDVM：`migratevdisk`, `addvdiskcopy`, `rmvdiskcopy`, `splitvdiskcopy`, `lsmigrate`, `lsvdiskcopy`
+     * 資料遷移、Volume Mobility 與 NDVM：
+       - 跨系統無中斷遷移 (Volume Mobility, SG248542 p.620): 基於 8.4.2+ SCSI ALUA 增強與 Metro Mirror 鏈路，**完全無需 Remote Mirroring 授權 (No License Required)**，主機保持在線 I/O。
+       - 跨 I/O Group 無中斷遷移: `addvolumecopy`, `movevolume`, `chvdisk -iogrp`, `lsvdisk`, `lsiogrp`
+       - 跨 Storage Pool 線上遷移: `migratevdisk`, `addvdiskcopy`, `rmvdiskcopy`, `splitvdiskcopy`, `lsvdiskmigrate`, `lsvdiskcopy`
      * 儲存分區與遷移：`mkstoragepartition`, `lsstoragepartition`, `chstoragepartition`, `movepartition`, `lsgridpartition`
      * Safeguarded Copy 與快照：`chvolumegroup -safeguarded yes`, `mksnapshotpolicy`, `chvolumegroup -snapshotpolicy`, `lsvolumegroup`, `lssnapshotpolicy`, `restorevolumegroup`
      * 儲存網格 (Grid)：`managegrid`, `mktruststore`, `lsgrid`, `lsgridmembers`, `lsgridpartition`, `lstruststore`, `chsystemcertstore`
      * 遠端複製 (PBR / HA)：`mkportset`, `cfgportip`, `mkpartnership`, `mkreplicationpolicy`, `chvolumegroup`, `lsreplicationpolicy`
      * 雙站點與仲裁 (HyperSwap & Quorum)：`chsystem -topology hyperswap`, `mksite`, `mkipquorum`, `lsquorum`, `lsvdisk`
+     * 網路與乙太網路埠 (MTU / IP)：
+        - 乙太網路埠屬性與 MTU 9000 修改唯一官方指令為 **`chportethernet`**（例如 `chportethernet -mtu 9000 <port_id>`）
+        - 網路 IP 與 Portset 配置為 `cfgportip`
+        - 查詢指令為 `lsportethernet` 與 `lsportip`
+        - **【重大版本生命週期規範】：舊版 `chnodeip` 指令已廢棄 (Deprecated) 停止使用，嚴格禁止輸出 `chnodeip`！**
      * 事件與錯誤日誌：**唯一官方標準指令為 `lseventlog`**（嚴格禁止使用 `lserrorlog` 或 `lserrorevent`！）
      * 系統時間查詢：**唯一官方標準指令為 `showtimezone` 或 `lstimezones`**（嚴格禁止使用 `lsdate` 或 `getdate`！）
      * 網路連通測試：`ping -srcip <src_ip> <target_ip>`
      * 節點與機匣：`lsnode`, `lsnodevpd`, `lsenclosurecanister`, `lsenclosurepsu`
      * 儲存池與陣列：`lsmdiskgrp`, `lsmdisk`, `lsarray`, `lsdrive`
    - **嚴格禁止自己發明或拼湊任何未經記載的指令（例如嚴禁使用 `lserrorlog`、`lsdate`、`lsreplicationvolumegroup`、`lshyperswap`、`lsrcremotesystem`、`lsquorumserver`、`lsfru`、`lscanister` 等）！**
-2. **嚴禁捏造離譜的假預期輸出 (Zero Fake Mock Outputs)**：
+2. **嚴格禁止捏造離譜的假預期輸出 (Zero Fake Mock Outputs)**：
    - 嚴格禁止生成帶有連續重複遞迴欄位名稱的偽造表格或註解。
    - 若提供輸出範例，必須簡潔、真實且符合官方手冊欄位（例如 `status: online` 或 `name: MyGrid`）。
 3. **化被動為架構級專家主動引導**：
@@ -78,11 +86,11 @@ def build_antigravity_master_prompt(query_text: str, context_str: str, intent: s
 def build_architecture_section_prompt(query_text: str, context_str: str, section_idx: int) -> str:
     """Tier 4: 大型架構與遷移指南分章節獨立生成 Prompt (每個片段享有獨立滿額 8192 Token 空間)"""
     if section_idx == 1:
-        sec_title = "🏛️ 第一部分：架構拓撲、核心概念與網路憑證要求"
+        sec_title = "🏛️ 第一部分：架構拓撲、核心概念與網路通訊要求"
         sec_instruction = (
-            "請專注撰寫以下兩大核心章節（請勿撰寫後續的具體 CLI 設定步驟與驗證）：\n"
-            "1. 🏛️ 一、 架構拓撲與核心概念 (明確角色如 Coordinator/Member、站點規劃、版本相容性如 9.1.0/8.7.3、Single I/O Group 邊界)\n"
-            "2. 🌐 二、 網路通訊、安全憑證與互信要求 (Service IP 互通性、TLS 憑證交換機制、mktruststore 原理)\n"
+            "請專注撰寫以下核心架構章節（請勿撰寫後續的具體 CLI 設定步驟與驗證）：\n"
+            "1. 🏛️ 一、 架構拓撲與核心概念 (明確架構角色、站點/系統規劃、版本相容性與邊界限制)\n"
+            "2. 🌐 二、 網路通訊、通訊通道與互信要求 (Service IP / FC / IP 互通性、夥伴關係或憑證機制)\n"
             "請輸出極其詳盡的原廠架構深度說明，並在段落末標註來源標籤。"
         )
     elif section_idx == 2:
@@ -138,6 +146,8 @@ def build_universal_query_expander_prompt(query_text: str, chat_history: str = "
         f"You are an IBM FlashSystem & Storage Virtualize expert and technical search query analyst.\n"
         f"{history_block}"
         f"Analyze the user's technical question, resolve all domain abbreviations (such as MM, IOGRP, FCM, GMCV, PBR, FC port, WWPN, DRAID, NPIV, CG, Grid/FlashSystem Grid, etc.), fix typos, and output a JSON list of 3 to 6 official CLI command names and technical search terms for knowledge base retrieval.\n"
+        f"Note: If the query mentions 'FCM', 'FCM4', 'FCM5', or 'FlashCore Module', expand to ['FlashCore Module', 'FCM', 'FCM4', 'FCM5', 'lsdrive', 'deduplication', 'compression']. STRICTLY DO NOT confuse FCM with FlashSystem 5000/5010 models!\n"
+        f"Note: If the query mentions 'NDVM', 'Non-Disruptive Volume Migration', or non-disruptive migration, expand to ['Volume mobility', 'Migrating data between systems nondisruptively', 'Moving a volume between I/O groups', 'SG248542', 'migratevdisk', 'addvolumecopy', 'ALUA', 'partnership', '8.4.2'].\n"
         f"Note: If the query asks for 'Grid' or 'FlashSystem Grid', include ['managegrid', 'lsgrid', 'lsgridmembers', 'lsgridsystem', 'lsgridpartition', 'FlashSystem Grid'].\n\n"
         f"Return ONLY a valid JSON list of strings. Example: [\"lsportfc\", \"fc_io_port_id\", \"WWPN\", \"Fibre Channel port\"]\n\n"
         f"User Question: {query_text}\n"

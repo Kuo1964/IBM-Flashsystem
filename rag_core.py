@@ -234,7 +234,7 @@ class RAGEngine:
 
             for attempt in range(2):
                 try:
-                    with httpx.Client(timeout=45.0) as client:
+                    with httpx.Client(timeout=60.0) as client:
                         resp = client.post(gemini_url, json=payload)
                         if resp.status_code == 200:
                             data = resp.json()
@@ -247,14 +247,14 @@ class RAGEngine:
                                 break
                 except (httpx.TimeoutException, httpx.NetworkError) as te:
                     if attempt == 0:
-                        print(f"[提示] Gemini API 網路逾時，正在進行第 2 次自動重試...")
-                        time.sleep(1)
+                        print(f"[提示] Gemini API 網路逾時，正在進行第 2 次快速重試...")
+                        time.sleep(0.5)
                         continue
                     else:
                         raise te
 
-            # 🛡️ 智能多輪斷點接續引擎 (Auto-Continuation Loop - 發現中斷時最多自動接續 2 輪)
-            for cont_round in range(2):
+            # 🛡️ 智能斷點接續引擎 (發現中斷時自動快速接續 1 輪，嚴格防止超時)
+            for cont_round in range(1):
                 if cls._is_truncated(accumulated_text, finish_reason) and len(accumulated_text) > 30:
                     print(f"[零截斷保證] 偵測到輸出未完整 (Round {cont_round + 1})，啟動快速斷點接續...")
                     
@@ -281,7 +281,7 @@ class RAGEngine:
                     }
                     
                     try:
-                        with httpx.Client(timeout=45.0) as client:
+                        with httpx.Client(timeout=25.0) as client:
                             c_resp = client.post(gemini_url, json=cont_payload)
                             if c_resp.status_code == 200:
                                 c_cand = c_resp.json().get("candidates", [{}])[0]
@@ -289,6 +289,11 @@ class RAGEngine:
                                 c_parts = c_cand.get("content", {}).get("parts", [])
                                 cont_text = "".join(p.get("text", "") for p in c_parts if "text" in p).strip()
                                 if cont_text:
+                                    # 防重複拼接：若 cont_text 開頭與 accumulated_text 重合（模型重新開始生成），避免重複標題
+                                    if len(cont_text) >= 20 and cont_text[:40] in accumulated_text:
+                                        if len(cont_text) > len(accumulated_text):
+                                            accumulated_text = cont_text
+                                        break
                                     accumulated_text = accumulated_text + "\n" + cont_text
                                 else:
                                     break
@@ -387,8 +392,18 @@ class RAGEngine:
         """
         多輪追問意圖獨立化重寫器
         若存在歷史對話，先將代名詞補齊為獨立技術檢索詞，確保知識庫全新檢索且舊 Context 零污染
+        具備實體專有名詞保護防線，絕不丟失 FCM4/FCM5/FS7200 等關鍵技術代碼
         """
         if not chat_history or len(chat_history) < 2:
+            return followup_query
+
+        # 1. 檢測原提問是否已經具備明確的獨立技術實體 (如 FCM4, FCM5, 2560 等) 且無代名詞
+        pronouns = ["它", "這個", "這款", "那", "那個", "那款", "前者", "後者", "這些", "那些", "剛才", "上面", "此"]
+        has_pronoun = any(p in followup_query for p in pronouns)
+        
+        orig_entities = set(re.findall(r'[a-zA-Z0-9]+', followup_query.upper()))
+        # 若包含 2 個以上核心實體且沒有代名詞，提問本身已高度獨立，直接保留原提問以防關鍵字被過度泛化
+        if len(orig_entities) >= 2 and not has_pronoun:
             return followup_query
 
         # 整理最近 2 輪對話歷史摘要
@@ -400,8 +415,14 @@ class RAGEngine:
         prompt = prompts.build_query_condensation_prompt(history_snippet, followup_query)
         condensed = cls._call_gemini_api(prompt, max_tokens=100)
         if condensed and len(condensed.strip()) >= 3 and not condensed.startswith("Error"):
-            print(f"[意圖重寫] 多輪追問 '{followup_query}' ➔ 獨立檢索詞: '{condensed.strip()}'")
-            return condensed.strip()
+            condensed_clean = condensed.strip().replace('"', '').replace("'", "")
+            cond_entities = set(re.findall(r'[a-zA-Z0-9]+', condensed_clean.upper()))
+            # 🛡️ 實體保護防線：若重寫後反而遺失了原句中的核心實體 (例如 FCM5, FCM4 被砍成 IBM Flash)
+            if orig_entities and not orig_entities.issubset(cond_entities):
+                print(f"[意圖重寫保護] 重寫 '{condensed_clean}' 遺失原專有名詞 {orig_entities}，安全回退至原提問")
+                return followup_query
+            print(f"[意圖重寫] 多輪追問 '{followup_query}' ➔ 獨立檢索詞: '{condensed_clean}'")
+            return condensed_clean
         return followup_query
 
     @classmethod
@@ -540,48 +561,18 @@ class RAGEngine:
         intent = cls.classify_intent(q_raw)
         print(f"[客服分流] 使用者提問: '{q_raw}' ➔ 意圖分類: {intent}")
 
-        # 判斷是否為大型多步驟建置/部署流程 (需要萬字完整展开)
-        is_multi_step_deployment = (
-            intent == "tier4_architecture" or 
-            any(kw in q_raw.lower() for kw in ["建立", "设定", "設定", "部署", "迁移", "遷移", "步骤", "步驟", "每一步", "流程", "sop", "規劃", "规划", "grid", "pbr", "hyperswap", "safeguarded"])
-        )
+        # 標記章節狀態 (統一雙端 100% 一致：全面採用端到端完整生成，徹底杜絕 Section 1 截斷)
+        has_next_section = False
+        next_section_index = None
+        next_section_title = None
 
-        # Level 1: 優先嘗試 Google Gemini 專家大模型 (支援 Tier 4 分章節流水線平行併發生成)
+        # Level 1: 優先嘗試 Google Gemini 專家大模型 (統一使用 Antigravity Master 提示詞，輸出完整架構與 CLI 步驟)
         if config.GEMINI_API_KEY and config.LLM_PROVIDER == "gemini":
-            if is_multi_step_deployment:
-                print(f"[架構流水線] 偵測到多步驟建置/架構部署問題，啟動分章節 3 執行緒平行併發生成 (3 x 8,192 Tokens)...")
-                try:
-                    sec1_p = prompts.build_architecture_section_prompt(q_raw, context_str, 1)
-                    sec2_p = prompts.build_architecture_section_prompt(q_raw, context_str, 2)
-                    sec3_p = prompts.build_architecture_section_prompt(q_raw, context_str, 3)
-                    
-                    from concurrent.futures import ThreadPoolExecutor
-                    with ThreadPoolExecutor(max_workers=3) as executor:
-                        fut1 = executor.submit(cls._call_gemini_api, sec1_p, 8192)
-                        fut2 = executor.submit(cls._call_gemini_api, sec2_p, 8192)
-                        fut3 = executor.submit(cls._call_gemini_api, sec3_p, 8192)
-                        
-                        sec1_text = fut1.result()
-                        sec2_text = fut2.result()
-                        sec3_text = fut3.result()
-                    
-                    if sec1_text and sec2_text and sec3_text:
-                        combined_sections = [
-                            sec1_text.strip(),
-                            sec2_text.strip(),
-                            sec3_text.strip()
-                        ]
-                        answer_text = "\n\n---\n\n".join(combined_sections)
-                        used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 統一專家大腦 - 分章節流水線平行萬字實施指南]"
-                except Exception as se:
-                    print(f"[警告] 分章節流水線平行生成異常，降級至單段模式: {se}")
-
-            if not answer_text:
-                master_prompt = prompts.build_antigravity_master_prompt(q_raw, context_str, intent=intent)
-                answer_text = cls._call_gemini_api(master_prompt, max_tokens=8192)
-                if answer_text:
-                    tier_label = "架構設計與規格諮詢" if intent in ["tier2_spec", "tier4_architecture"] else ("CLI 指令服務" if intent == "tier1_cli" else "故障排查診斷")
-                    used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 統一專家大腦 - {tier_label}]"
+            master_prompt = prompts.build_antigravity_master_prompt(q_raw, context_str, intent=intent)
+            answer_text = cls._call_gemini_api(master_prompt, max_tokens=8192)
+            if answer_text:
+                tier_label = "架構設計與規格諮詢" if intent in ["tier2_spec", "tier4_architecture"] else ("CLI 指令服務" if intent == "tier1_cli" else "故障排查診斷")
+                used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 統一專家大腦 - {tier_label}]"
 
         # Level 2: 若未配置 Gemini 或調用失敗，降級至本地 Ollama
         if not answer_text:
@@ -704,7 +695,92 @@ class RAGEngine:
             "execution_time_seconds": duration,
             "provider": used_provider,
             "intent": intent,
-            "cached": False
+            "cached": False,
+            "has_next_section": has_next_section,
+            "next_section_index": next_section_index,
+            "next_section_title": next_section_title,
+            "context_str": context_str if has_next_section else ""
+        }
+
+    @classmethod
+    def generate_architecture_section(cls, query_text: str, context_str: str, section_idx: int) -> Dict[str, Any]:
+        """
+        獨立生成 Tier 4 架構與遷移指南的指定章節 (按需漸進式生成)
+        - section_idx = 2: 第二部分 (CLI 設定流程與核心指令)
+        - section_idx = 3: 第三部分 (狀態驗證、健康度監控與安全注意事項)
+        """
+        start_time = time.time()
+        sec_prompt = prompts.build_architecture_section_prompt(query_text, context_str, section_idx)
+        
+        answer_text = ""
+        used_provider = ""
+        
+        # 1. 優先嘗試 Gemini API
+        if config.GEMINI_API_KEY and config.LLM_PROVIDER == "gemini":
+            try:
+                answer_text = cls._call_gemini_api(sec_prompt, max_tokens=8192)
+                if answer_text:
+                    sec_name = "第二部分：實施步驟與 CLI" if section_idx == 2 else "第三部分：狀態驗證與安全維運"
+                    used_provider = f"Google Gemini ({config.GEMINI_MODEL}) [Antigravity 漸進式專家大腦 - {sec_name}]"
+            except Exception as e:
+                print(f"[警告] 章節 {section_idx} 生成異常: {e}")
+
+        # 2. 備援降級至本機 Ollama
+        if not answer_text:
+            try:
+                with httpx.Client(timeout=90.0) as client:
+                    resp = client.post(
+                        f"{config.OLLAMA_HOST}/api/generate",
+                        json={
+                            "model": config.LLM_MODEL,
+                            "prompt": sec_prompt,
+                            "stream": False,
+                            "options": {"num_predict": 8192, "num_ctx": 16384, "temperature": 0.1}
+                        }
+                    )
+                    if resp.status_code == 200:
+                        raw_ans = resp.json().get("response", "").strip()
+                        answer_text = cls._heal_markdown_tags(raw_ans)
+                        used_provider = f"本地 Ollama ({config.LLM_MODEL}) [Antigravity 漸進式專家大腦]"
+            except Exception as e:
+                print(f"[警告] Ollama 本地章節生成異常: {e}")
+
+        if not answer_text:
+            answer_text = "⚠️ 該章節內容生成逾時或失敗，請點擊重試。"
+
+        # 標準化 Markdown 圖片路徑
+        def _normalize_img_url(match):
+            alt_text = match.group(1)
+            raw_url = match.group(2)
+            if raw_url.startswith("http://") or raw_url.startswith("https://") or raw_url.startswith("data:"):
+                return f"![{alt_text}]({raw_url})"
+            if "extracted_images" in raw_url:
+                rel = raw_url.split("extracted_images")[-1].lstrip("/\\")
+                return f"![{alt_text}](/api/images/{rel})"
+            elif raw_url.startswith("/api/images/"):
+                return f"![{alt_text}]({raw_url})"
+            else:
+                clean_rel = raw_url.lstrip("/\\")
+                return f"![{alt_text}](/api/images/{clean_rel})"
+
+        answer_text = re.sub(r"!\[(.*?)\]\((.*?)\)", _normalize_img_url, answer_text)
+        answer_text = re.sub(r'^(?:您好[，,！!\s]*)?(?:身為\s*IBM\s*Storage\s*Virtualize[^\n]*\n*)+', '', answer_text, flags=re.IGNORECASE).strip()
+        answer_text = re.sub(r'^(?:您好[，,！!\s]*)?(?:我是\s*IBM\s*Storage\s*Virtualize[^\n]*\n*)+', '', answer_text, flags=re.IGNORECASE).strip()
+
+        duration = round(time.time() - start_time, 2)
+        has_next = (section_idx < 3)
+        next_idx = section_idx + 1 if has_next else None
+        next_title = "第三部分：狀態驗證、健康度監控與安全注意事項" if section_idx == 2 else None
+
+        return {
+            "status": "success",
+            "section_index": section_idx,
+            "answer": answer_text,
+            "has_next_section": has_next,
+            "next_section_index": next_idx,
+            "next_section_title": next_title,
+            "execution_time_seconds": duration,
+            "provider": used_provider
         }
 
 
@@ -717,4 +793,10 @@ def process_query(query_text: str, top_k: int = 5, chat_history: List[Dict[str, 
 async def async_process_query(query_text: str, top_k: int = 5, chat_history: List[Dict[str, str]] = None) -> Dict[str, Any]:
     """非同步調用介面 (供 FastAPI 使用)"""
     return await asyncio.to_thread(process_query, query_text, top_k, chat_history)
+
+
+async def async_generate_architecture_section(query_text: str, context_str: str, section_idx: int) -> Dict[str, Any]:
+    """非同步章節生成介面 (供 FastAPI 按需呼叫)"""
+    return await asyncio.to_thread(RAGEngine.generate_architecture_section, query_text, context_str, section_idx)
+
 

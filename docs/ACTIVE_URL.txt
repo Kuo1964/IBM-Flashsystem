@@ -1,2 +1,2 @@
-PUBLIC_URL=https://offerings-comics-newport-lines.trycloudflare.com
-UPDATED_AT=Sun Aug 30 12:42:58 2026
+PUBLIC_URL=https://affordable-proposition-anyway-michel.trycloudflare.com
+UPDATED_AT=Thu Sep  3 10:24:33 2026

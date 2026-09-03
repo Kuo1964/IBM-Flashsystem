@@ -9,3 +9,5 @@ extracted_images/
 output.txt
 raw_data/pdfs/
 raw_data/extracted_images/
+worktrees/
+.scratch/

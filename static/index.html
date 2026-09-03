@@ -406,6 +406,53 @@
             box-shadow: 0 4px 20px rgba(0, 242, 254, 0.25);
         }
 
+        /* 漸進式章節生成容器與按鈕樣式 */
+        .next-section-container {
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            padding: 12px 16px;
+            background: rgba(15, 98, 254, 0.08);
+            border: 1px dashed rgba(15, 98, 254, 0.4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-next-section {
+            background: linear-gradient(135deg, #0f62fe 0%, #0043ce 100%);
+            color: #ffffff !important;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 18px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(15, 98, 254, 0.3);
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-next-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(15, 98, 254, 0.45);
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        }
+
+        .btn-next-section:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @media print {
             body {
                 background: #ffffff !important;
@@ -753,6 +800,50 @@
             }
         }
 
+        let portalPinToken = localStorage.getItem('fs_portal_pin_token') || '';
+
+        // 頁面初始化檢查 PIN Token
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchStats();
+            if (!portalPinToken) {
+                document.getElementById('portalPinModal').style.display = 'flex';
+            }
+        });
+
+        async function submitPinAuth(e) {
+            if (e) e.preventDefault();
+            const pinInput = document.getElementById('pinCodeInput');
+            const pinVal = pinInput.value.trim();
+            const errDiv = document.getElementById('pinAuthError');
+            errDiv.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/auth/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pin: pinVal })
+                });
+                const data = await res.json();
+                if (res.ok && data.token) {
+                    portalPinToken = data.token;
+                    localStorage.setItem('fs_portal_pin_token', portalPinToken);
+                    document.getElementById('portalPinModal').style.display = 'none';
+                } else {
+                    errDiv.innerText = data.detail || 'PIN 碼錯誤，請重新輸入';
+                    errDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errDiv.innerText = '無法連線至後端驗證服務';
+                errDiv.style.display = 'block';
+            }
+        }
+
+        function resetPinAuth() {
+            localStorage.removeItem('fs_portal_pin_token');
+            portalPinToken = '';
+            document.getElementById('portalPinModal').style.display = 'flex';
+        }
+
         async function handleSendMessage() {
             if (isGenerating) return;
             const inputElem = document.getElementById('chatInput');
@@ -768,13 +859,38 @@
             messageHistory.push({ role: 'user', content: queryText });
             updateSessionListTitle(queryText);
 
-            // 2. 渲染 Agent 打字中氣泡
-            const loadingRow = appendLoadingAgentMessage();
+            // 2. 渲染 Agent 思考與串流打字中氣泡
+            const streamContainer = document.getElementById('chatStream');
+            const agentRow = document.createElement('div');
+            agentRow.className = 'msg-row agent';
+            agentRow.innerHTML = `
+                <div class="avatar agent">🤖</div>
+                <div class="bubble agent-bubble" style="width: 100%;">
+                    <div id="thinkingIndicator" class="meta-badge" style="display: flex; align-items: center; gap: 0.5rem; color: #38bdf8;">
+                        <span class="spinner-small"></span>
+                        <span id="thinkingStatusText">🧠 正在啟動 Agentic 思考循環...</span>
+                    </div>
+                    <div class="markdown-body agent-answer-stream" style="margin-top: 0.5rem; line-height: 1.7;"></div>
+                    <div class="citations-container" style="display: none; margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem;"></div>
+                </div>
+            `;
+            streamContainer.appendChild(agentRow);
+            scrollToBottom();
+
+            const answerDiv = agentRow.querySelector('.agent-answer-stream');
+            const thinkingText = agentRow.querySelector('#thinkingStatusText');
+            const thinkingBadge = agentRow.querySelector('#thinkingIndicator');
+            const citationsDiv = agentRow.querySelector('.citations-container');
+
+            let fullAnswer = '';
 
             try {
-                const res = await fetch('/api/query', {
+                const res = await fetch('/api/query/stream', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + (portalPinToken || '8888')
+                    },
                     body: JSON.stringify({
                         query: queryText,
                         top_k: 25,
@@ -783,27 +899,94 @@
                     })
                 });
 
-                loadingRow.remove();
-
-                if (res.ok) {
-                    const data = await res.json();
-                    appendAgentResponse(data);
-                    messageHistory.push({ role: 'assistant', content: data.answer || '' });
-                } else {
-                    let errDetail = '';
-                    try {
-                        const errJson = await res.json();
-                        errDetail = errJson.detail || JSON.stringify(errJson);
-                    } catch(e) {}
-                    appendAgentErrorMessage(`❌ 伺服器回應異常 [HTTP ${res.status}] ${errDetail ? ': ' + errDetail : ''}。請確認後端服務與 Cloudflare Tunnel 正常運行。`);
+                if (res.status === 401) {
+                    resetPinAuth();
+                    throw new Error('授權憑證過期或 PIN 碼錯誤，請重新輸入 PIN 碼！');
                 }
+
+                if (!res.ok) {
+                    throw new Error(`伺服器回應異常 [HTTP ${res.status}]`);
+                }
+
+                const reader = res.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n\n');
+                    buffer = lines.pop();
+
+                    for (const line of lines) {
+                        if (!line.trim()) continue;
+                        const eventMatch = line.match(/^event:\s*(\w+)/m);
+                        const dataMatch = line.match(/^data:\s*(.*)$/m);
+                        if (!eventMatch || !dataMatch) continue;
+
+                        const event = eventMatch[1];
+                        const data = JSON.parse(dataMatch[1]);
+
+                        if (event === 'thinking') {
+                            thinkingText.innerText = data.text;
+                        } else if (event === 'citations') {
+                            if (data.sources && data.sources.length > 0) {
+                                let citHtml = '<div style="font-size: 0.75rem; color: #94a3b8; font-weight: 600; margin-bottom: 0.4rem;">📚 引用權威官方來源：</div><div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">';
+                                data.sources.slice(0, 5).forEach(s => {
+                                    citHtml += `<span style="background: rgba(0,242,254,0.1); border: 1px solid rgba(0,242,254,0.25); color: #00f2fe; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem;">${s.source} (第 ${s.page} 頁)</span>`;
+                                });
+                                citHtml += '</div>';
+                                citationsDiv.innerHTML = citHtml;
+                                citationsDiv.style.display = 'block';
+                            }
+                        } else if (event === 'content') {
+                            fullAnswer += data.chunk;
+                            answerDiv.innerHTML = marked.parse(fullAnswer);
+                            enhanceCodeBlocks(answerDiv);
+                            scrollToBottom();
+                        } else if (event === 'done') {
+                            thinkingBadge.style.display = 'none';
+                        }
+                    }
+                }
+                messageHistory.push({ role: 'assistant', content: fullAnswer });
             } catch (err) {
-                if (loadingRow) loadingRow.remove();
-                appendAgentErrorMessage(`❌ 網路連線逾時或錯誤 (${err.message || err})，請確認 Web Portal 與 Cloudflare 服務已啟動。`);
+                if (thinkingBadge) thinkingBadge.style.display = 'none';
+                answerDiv.innerHTML += `<div style="color: #ff5252; font-size: 0.85rem; margin-top: 0.5rem;">❌ 提問處理失敗: ${err.message}</div>`;
             } finally {
                 isGenerating = false;
                 document.getElementById('sendBtn').disabled = false;
+                enhanceCodeBlocks(answerDiv);
+                scrollToBottom();
             }
+        }
+
+        function enhanceCodeBlocks(container) {
+            if (!container) return;
+            container.querySelectorAll('pre').forEach(pre => {
+                if (pre.querySelector('.copy-code-btn')) return;
+                pre.style.position = 'relative';
+                const btn = document.createElement('button');
+                btn.className = 'copy-code-btn';
+                btn.innerText = '複製指令';
+                btn.style.cssText = 'position: absolute; top: 6px; right: 6px; background: rgba(255,255,255,0.12); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; transition: all 0.2s;';
+                btn.onclick = function() {
+                    const code = pre.querySelector('code') ? pre.querySelector('code').innerText : pre.innerText;
+                    navigator.clipboard.writeText(code).then(() => {
+                        btn.innerText = '已複製！';
+                        btn.style.background = '#00e676';
+                        btn.style.color = '#000';
+                        setTimeout(() => {
+                            btn.innerText = '複製指令';
+                            btn.style.background = 'rgba(255,255,255,0.12)';
+                            btn.style.color = '#cbd5e1';
+                        }, 1500);
+                    });
+                };
+                pre.appendChild(btn);
+            });
         }
 
         function appendUserMessage(text) {
@@ -865,11 +1048,27 @@
                 `;
             }
 
+            // 漸進式章節引導按鈕 (按需生成第 2 章/第 3 章，徹底避免 Cloudflare 超時與 API 浪費)
+            let nextSectionHtml = '';
+            if (data.has_next_section && data.cache_id) {
+                nextSectionHtml = `
+                    <div class="next-section-container" id="sec-box-${data.cache_id}">
+                        <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+                            <span>💡 本篇為第一章【架構拓撲與決策評估】</span>
+                        </div>
+                        <button class="btn-next-section" id="sec-btn-${data.cache_id}" onclick="loadNextSection('${data.cache_id}', ${data.next_section_index}, '${escapeHtml(data.next_section_title)}')">
+                            ⚡ 繼續生成：${escapeHtml(data.next_section_title)} ➔
+                        </button>
+                    </div>
+                `;
+            }
+
             row.innerHTML = `
                 <div class="avatar agent">🤖</div>
                 <div class="bubble">
                     <div class="meta-badge">${providerLabel}</div>
-                    ${parsedMarkdown}
+                    <div class="main-answer-content">${parsedMarkdown}</div>
+                    ${nextSectionHtml}
                     ${sourcesHtml}
                 </div>
             `;
@@ -881,6 +1080,78 @@
             });
 
             scrollToBottom();
+        }
+
+        async function loadNextSection(cacheId, sectionIdx, sectionTitle) {
+            const btn = document.getElementById(`sec-btn-${cacheId}`);
+            const container = document.getElementById(`sec-box-${cacheId}`);
+            if (!btn || !container) return;
+
+            btn.disabled = true;
+            btn.innerHTML = `<span style="display:inline-block;width:12px;height:12px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;"></span> 正在生成 ${sectionTitle} (約 3~8 秒)...`;
+
+            try {
+                const res = await fetch('/api/query/section', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        cache_id: cacheId,
+                        section_index: sectionIdx,
+                        session_id: currentSessionId
+                    })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    const bubble = container.closest('.bubble');
+
+                    // 建立新章節內容區塊
+                    const sectionDiv = document.createElement('div');
+                    sectionDiv.className = 'appended-section-block';
+                    sectionDiv.style.marginTop = '1.25rem';
+                    sectionDiv.style.borderTop = '1px solid rgba(255,255,255,0.1)';
+                    sectionDiv.style.paddingTop = '1.25rem';
+
+                    let parsed = marked.parse(data.answer || '');
+                    parsed = enhanceCodeBlocks(parsed);
+                    sectionDiv.innerHTML = parsed;
+
+                    // 插入到按鈕容器前
+                    bubble.insertBefore(sectionDiv, container);
+
+                    // 綁定新圖片的點擊預覽
+                    sectionDiv.querySelectorAll('img').forEach(img => {
+                        img.onclick = () => openImageModal(img.src);
+                    });
+
+                    // 同步存入對話歷史
+                    messageHistory.push({ role: 'assistant', content: data.answer || '' });
+
+                    // 更新或隱藏按鈕
+                    if (data.has_next_section && data.next_section_index) {
+                        btn.disabled = false;
+                        btn.innerHTML = `⚡ 繼續生成：${escapeHtml(data.next_section_title)} ➔`;
+                        btn.onclick = () => loadNextSection(cacheId, data.next_section_index, data.next_section_title);
+                        const tipElem = container.querySelector('span');
+                        if (tipElem) tipElem.innerText = '💡 第二章【實施步驟與 CLI 指令】已就緒';
+                    } else {
+                        container.style.border = '1px solid rgba(36, 161, 72, 0.4)';
+                        container.style.background = 'rgba(36, 161, 72, 0.08)';
+                        container.innerHTML = `
+                            <div style="color: #42be65; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                                <span>✅ 本項架構專案之所有核心評估、CLI 配置與維運監控章節已全部生成完畢。</span>
+                            </div>
+                        `;
+                    }
+                    scrollToBottom();
+                } else {
+                    btn.disabled = false;
+                    btn.innerHTML = `⚠️ 生成逾時或失敗，點擊重試 ➔`;
+                }
+            } catch (err) {
+                btn.disabled = false;
+                btn.innerHTML = `⚠️ 網路異常，點擊重試 ➔`;
+            }
         }
 
 
@@ -1057,5 +1328,35 @@
             });
         }
     </script>
+
+    <!-- 🛡️ 團隊安全 PIN 碼解鎖對話框 (PIN Access Guard Modal) -->
+    <div id="portalPinModal" style="display: none; position: fixed; inset: 0; background: rgba(8,12,22,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999; align-items: center; justify-content: center; padding: 1rem;">
+        <div style="background: rgba(18,26,44,0.95); border: 1px solid rgba(0,242,254,0.3); border-radius: 16px; padding: 2rem; max-width: 380px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.6); text-align: center;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(0,242,254,0.15); border: 1px solid rgba(0,242,254,0.4); color: #00f2fe; display: flex; align-items: center; justify-content: center; font-size: 20px; margin: 0 auto 1rem;">
+                🔒
+            </div>
+            <h3 style="color: #f8fafc; font-size: 18px; font-weight: 700; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">團隊安全通行驗證</h3>
+            <p style="color: #94a3b8; font-size: 12px; line-height: 1.5; margin-bottom: 1.5rem;">
+                請輸入團隊專屬存取 PIN 碼以解鎖 IBM FlashSystem / SVC 專家系統問答權限（預設: 8888）。
+            </p>
+            <form onsubmit="submitPinAuth(event)">
+                <input 
+                    type="password" 
+                    id="pinCodeInput" 
+                    placeholder="請輸入 4 位數 PIN 碼" 
+                    maxlength="10"
+                    style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.75rem 1rem; color: #fff; text-align: center; font-size: 18px; letter-spacing: 4px; font-family: monospace; outline: none; margin-bottom: 1rem;"
+                    required
+                >
+                <button 
+                    type="submit" 
+                    style="width: 100%; background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); color: #080c16; font-weight: 700; border: none; border-radius: 10px; padding: 0.75rem; font-size: 14px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(0,242,254,0.3);"
+                >
+                    解鎖存取權限
+                </button>
+                <div id="pinAuthError" style="display: none; color: #ff5252; font-size: 12px; margin-top: 0.75rem;"></div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
