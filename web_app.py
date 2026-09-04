@@ -97,17 +97,38 @@ def check_rate_limit(client_ip: str):
             detail=f"提問頻率過高！每位同仁每分鐘上限為 {MAX_REQUESTS_PER_MINUTE} 次，請稍候再試。"
         )
     timestamps.append(now)
-    USER_RATE_LIMITS[client_ip] = timestamps
+import auth
+import audit_logger
 
-def verify_pin_token(request: Request) -> bool:
+# 初始化資料庫
+auth.init_auth_db()
+audit_logger.init_audit_db()
+
+class UserLoginRequest(BaseModel):
+    username: str
+    password: str
+
+def get_current_user_from_req(request: Request) -> Optional[Dict[str, Any]]:
+    """自 Request 提取並驗證 JWT Token"""
+    auth_header = request.headers.get("authorization", "")
+    if auth_header.startswith("Bearer "):
+        token = auth_header.replace("Bearer ", "").strip()
+        payload = auth.verify_jwt_token(token)
+        if payload:
+            return payload
+    return None
+
+def verify_auth_token(request: Request) -> Dict[str, Any]:
     """
-    驗證請求標頭或參數中的 PIN 授權 Token
-    支援 Authorization: Bearer <token> 或 X-Portal-Pin: <pin>
+    驗證使用者 JWT Token 或 PIN 授權
+    支援個人 JWT Token 與團隊 PIN 雙軌授權
     """
-    # 支援本地開發環境豁免 (可選)
+    user = get_current_user_from_req(request)
+    if user:
+        return user
+        
     auth_header = request.headers.get("authorization", "")
     portal_pin_header = request.headers.get("x-portal-pin", "")
-    
     token = ""
     if auth_header.startswith("Bearer "):
         token = auth_header.replace("Bearer ", "").strip()
@@ -115,13 +136,50 @@ def verify_pin_token(request: Request) -> bool:
         token = portal_pin_header.strip()
         
     if token == PORTAL_PIN or token in VALID_AUTH_TOKENS:
-        return True
+        return {"user_id": 1, "username": "team_member", "role": "engineer"}
         
-    # 若 Token 未通過，回傳 HTTP 401
     raise HTTPException(
         status_code=401,
-        detail="未授權存取！請先輸入正確的團隊 PIN 碼解鎖專家系統問答權限。"
+        detail="未授權存取！請輸入工號/密碼登入或輸入團隊 PIN 碼。"
     )
+
+@app.post("/api/auth/login")
+async def login_or_auto_provision(req: UserLoginRequest):
+    """使用者登入與首次自動註冊建檔 (Auto-Provisioning)"""
+    try:
+        result = auth.authenticate_or_provision_user(req.username, req.password)
+        return result
+    except ValueError as ve:
+        raise HTTPException(status_code=401, detail=str(ve))
+
+@app.get("/api/auth/me")
+async def get_me(request: Request):
+    """取得當前登入者資訊"""
+    user = get_current_user_from_req(request)
+    if not user:
+        raise HTTPException(status_code=401, detail="未登入或 Token 已過期")
+    return {"status": "success", "user": user}
+
+@app.get("/api/sessions")
+async def get_sessions(request: Request):
+    """取得當前使用者之歷史對話主題列表"""
+    user = verify_auth_token(request)
+    sessions = audit_logger.get_user_sessions(user["user_id"])
+    return {"status": "success", "sessions": sessions}
+
+@app.get("/api/sessions/{session_id}/messages")
+async def get_session_history(session_id: str, request: Request):
+    """取得特定會話歷史問答"""
+    user = verify_auth_token(request)
+    messages = audit_logger.get_session_messages(session_id, user["user_id"])
+    return {"status": "success", "messages": messages}
+
+@app.delete("/api/sessions/{session_id}")
+async def delete_session(session_id: str, request: Request):
+    """刪除指定對話主題"""
+    user = verify_auth_token(request)
+    ok = audit_logger.delete_user_session(session_id, user["user_id"])
+    return {"status": "success", "deleted": ok}
 
 @app.post("/api/auth/verify")
 async def verify_pin(req: PinVerifyRequest):
@@ -178,9 +236,9 @@ import json
 @app.post("/api/query/stream")
 async def query_knowledge_base_stream(req: QueryRequest, request: Request):
     """
-    RAG Agentic SSE 串流問答端點：即時推送思考狀態 (thinking) 與分塊打字內容 (content)
+    RAG Agentic SSE 串流問答端點：即時推送思考狀態 (thinking) 與分塊打字內容 (content)，自動寫入審計日誌
     """
-    verify_pin_token(request)
+    user = verify_auth_token(request)
     client_ip = get_real_client_ip(request)
     check_rate_limit(client_ip)
 
@@ -188,28 +246,49 @@ async def query_knowledge_base_stream(req: QueryRequest, request: Request):
     if not query_text:
         raise HTTPException(status_code=400, detail="提問內容不能為空")
 
+    session_id = req.session_id or f"sess_{int(time.time())}_{os.urandom(4).hex()}"
+
     chat_history = []
     if req.messages:
         chat_history = [{"role": m.role, "content": m.content} for m in req.messages]
-    elif req.session_id and req.session_id in SESSIONS:
-        chat_history = SESSIONS[req.session_id].get("messages", [])
+    elif session_id in SESSIONS:
+        chat_history = SESSIONS[session_id].get("messages", [])
 
     async def event_generator():
         # 1. 即時推送思考階段
         yield f"event: thinking\ndata: {json.dumps({'stage': 'intent', 'text': '🧠 正在分析提問意圖與術語擴展...'}, ensure_ascii=False)}\n\n"
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.15)
         
         yield f"event: thinking\ndata: {json.dumps({'stage': 'retrieval', 'text': '📚 正在檢索 ChromaDB 官方知識庫 (782k chunks) 與原廠 Redbooks...'}, ensure_ascii=False)}\n\n"
-        await asyncio.sleep(0.3)
+        await asyncio.sleep(0.2)
         
         yield f"event: thinking\ndata: {json.dumps({'stage': 'grounding', 'text': '🛡️ 正在執行 Grounding 原廠真理錨定與 CLI 語法審計...'}, ensure_ascii=False)}\n\n"
         
         # 2. 呼叫中央 RAG 推理核心
+        start_t = time.time()
         result = await asyncio.to_thread(rag_core.process_query, query_text, req.top_k, chat_history)
+        duration = round(time.time() - start_t, 2)
         answer_text = result.get("answer", "")
         sources = result.get("sources", [])
+        provider = result.get("provider", "")
+        context_str = result.get("context_str", "")
         
-        # 推送來源標籤與圖片
+        # 3. 審計日誌寫入 (Audit Trail)
+        try:
+            audit_logger.log_conversation_turn(
+                user_id=user["user_id"],
+                session_id=session_id,
+                query_text=query_text,
+                answer_text=answer_text,
+                sources=sources,
+                context_str=context_str,
+                response_time_seconds=duration,
+                provider=provider
+            )
+        except Exception as ae:
+            print(f"[警告] 審計日誌寫入異常: {ae}")
+
+        # 推送來源標籤
         yield f"event: citations\ndata: {json.dumps({'sources': sources[:8]}, ensure_ascii=False)}\n\n"
         
         # 3. 分塊即時打字推送
